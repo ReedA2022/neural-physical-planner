@@ -1,0 +1,28 @@
+# Python environments, caches and package build products
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# Preserve the validated v0.1 snapshots; ignore new working runs.
+/runs/*
+!/runs/demo/
+!/runs/experiments/
+
+# Initial implementation coordination; public specifications live in docs/.
+/IMPLEMENTATION_CONTRACT.md

@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1",
+  "name": "Energy-latency-error exploration",
+  "objectives": [
+    "energy_pj",
+    "latency_ns",
+    "error_rms_bound"
+  ],
+  "budgets": {
+    "error_rms_bound": 0.1
+  },
+  "required_editable": [],
+  "allowed_domains": [
+    "digital",
+    "optical"
+  ],
+  "allow_serialization": true,
+  "search": {
+    "mode": "beam",
+    "max_evaluations": 24,
+    "beam_width": 24
+  },
+  "seed": 7
+}

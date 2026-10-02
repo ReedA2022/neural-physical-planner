@@ -1,0 +1,64 @@
+{
+  "schema_version": "0.1",
+  "name": "Two-layer affine reference",
+  "nodes": [
+    {
+      "id": "x",
+      "op": "input",
+      "inputs": [],
+      "size": 2,
+      "input_bounds": {
+        "lower": [
+          -1.0,
+          -1.0
+        ],
+        "upper": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": "hidden",
+      "op": "linear",
+      "inputs": [
+        "x"
+      ],
+      "size": 2,
+      "weights": [
+        [
+          0.6,
+          0.2
+        ],
+        [
+          -0.3,
+          0.7
+        ]
+      ],
+      "bias": [
+        0.1,
+        0.0
+      ]
+    },
+    {
+      "id": "readout",
+      "op": "linear",
+      "inputs": [
+        "hidden"
+      ],
+      "size": 1,
+      "weights": [
+        [
+          0.8,
+          -0.4
+        ]
+      ],
+      "bias": [
+        0.05
+      ]
+    }
+  ],
+  "outputs": [
+    "readout"
+  ]
+}

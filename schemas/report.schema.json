@@ -1,0 +1,394 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "status": {
+      "enum": [
+        "ok",
+        "infeasible",
+        "search_exhausted"
+      ]
+    },
+    "input_hashes": {
+      "type": "object",
+      "properties": {
+        "network": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "library": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "request": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "network",
+        "library",
+        "request"
+      ],
+      "additionalProperties": false
+    },
+    "search": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "exhaustive",
+            "beam"
+          ]
+        },
+        "total_candidates": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evaluated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "feasible": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "algorithm": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "total_candidates",
+        "evaluated",
+        "feasible",
+        "rejected",
+        "complete",
+        "algorithm"
+      ],
+      "additionalProperties": true
+    },
+    "plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": "0.1"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^plan-[0-9a-f]{64}$"
+          },
+          "input_hashes": {
+            "type": "object",
+            "properties": {
+              "network": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "library": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "request": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "network",
+              "library",
+              "request"
+            ],
+            "additionalProperties": false
+          },
+          "decision": {
+            "type": "object",
+            "properties": {
+              "components": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "fanout_rules": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "components",
+              "fanout_rules"
+            ],
+            "additionalProperties": false
+          },
+          "evaluation": {
+            "type": "object",
+            "properties": {
+              "feasible": {
+                "const": true
+              },
+              "metrics": {
+                "type": "object",
+                "properties": {
+                  "energy_pj": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "latency_ns": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "area_um2": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "error_rms_bound": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "energy_pj",
+                  "latency_ns",
+                  "area_um2",
+                  "error_rms_bound"
+                ],
+                "additionalProperties": false
+              },
+              "diagnostics": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "additionalProperties": true
+                },
+                "maxItems": 0
+              },
+              "analysis": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "exact_affine_gaussian",
+                      "conservative_lipschitz_rms"
+                    ]
+                  },
+                  "nominal_bounds": {
+                    "type": "object"
+                  },
+                  "assumptions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "output_covariance": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "error_bound_method": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "nominal_bounds",
+                  "assumptions",
+                  "error_bound_method"
+                ],
+                "additionalProperties": false
+              },
+              "hardware": {
+                "type": "object",
+                "properties": {
+                  "representation": {
+                    "const": "abstract_physical_implementation_plan_v1"
+                  },
+                  "device_netlist": {
+                    "const": false
+                  },
+                  "instances": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "connections": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "source": {
+                          "type": "string"
+                        },
+                        "target": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "source",
+                        "target",
+                        "role"
+                      ],
+                      "additionalProperties": true
+                    }
+                  },
+                  "schedule": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "instance_id": {
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string"
+                        },
+                        "start_ns": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "end_ns": {
+                          "type": "number",
+                          "minimum": 0
+                        }
+                      },
+                      "required": [
+                        "instance_id",
+                        "operation",
+                        "start_ns",
+                        "end_ns"
+                      ],
+                      "additionalProperties": true
+                    }
+                  }
+                },
+                "required": [
+                  "representation",
+                  "device_netlist",
+                  "instances",
+                  "connections",
+                  "schedule"
+                ],
+                "additionalProperties": false
+              },
+              "trace": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "noise_sources": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "required": [
+              "feasible",
+              "metrics",
+              "diagnostics",
+              "analysis",
+              "hardware",
+              "trace",
+              "noise_sources"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "schema_version",
+          "id",
+          "input_hashes",
+          "decision",
+          "evaluation"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "rejection_summary": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "caveats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "input_hashes",
+    "search",
+    "plans",
+    "rejection_summary",
+    "diagnostics",
+    "caveats"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Neural Physical Planner v0.1 report",
+  "description": "Structural contract for exported feasible plans and reports. Detailed instance/trace records are model-specific; npp check additionally recomputes their full semantic content. Hashes identify normalized inputs and decisions, not authorship or fabrication validity."
+}

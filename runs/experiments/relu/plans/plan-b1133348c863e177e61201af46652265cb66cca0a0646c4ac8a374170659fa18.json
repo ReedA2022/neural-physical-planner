@@ -1,0 +1,409 @@
+{
+  "schema_version": "0.1",
+  "id": "plan-b1133348c863e177e61201af46652265cb66cca0a0646c4ac8a374170659fa18",
+  "input_hashes": {
+    "network": "84f58d5add8165ef862eda45e2395b06302dc9bd8ca08170d009660507d7f926",
+    "library": "fe7e3c0fba85e409f6dfb9bfb6dbaeee3d414ad0c60162fb3a0b406d5ed60f01",
+    "request": "25543519603c8b94056db9630bb93e9c95a2bc11eeab203fa008f9ba44118e9e"
+  },
+  "decision": {
+    "components": {
+      "x": "optical_encoder",
+      "hidden": "optical_programmable",
+      "activation": "digital_relu",
+      "readout": "digital_fixed"
+    },
+    "fanout_rules": {}
+  },
+  "evaluation": {
+    "feasible": true,
+    "metrics": {
+      "energy_pj": 7.762778861567164,
+      "latency_ns": 7.6,
+      "area_um2": 46.0,
+      "error_rms_bound": 0.01061873387512506
+    },
+    "diagnostics": [],
+    "analysis": {
+      "kind": "conservative_lipschitz_rms",
+      "nominal_bounds": {
+        "x": {
+          "lower": [
+            -1.0,
+            -1.0
+          ],
+          "upper": [
+            1.0,
+            1.0
+          ]
+        },
+        "hidden": {
+          "lower": [
+            -0.7999999999999999,
+            -0.9500000000000001,
+            -0.6000000000000001
+          ],
+          "upper": [
+            0.9999999999999999,
+            0.85,
+            1.0
+          ]
+        },
+        "activation": {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.9999999999999999,
+            0.85,
+            1.0
+          ]
+        },
+        "readout": {
+          "lower": [
+            -0.20500000000000002,
+            -0.3
+          ],
+          "upper": [
+            0.95,
+            0.51
+          ]
+        }
+      },
+      "assumptions": [
+        "All component and rule parameters are declared model inputs; no measured-device accuracy is implied.",
+        "Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.",
+        "Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.",
+        "For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.",
+        "All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.",
+        "Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.",
+        "Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro's declared headroom. This field-amplitude surrogate is not a detailed encoding model.",
+        "Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.",
+        "Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.",
+        "Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.",
+        "Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.",
+        "Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro's wall-plug efficiency as an explicit surrogate, plus the rule's declared electrical overhead.",
+        "Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation."
+      ],
+      "error_bound_method": "Spectral-norm propagation for linear nodes; ReLU is 1-Lipschitz; Minkowski at add nodes; quadrature only for newly independent zero-mean sources; Euclidean aggregation across output blocks.",
+      "per_output_rms_bounds": [
+        0.01061873387512506
+      ]
+    },
+    "trace": [],
+    "hardware": {
+      "representation": "abstract_physical_implementation_plan_v1",
+      "device_netlist": false,
+      "instances": [
+        {
+          "id": "node:x",
+          "kind": "neural_macro",
+          "component_id": "optical_encoder",
+          "node_id": "x",
+          "op": "input",
+          "domain": "optical",
+          "size": 2,
+          "editable": true,
+          "macs": 0,
+          "area_um2": 5.0,
+          "energy_pj": 0.17050524755766636,
+          "photon_energy_pj": 0.02050524755766636,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "channel:x:0",
+          "kind": "normalized_channel",
+          "domain": "optical",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": 17000.0,
+          "noise_source_ids": [
+            "edge:x:0:shot"
+          ],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "node:hidden",
+          "kind": "neural_macro",
+          "component_id": "optical_programmable",
+          "node_id": "hidden",
+          "op": "linear",
+          "domain": "optical",
+          "size": 3,
+          "editable": true,
+          "macs": 6,
+          "area_um2": 18.0,
+          "energy_pj": 1.2922736140094986,
+          "photon_energy_pj": 0.0922736140094986,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "channel:hidden:0",
+          "kind": "normalized_channel",
+          "domain": "optical",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": 51000.0,
+          "noise_source_ids": [
+            "edge:hidden:0:shot",
+            "edge:hidden:0:conversion"
+          ],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "conversion:hidden:0",
+          "kind": "domain_conversion",
+          "conversion_id": "photodetector_adc",
+          "from_domain": "optical",
+          "to_domain": "digital",
+          "area_um2": 7.0,
+          "energy_pj": 2.0
+        },
+        {
+          "id": "node:activation",
+          "kind": "neural_macro",
+          "component_id": "digital_relu",
+          "node_id": "activation",
+          "op": "relu",
+          "domain": "digital",
+          "size": 3,
+          "editable": true,
+          "macs": 0,
+          "area_um2": 4.0,
+          "energy_pj": 1.0,
+          "photon_energy_pj": 0.0,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "channel:activation:0",
+          "kind": "normalized_channel",
+          "domain": "digital",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": null,
+          "noise_source_ids": [],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "node:readout",
+          "kind": "neural_macro",
+          "component_id": "digital_fixed",
+          "node_id": "readout",
+          "op": "linear",
+          "domain": "digital",
+          "size": 2,
+          "editable": false,
+          "macs": 6,
+          "area_um2": 12.0,
+          "energy_pj": 3.3,
+          "photon_energy_pj": 0.0,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "channel:readout:0",
+          "kind": "normalized_channel",
+          "domain": "digital",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": null,
+          "noise_source_ids": [],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "output:0",
+          "kind": "output_sink",
+          "domain": "digital",
+          "node_id": "readout",
+          "size": 2,
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        }
+      ],
+      "connections": [
+        {
+          "source": "node:x",
+          "target": "channel:x:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:x:0",
+          "target": "node:hidden",
+          "input_index": 0,
+          "role": "operand"
+        },
+        {
+          "source": "node:hidden",
+          "target": "channel:hidden:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:hidden:0",
+          "target": "conversion:hidden:0",
+          "role": "conversion_input"
+        },
+        {
+          "source": "conversion:hidden:0",
+          "target": "node:activation",
+          "input_index": 0,
+          "role": "operand"
+        },
+        {
+          "source": "node:activation",
+          "target": "channel:activation:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:activation:0",
+          "target": "node:readout",
+          "input_index": 0,
+          "role": "operand"
+        },
+        {
+          "source": "node:readout",
+          "target": "channel:readout:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:readout:0",
+          "target": "output:0",
+          "input_index": 0,
+          "role": "output"
+        }
+      ],
+      "schedule": [
+        {
+          "instance_id": "node:x",
+          "operation": "compute",
+          "start_ns": 0.0,
+          "end_ns": 0.3
+        },
+        {
+          "instance_id": "channel:x:0",
+          "operation": "deliver",
+          "start_ns": 0.3,
+          "end_ns": 0.3
+        },
+        {
+          "instance_id": "node:hidden",
+          "operation": "compute",
+          "start_ns": 0.3,
+          "end_ns": 1.1
+        },
+        {
+          "instance_id": "channel:hidden:0",
+          "operation": "deliver",
+          "start_ns": 1.1,
+          "end_ns": 1.1
+        },
+        {
+          "instance_id": "conversion:hidden:0",
+          "operation": "convert",
+          "start_ns": 1.1,
+          "end_ns": 3.6
+        },
+        {
+          "instance_id": "node:activation",
+          "operation": "compute",
+          "start_ns": 3.6,
+          "end_ns": 4.6
+        },
+        {
+          "instance_id": "channel:activation:0",
+          "operation": "deliver",
+          "start_ns": 4.6,
+          "end_ns": 4.6
+        },
+        {
+          "instance_id": "node:readout",
+          "operation": "compute",
+          "start_ns": 4.6,
+          "end_ns": 7.6
+        },
+        {
+          "instance_id": "channel:readout:0",
+          "operation": "deliver",
+          "start_ns": 7.6,
+          "end_ns": 7.6
+        },
+        {
+          "instance_id": "output:0",
+          "operation": "output",
+          "start_ns": 7.6,
+          "end_ns": 7.6
+        }
+      ]
+    },
+    "noise_sources": [
+      {
+        "id": "component:x",
+        "dimension": 2,
+        "std": 0.0002,
+        "variance": 4e-08,
+        "role": "component_output",
+        "node_id": "x"
+      },
+      {
+        "id": "edge:x:0:shot",
+        "dimension": 2,
+        "std": 0.007669649888473704,
+        "variance": 5.88235294117647e-05,
+        "role": "independent_branch_shot_surrogate",
+        "node_id": "x"
+      },
+      {
+        "id": "component:hidden",
+        "dimension": 3,
+        "std": 0.0003,
+        "variance": 8.999999999999999e-08,
+        "role": "component_output",
+        "node_id": "hidden"
+      },
+      {
+        "id": "edge:hidden:0:shot",
+        "dimension": 3,
+        "std": 0.004428074427700476,
+        "variance": 1.9607843137254903e-05,
+        "role": "independent_branch_shot_surrogate",
+        "node_id": "hidden"
+      },
+      {
+        "id": "edge:hidden:0:conversion",
+        "dimension": 3,
+        "std": 0.0008,
+        "variance": 6.4e-07,
+        "role": "domain_conversion",
+        "node_id": "hidden"
+      },
+      {
+        "id": "component:activation",
+        "dimension": 3,
+        "std": 0.0001,
+        "variance": 1e-08,
+        "role": "component_output",
+        "node_id": "activation"
+      },
+      {
+        "id": "component:readout",
+        "dimension": 2,
+        "std": 0.0001,
+        "variance": 1e-08,
+        "role": "component_output",
+        "node_id": "readout"
+      }
+    ]
+  }
+}

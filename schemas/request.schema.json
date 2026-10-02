@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "Budgets": {
+      "additionalProperties": false,
+      "properties": {
+        "energy_pj": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Energy Pj"
+        },
+        "latency_ns": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latency Ns"
+        },
+        "area_um2": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Area Um2"
+        },
+        "error_rms_bound": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Rms Bound"
+        }
+      },
+      "title": "Budgets",
+      "type": "object"
+    },
+    "Search": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "default": "beam",
+          "enum": [
+            "exhaustive",
+            "beam"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "max_evaluations": {
+          "default": 10000,
+          "exclusiveMinimum": 0,
+          "title": "Max Evaluations",
+          "type": "integer"
+        },
+        "beam_width": {
+          "default": 128,
+          "exclusiveMinimum": 0,
+          "title": "Beam Width",
+          "type": "integer"
+        }
+      },
+      "title": "Search",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1",
+      "default": "0.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "objectives": {
+      "items": {
+        "enum": [
+          "energy_pj",
+          "latency_ns",
+          "area_um2",
+          "error_rms_bound"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Objectives",
+      "type": "array"
+    },
+    "budgets": {
+      "$ref": "#/$defs/Budgets"
+    },
+    "required_editable": {
+      "description": "Linear node IDs whose fixed-shape weights and bias must remain editable; other operations are unsupported here.",
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+        "type": "string"
+      },
+      "title": "Required Editable",
+      "type": "array"
+    },
+    "allowed_domains": {
+      "items": {
+        "enum": [
+          "digital",
+          "optical"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed Domains",
+      "type": "array"
+    },
+    "allow_serialization": {
+      "default": false,
+      "title": "Allow Serialization",
+      "type": "boolean"
+    },
+    "search": {
+      "$ref": "#/$defs/Search"
+    },
+    "seed": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "title": "CompileRequest",
+  "type": "object"
+}

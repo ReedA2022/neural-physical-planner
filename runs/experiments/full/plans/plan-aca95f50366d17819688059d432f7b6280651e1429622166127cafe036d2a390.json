@@ -1,0 +1,423 @@
+{
+  "schema_version": "0.1",
+  "id": "plan-aca95f50366d17819688059d432f7b6280651e1429622166127cafe036d2a390",
+  "input_hashes": {
+    "network": "8b39e9b3ff2ad5e767cb7484062b9e93bbecfb0ff7bef99d98b6eab981556a9d",
+    "library": "fe7e3c0fba85e409f6dfb9bfb6dbaeee3d414ad0c60162fb3a0b406d5ed60f01",
+    "request": "25543519603c8b94056db9630bb93e9c95a2bc11eeab203fa008f9ba44118e9e"
+  },
+  "decision": {
+    "components": {
+      "x": "digital_input",
+      "left": "digital_fixed",
+      "right": "digital_fixed",
+      "sum": "digital_fixed"
+    },
+    "fanout_rules": {
+      "x": "digital_buffer"
+    }
+  },
+  "evaluation": {
+    "feasible": true,
+    "metrics": {
+      "energy_pj": 10.0,
+      "latency_ns": 6.6,
+      "area_um2": 38.5,
+      "error_rms_bound": 0.00024494897427831784
+    },
+    "diagnostics": [],
+    "analysis": {
+      "kind": "exact_affine_gaussian",
+      "nominal_bounds": {
+        "x": {
+          "lower": [
+            -1.0,
+            -1.0
+          ],
+          "upper": [
+            1.0,
+            1.0
+          ]
+        },
+        "left": {
+          "lower": [
+            -0.8999999999999999,
+            -0.9
+          ],
+          "upper": [
+            0.8999999999999999,
+            0.9
+          ]
+        },
+        "right": {
+          "lower": [
+            -0.7200000000000001,
+            -0.72
+          ],
+          "upper": [
+            0.7200000000000001,
+            0.72
+          ]
+        },
+        "sum": {
+          "lower": [
+            -1.62,
+            -1.62
+          ],
+          "upper": [
+            1.62,
+            1.62
+          ]
+        }
+      },
+      "assumptions": [
+        "All component and rule parameters are declared model inputs; no measured-device accuracy is implied.",
+        "Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.",
+        "Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.",
+        "For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.",
+        "All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.",
+        "Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.",
+        "Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro's declared headroom. This field-amplitude surrogate is not a detailed encoding model.",
+        "Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.",
+        "Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.",
+        "Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.",
+        "Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.",
+        "Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro's wall-plug efficiency as an explicit surrogate, plus the rule's declared electrical overhead.",
+        "Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation."
+      ],
+      "output_covariance": [
+        [
+          3.0000000000000004e-08,
+          0.0
+        ],
+        [
+          0.0,
+          3.0000000000000004e-08
+        ]
+      ],
+      "error_bound_method": "Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands."
+    },
+    "trace": [
+      {
+        "node_id": "x",
+        "component_id": "digital_input",
+        "rule_id": "digital_buffer",
+        "kind": "digital_copy",
+        "guards_passed": true,
+        "gain": 1.0,
+        "split_fractions": [
+          1.0,
+          1.0
+        ],
+        "inherited_error_preserved": true,
+        "semantics": "shared normalized signal with independent branch detection"
+      }
+    ],
+    "hardware": {
+      "representation": "abstract_physical_implementation_plan_v1",
+      "device_netlist": false,
+      "instances": [
+        {
+          "id": "node:x",
+          "kind": "neural_macro",
+          "component_id": "digital_input",
+          "node_id": "x",
+          "op": "input",
+          "domain": "digital",
+          "size": 2,
+          "editable": true,
+          "macs": 0,
+          "area_um2": 2.0,
+          "energy_pj": 0.5,
+          "photon_energy_pj": 0.0,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "rule:x",
+          "kind": "fanout_rule",
+          "rule_id": "digital_buffer",
+          "rule_kind": "digital_copy",
+          "node_id": "x",
+          "gain": 1.0,
+          "split_policy": "equal",
+          "area_um2": 0.5,
+          "energy_pj": 0.1
+        },
+        {
+          "id": "channel:x:0",
+          "kind": "normalized_channel",
+          "domain": "digital",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": null,
+          "noise_source_ids": [],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "channel:x:1",
+          "kind": "normalized_channel",
+          "domain": "digital",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": null,
+          "noise_source_ids": [],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "node:left",
+          "kind": "neural_macro",
+          "component_id": "digital_fixed",
+          "node_id": "left",
+          "op": "linear",
+          "domain": "digital",
+          "size": 2,
+          "editable": false,
+          "macs": 4,
+          "area_um2": 12.0,
+          "energy_pj": 3.2,
+          "photon_energy_pj": 0.0,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "channel:left:0",
+          "kind": "normalized_channel",
+          "domain": "digital",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": null,
+          "noise_source_ids": [],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "node:right",
+          "kind": "neural_macro",
+          "component_id": "digital_fixed",
+          "node_id": "right",
+          "op": "linear",
+          "domain": "digital",
+          "size": 2,
+          "editable": false,
+          "macs": 4,
+          "area_um2": 12.0,
+          "energy_pj": 3.2,
+          "photon_energy_pj": 0.0,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "channel:right:0",
+          "kind": "normalized_channel",
+          "domain": "digital",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": null,
+          "noise_source_ids": [],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "node:sum",
+          "kind": "neural_macro",
+          "component_id": "digital_fixed",
+          "node_id": "sum",
+          "op": "add",
+          "domain": "digital",
+          "size": 2,
+          "editable": false,
+          "macs": 0,
+          "area_um2": 12.0,
+          "energy_pj": 3.0,
+          "photon_energy_pj": 0.0,
+          "encoding_count": 1,
+          "launch_energy_multiplier": 1.0
+        },
+        {
+          "id": "channel:sum:0",
+          "kind": "normalized_channel",
+          "domain": "digital",
+          "split_fraction": 1.0,
+          "effective_gain": 1.0,
+          "effective_detected_photons": null,
+          "noise_source_ids": [],
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        },
+        {
+          "id": "output:0",
+          "kind": "output_sink",
+          "domain": "digital",
+          "node_id": "sum",
+          "size": 2,
+          "area_um2": 0.0,
+          "energy_pj": 0.0
+        }
+      ],
+      "connections": [
+        {
+          "source": "node:x",
+          "target": "rule:x",
+          "role": "fanout_input"
+        },
+        {
+          "source": "rule:x",
+          "target": "channel:x:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:x:0",
+          "target": "node:left",
+          "input_index": 0,
+          "role": "operand"
+        },
+        {
+          "source": "rule:x",
+          "target": "channel:x:1",
+          "role": "branch",
+          "branch_index": 1
+        },
+        {
+          "source": "channel:x:1",
+          "target": "node:right",
+          "input_index": 0,
+          "role": "operand"
+        },
+        {
+          "source": "node:left",
+          "target": "channel:left:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:left:0",
+          "target": "node:sum",
+          "input_index": 0,
+          "role": "operand"
+        },
+        {
+          "source": "node:right",
+          "target": "channel:right:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:right:0",
+          "target": "node:sum",
+          "input_index": 1,
+          "role": "operand"
+        },
+        {
+          "source": "node:sum",
+          "target": "channel:sum:0",
+          "role": "branch",
+          "branch_index": 0
+        },
+        {
+          "source": "channel:sum:0",
+          "target": "output:0",
+          "input_index": 0,
+          "role": "output"
+        }
+      ],
+      "schedule": [
+        {
+          "instance_id": "node:x",
+          "operation": "compute",
+          "start_ns": 0.0,
+          "end_ns": 0.5
+        },
+        {
+          "instance_id": "rule:x",
+          "operation": "digital_copy",
+          "start_ns": 0.5,
+          "end_ns": 0.6
+        },
+        {
+          "instance_id": "channel:x:0",
+          "operation": "deliver",
+          "start_ns": 0.6,
+          "end_ns": 0.6
+        },
+        {
+          "instance_id": "channel:x:1",
+          "operation": "deliver",
+          "start_ns": 0.6,
+          "end_ns": 0.6
+        },
+        {
+          "instance_id": "node:left",
+          "operation": "compute",
+          "start_ns": 0.6,
+          "end_ns": 3.6
+        },
+        {
+          "instance_id": "node:right",
+          "operation": "compute",
+          "start_ns": 0.6,
+          "end_ns": 3.6
+        },
+        {
+          "instance_id": "channel:left:0",
+          "operation": "deliver",
+          "start_ns": 3.6,
+          "end_ns": 3.6
+        },
+        {
+          "instance_id": "channel:right:0",
+          "operation": "deliver",
+          "start_ns": 3.6,
+          "end_ns": 3.6
+        },
+        {
+          "instance_id": "node:sum",
+          "operation": "compute",
+          "start_ns": 3.6,
+          "end_ns": 6.6
+        },
+        {
+          "instance_id": "channel:sum:0",
+          "operation": "deliver",
+          "start_ns": 6.6,
+          "end_ns": 6.6
+        },
+        {
+          "instance_id": "output:0",
+          "operation": "output",
+          "start_ns": 6.6,
+          "end_ns": 6.6
+        }
+      ]
+    },
+    "noise_sources": [
+      {
+        "id": "component:left",
+        "dimension": 2,
+        "std": 0.0001,
+        "variance": 1e-08,
+        "role": "component_output",
+        "node_id": "left"
+      },
+      {
+        "id": "component:right",
+        "dimension": 2,
+        "std": 0.0001,
+        "variance": 1e-08,
+        "role": "component_output",
+        "node_id": "right"
+      },
+      {
+        "id": "component:sum",
+        "dimension": 2,
+        "std": 0.0001,
+        "variance": 1e-08,
+        "role": "component_output",
+        "node_id": "sum"
+      }
+    ]
+  }
+}

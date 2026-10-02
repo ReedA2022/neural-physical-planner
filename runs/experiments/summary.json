@@ -1,0 +1,96 @@
+{
+  "interpretation": "Synthetic model comparison; changes across libraries/domains are not measured device improvements.",
+  "results": [
+    {
+      "status": "ok",
+      "output_directory": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/full",
+      "evaluated": 512,
+      "feasible": 512,
+      "pareto_plans": 10,
+      "search_complete": true,
+      "all_saved_plans_checked": true,
+      "simulated_plans": 10,
+      "simulation_consistency": true,
+      "report": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/full/report.html",
+      "case": "full"
+    },
+    {
+      "status": "ok",
+      "output_directory": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/digital_only",
+      "evaluated": 8,
+      "feasible": 8,
+      "pareto_plans": 1,
+      "search_complete": true,
+      "all_saved_plans_checked": true,
+      "simulated_plans": 1,
+      "simulation_consistency": true,
+      "report": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/digital_only/report.html",
+      "case": "digital_only"
+    },
+    {
+      "status": "ok",
+      "output_directory": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/passive_only",
+      "evaluated": 192,
+      "feasible": 192,
+      "pareto_plans": 8,
+      "search_complete": true,
+      "all_saved_plans_checked": true,
+      "simulated_plans": 8,
+      "simulation_consistency": true,
+      "report": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/passive_only/report.html",
+      "case": "passive_only"
+    },
+    {
+      "status": "ok",
+      "output_directory": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/editable",
+      "evaluated": 128,
+      "feasible": 128,
+      "pareto_plans": 10,
+      "search_complete": true,
+      "all_saved_plans_checked": true,
+      "simulated_plans": 10,
+      "simulation_consistency": true,
+      "report": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/editable/report.html",
+      "case": "editable"
+    },
+    {
+      "status": "ok",
+      "output_directory": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/beam_24",
+      "evaluated": 24,
+      "feasible": 24,
+      "pareto_plans": 6,
+      "search_complete": false,
+      "all_saved_plans_checked": true,
+      "simulated_plans": 6,
+      "simulation_consistency": true,
+      "report": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/beam_24/report.html",
+      "case": "beam_24"
+    },
+    {
+      "status": "ok",
+      "output_directory": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/relu",
+      "evaluated": 32,
+      "feasible": 32,
+      "pareto_plans": 3,
+      "search_complete": true,
+      "all_saved_plans_checked": true,
+      "simulated_plans": 3,
+      "simulation_consistency": true,
+      "report": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/relu/report.html",
+      "case": "relu"
+    },
+    {
+      "status": "infeasible",
+      "output_directory": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/impossible",
+      "evaluated": 448,
+      "feasible": 0,
+      "pareto_plans": 0,
+      "search_complete": true,
+      "all_saved_plans_checked": true,
+      "simulated_plans": 0,
+      "simulation_consistency": null,
+      "report": "/workspace/scratch/9db0500d0a5d/neural-physical-planner/runs/experiments/impossible/report.html",
+      "case": "impossible"
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "schema_version": "0.1",
+  "name": "Synthetic digital-optical demonstration library",
+  "model": "normalized_additive_gaussian_v1",
+  "provenance": "ILLUSTRATIVE SYNTHETIC PARAMETERS, not measurements or a foundry PDK. Costs are per instantiated macro. Optical encoding, normalized additive Gaussian noise, independent primitive noises and unlimited interconnect are modeling assumptions. These examples demonstrate planner behavior, not hardware performance.",
+  "components": [
+    {
+      "id": "digital_input",
+      "ops": [
+        "input"
+      ],
+      "domain": "digital",
+      "editable": true,
+      "source_scalable": false,
+      "area_um2": 2.0,
+      "latency_ns": 0.5,
+      "energy_pj": 0.5,
+      "energy_per_mac_pj": 0.0,
+      "noise_std": 0.0,
+      "max_abs_value": 8.0,
+      "photons": 1.0,
+      "optical_efficiency": 1.0,
+      "wall_plug_efficiency": 1.0,
+      "wavelength_nm": 1550.0,
+      "capacity": 64,
+      "notes": "Illustrative synthetic macro; numerical units are normalized. No fabrication or device-calibration claim."
+    },
+    {
+      "id": "optical_encoder",
+      "ops": [
+        "input"
+      ],
+      "domain": "optical",
+      "editable": true,
+      "source_scalable": true,
+      "area_um2": 5.0,
+      "latency_ns": 0.3,
+      "energy_pj": 0.15,
+      "energy_per_mac_pj": 0.0,
+      "noise_std": 0.0002,
+      "max_abs_value": 8.0,
+      "photons": 20000.0,
+      "optical_efficiency": 0.85,
+      "wall_plug_efficiency": 0.25,
+      "wavelength_nm": 1550.0,
+      "capacity": 64,
+      "notes": "Illustrative synthetic macro; numerical units are normalized. No fabrication or device-calibration claim."
+    },
+    {
+      "id": "digital_fixed",
+      "ops": [
+        "linear",
+        "add",
+        "identity"
+      ],
+      "domain": "digital",
+      "editable": false,
+      "source_scalable": false,
+      "area_um2": 12.0,
+      "latency_ns": 3.0,
+      "energy_pj": 3.0,
+      "energy_per_mac_pj": 0.05,
+      "noise_std": 0.0001,
+      "max_abs_value": 8.0,
+      "photons": 1.0,
+      "optical_efficiency": 1.0,
+      "wall_plug_efficiency": 1.0,
+      "wavelength_nm": 1550.0,
+      "capacity": 64,
+      "notes": "Illustrative synthetic macro; numerical units are normalized. No fabrication or device-calibration claim."
+    },
+    {
+      "id": "digital_programmable",
+      "ops": [
+        "linear",
+        "add",
+        "identity"
+      ],
+      "domain": "digital",
+      "editable": true,
+      "source_scalable": false,
+      "area_um2": 30.0,
+      "latency_ns": 6.0,
+      "energy_pj": 8.0,
+      "energy_per_mac_pj": 0.15,
+      "noise_std": 0.00015,
+      "max_abs_value": 8.0,
+      "photons": 1.0,
+      "optical_efficiency": 1.0,
+      "wall_plug_efficiency": 1.0,
+      "wavelength_nm": 1550.0,
+      "capacity": 64,
+      "notes": "Illustrative synthetic macro; numerical units are normalized. No fabrication or device-calibration claim."
+    },
+    {
+      "id": "optical_fixed",
+      "ops": [
+        "linear",
+        "add",
+        "identity"
+      ],
+      "domain": "optical",
+      "editable": false,
+      "source_scalable": false,
+      "area_um2": 8.0,
+      "latency_ns": 0.5,
+      "energy_pj": 0.2,
+      "energy_per_mac_pj": 0.0,
+      "noise_std": 0.0002,
+      "max_abs_value": 8.0,
+      "photons": 20000.0,
+      "optical_efficiency": 0.85,
+      "wall_plug_efficiency": 0.25,
+      "wavelength_nm": 1550.0,
+      "capacity": 64,
+      "notes": "Illustrative synthetic macro; numerical units are normalized. No fabrication or device-calibration claim."
+    },
+    {
+      "id": "optical_programmable",
+      "ops": [
+        "linear",
+        "add",
+        "identity"
+      ],
+      "domain": "optical",
+      "editable": true,
+      "source_scalable": false,
+      "area_um2": 18.0,
+      "latency_ns": 0.8,
+      "energy_pj": 1.2,
+      "energy_per_mac_pj": 0.0,
+      "noise_std": 0.0003,
+      "max_abs_value": 8.0,
+      "photons": 60000.0,
+      "optical_efficiency": 0.85,
+      "wall_plug_efficiency": 0.25,
+      "wavelength_nm": 1550.0,
+      "capacity": 64,
+      "notes": "Illustrative synthetic macro; numerical units are normalized. No fabrication or device-calibration claim."
+    },
+    {
+      "id": "digital_relu",
+      "ops": [
+        "relu"
+      ],
+      "domain": "digital",
+      "editable": true,
+      "source_scalable": false,
+      "area_um2": 4.0,
+      "latency_ns": 1.0,
+      "energy_pj": 1.0,
+      "energy_per_mac_pj": 0.0,
+      "noise_std": 0.0001,
+      "max_abs_value": 8.0,
+      "photons": 1.0,
+      "optical_efficiency": 1.0,
+      "wall_plug_efficiency": 1.0,
+      "wavelength_nm": 1550.0,
+      "capacity": 64,
+      "notes": "Illustrative synthetic macro; numerical units are normalized. No fabrication or device-calibration claim."
+    }
+  ],
+  "rules": [
+    {
+      "id": "digital_buffer",
+      "kind": "digital_copy",
+      "domains": [
+        "digital"
+      ],
+      "split_policy": "equal",
+      "gain": 1.0,
+      "added_noise_std": 0.0,
+      "area_um2": 0.5,
+      "latency_ns": 0.1,
+      "energy_pj": 0.1,
+      "notes": "Illustrative synthetic rule. Electrical distribution has a nonzero cost."
+    },
+    {
+      "id": "passive_equal",
+      "kind": "passive_split",
+      "domains": [
+        "optical"
+      ],
+      "split_policy": "equal",
+      "gain": 1.0,
+      "added_noise_std": 0.0,
+      "area_um2": 0.8,
+      "latency_ns": 0.05,
+      "energy_pj": 0.0,
+      "notes": "Illustrative synthetic rule. Equal splitting; branch photon budget falls with fan-out."
+    },
+    {
+      "id": "passive_sensitivity",
+      "kind": "passive_split",
+      "domains": [
+        "optical"
+      ],
+      "split_policy": "sensitivity",
+      "gain": 1.0,
+      "added_noise_std": 0.0,
+      "area_um2": 0.8,
+      "latency_ns": 0.05,
+      "energy_pj": 0.0,
+      "notes": "Illustrative synthetic rule. Photon allocation uses network output sensitivity under this model."
+    },
+    {
+      "id": "source_boost_2",
+      "kind": "source_boost",
+      "domains": [
+        "optical"
+      ],
+      "split_policy": "equal",
+      "gain": 2.0,
+      "added_noise_std": 0.0,
+      "area_um2": 1.0,
+      "latency_ns": 0.05,
+      "energy_pj": 0.1,
+      "notes": "Illustrative synthetic rule. Only a controllable optical input encoder can increase launched photons."
+    },
+    {
+      "id": "amplify_2",
+      "kind": "amplify",
+      "domains": [
+        "optical"
+      ],
+      "split_policy": "equal",
+      "gain": 2.0,
+      "added_noise_std": 0.005,
+      "area_um2": 3.0,
+      "latency_ns": 0.2,
+      "energy_pj": 1.0,
+      "notes": "Illustrative synthetic rule. One shared pre-split additive noise source; not noiseless cloning."
+    },
+    {
+      "id": "amplify_4",
+      "kind": "amplify",
+      "domains": [
+        "optical"
+      ],
+      "split_policy": "equal",
+      "gain": 4.0,
+      "added_noise_std": 0.009,
+      "area_um2": 5.0,
+      "latency_ns": 0.3,
+      "energy_pj": 2.0,
+      "notes": "Illustrative synthetic rule. Higher gain competes with energy, shared noise and operating range."
+    },
+    {
+      "id": "regenerate",
+      "kind": "regenerate",
+      "domains": [
+        "optical"
+      ],
+      "split_policy": "equal",
+      "gain": 1.0,
+      "added_noise_std": 0.002,
+      "area_um2": 10.0,
+      "latency_ns": 4.0,
+      "energy_pj": 3.0,
+      "notes": "Illustrative synthetic rule. Preserves incoming errors; shared measurement and independent re-encoding noises are added."
+    },
+    {
+      "id": "serial_source",
+      "kind": "serial_reencode",
+      "domains": [
+        "optical"
+      ],
+      "split_policy": "equal",
+      "gain": 1.0,
+      "added_noise_std": 0.0,
+      "area_um2": 2.0,
+      "latency_ns": 1.0,
+      "energy_pj": 0.2,
+      "notes": "Illustrative synthetic rule. Source encoder only; requires explicit permission to serialize."
+    }
+  ],
+  "conversions": [
+    {
+      "id": "dac_encoder",
+      "from_domain": "digital",
+      "to_domain": "optical",
+      "area_um2": 6.0,
+      "latency_ns": 2.0,
+      "energy_pj": 1.5,
+      "noise_std": 0.0005,
+      "notes": "Synthetic re-encoding interface; carried input error is preserved."
+    },
+    {
+      "id": "photodetector_adc",
+      "from_domain": "optical",
+      "to_domain": "digital",
+      "area_um2": 7.0,
+      "latency_ns": 2.5,
+      "energy_pj": 2.0,
+      "noise_std": 0.0008,
+      "notes": "Synthetic detection interface; normalized additive measurement noise."
+    }
+  ]
+}

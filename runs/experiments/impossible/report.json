@@ -1,0 +1,50 @@
+{
+  "schema_version": "0.1",
+  "status": "infeasible",
+  "input_hashes": {
+    "network": "8b39e9b3ff2ad5e767cb7484062b9e93bbecfb0ff7bef99d98b6eab981556a9d",
+    "library": "fe7e3c0fba85e409f6dfb9bfb6dbaeee3d414ad0c60162fb3a0b406d5ed60f01",
+    "request": "8a5b919d434e32a3c87a6ffc690daeec6b5c534eeecaa612049d27ffe0d09c23"
+  },
+  "search": {
+    "mode": "exhaustive",
+    "total_candidates": 448,
+    "candidate_counts": {
+      "x": 7,
+      "left": 4,
+      "right": 4,
+      "sum": 4
+    },
+    "evaluated": 448,
+    "feasible": 0,
+    "rejected": 448,
+    "complete": true,
+    "max_evaluations": 200000,
+    "beam_width": 128,
+    "partial_states_expanded": 0,
+    "partial_states_pruned": 0,
+    "seed": 7,
+    "deterministic": true,
+    "algorithm": "lazy_cartesian_enumeration",
+    "space_definition": "Structurally compatible component/rule combinations before numeric physical and budget guards.",
+    "pareto_relative_tolerance": 1e-09,
+    "pareto_absolute_tolerance": 0.0,
+    "elapsed_seconds": 0.19358715999987908,
+    "pareto_retained": 0
+  },
+  "plans": [],
+  "rejection_summary": [
+    {
+      "code": "budget_exceeded",
+      "count": 448
+    }
+  ],
+  "diagnostics": [],
+  "caveats": [
+    "Feasibility and costs hold only under the declared component library and normalized additive-noise model.",
+    "Error is an RMS model bound, not a deterministic all-sample or fabricated-device guarantee.",
+    "Schedules dedicate one unit per neural node with modeled fan-out serialization; arbitrary resource sharing is not synthesized.",
+    "Reported trade-offs concern the supplied finite implementation choices, not all physically possible hardware.",
+    "A retained feasible plan is not a fabrication-ready layout or a measured-hardware result."
+  ]
+}

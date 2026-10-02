@@ -1,0 +1,336 @@
+{
+  "$defs": {
+    "Component": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "ops": {
+          "items": {
+            "enum": [
+              "input",
+              "linear",
+              "relu",
+              "add",
+              "identity"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Ops",
+          "type": "array"
+        },
+        "domain": {
+          "enum": [
+            "digital",
+            "optical"
+          ],
+          "title": "Domain",
+          "type": "string"
+        },
+        "editable": {
+          "default": false,
+          "title": "Editable",
+          "type": "boolean"
+        },
+        "source_scalable": {
+          "default": false,
+          "title": "Source Scalable",
+          "type": "boolean"
+        },
+        "area_um2": {
+          "minimum": 0,
+          "title": "Area Um2",
+          "type": "number"
+        },
+        "latency_ns": {
+          "minimum": 0,
+          "title": "Latency Ns",
+          "type": "number"
+        },
+        "energy_pj": {
+          "minimum": 0,
+          "title": "Energy Pj",
+          "type": "number"
+        },
+        "energy_per_mac_pj": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Energy Per Mac Pj",
+          "type": "number"
+        },
+        "noise_std": {
+          "minimum": 0,
+          "title": "Noise Std",
+          "type": "number"
+        },
+        "max_abs_value": {
+          "exclusiveMinimum": 0,
+          "title": "Max Abs Value",
+          "type": "number"
+        },
+        "photons": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Photons",
+          "type": "number"
+        },
+        "optical_efficiency": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Optical Efficiency",
+          "type": "number"
+        },
+        "wall_plug_efficiency": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Wall Plug Efficiency",
+          "type": "number"
+        },
+        "wavelength_nm": {
+          "default": 1550.0,
+          "exclusiveMinimum": 0,
+          "title": "Wavelength Nm",
+          "type": "number"
+        },
+        "capacity": {
+          "exclusiveMinimum": 0,
+          "title": "Capacity",
+          "type": "integer"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "ops",
+        "domain",
+        "area_um2",
+        "latency_ns",
+        "energy_pj",
+        "noise_std",
+        "max_abs_value",
+        "capacity"
+      ],
+      "title": "Component",
+      "type": "object"
+    },
+    "Conversion": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "from_domain": {
+          "enum": [
+            "digital",
+            "optical"
+          ],
+          "title": "From Domain",
+          "type": "string"
+        },
+        "to_domain": {
+          "enum": [
+            "digital",
+            "optical"
+          ],
+          "title": "To Domain",
+          "type": "string"
+        },
+        "area_um2": {
+          "minimum": 0,
+          "title": "Area Um2",
+          "type": "number"
+        },
+        "latency_ns": {
+          "minimum": 0,
+          "title": "Latency Ns",
+          "type": "number"
+        },
+        "energy_pj": {
+          "minimum": 0,
+          "title": "Energy Pj",
+          "type": "number"
+        },
+        "noise_std": {
+          "minimum": 0,
+          "title": "Noise Std",
+          "type": "number"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "from_domain",
+        "to_domain",
+        "area_um2",
+        "latency_ns",
+        "energy_pj",
+        "noise_std"
+      ],
+      "title": "Conversion",
+      "type": "object"
+    },
+    "Rule": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "digital_copy",
+            "passive_split",
+            "source_boost",
+            "amplify",
+            "regenerate",
+            "serial_reencode"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "domains": {
+          "items": {
+            "enum": [
+              "digital",
+              "optical"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Domains",
+          "type": "array"
+        },
+        "split_policy": {
+          "default": "equal",
+          "enum": [
+            "equal",
+            "sensitivity"
+          ],
+          "title": "Split Policy",
+          "type": "string"
+        },
+        "gain": {
+          "default": 1.0,
+          "minimum": 1,
+          "title": "Gain",
+          "type": "number"
+        },
+        "added_noise_std": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Added Noise Std",
+          "type": "number"
+        },
+        "area_um2": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Area Um2",
+          "type": "number"
+        },
+        "latency_ns": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Latency Ns",
+          "type": "number"
+        },
+        "energy_pj": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Energy Pj",
+          "type": "number"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "domains"
+      ],
+      "title": "Rule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1",
+      "default": "0.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "model": {
+      "const": "normalized_additive_gaussian_v1",
+      "title": "Model",
+      "type": "string"
+    },
+    "provenance": {
+      "minLength": 1,
+      "title": "Provenance",
+      "type": "string"
+    },
+    "components": {
+      "items": {
+        "$ref": "#/$defs/Component"
+      },
+      "minItems": 1,
+      "title": "Components",
+      "type": "array"
+    },
+    "rules": {
+      "items": {
+        "$ref": "#/$defs/Rule"
+      },
+      "minItems": 1,
+      "title": "Rules",
+      "type": "array"
+    },
+    "conversions": {
+      "items": {
+        "$ref": "#/$defs/Conversion"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Conversions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "name",
+    "model",
+    "provenance",
+    "components",
+    "rules",
+    "conversions"
+  ],
+  "title": "ComponentLibrary",
+  "type": "object"
+}

@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Neural Physical Planner — Affine cancellation after optical fan-out</title><style>
+body{margin:0;background:#f5f7fb;color:#182438;font:16px/1.5 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:34px 22px 70px}h1{font-size:32px;letter-spacing:-1px;margin:8px 0}h2{font-size:21px;margin:0 0 16px}h3{font-size:18px}p{max-width:90ch}.eyebrow{color:#176c93;text-transform:uppercase;font-size:12px;font-weight:750;letter-spacing:1.5px}.muted{color:#5f6c80;font-size:13px}.banner{background:#fff4dc;border-left:4px solid #dfa94e;padding:16px 20px;margin:24px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.stat,.panel{background:white;border:1px solid #e1e7ef;border-radius:12px;padding:20px}.stat strong{display:block;font-size:27px}.panel{margin-top:22px}.badge{display:inline-block;border-radius:20px;padding:4px 11px;background:#e6f4ee;color:#156747;font-size:12px;font-weight:700}.bad{background:#fce8e8;color:#922c2c}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid #e6ebf2}th{color:#617088;font-weight:600}a{color:#126d99}pre{overflow:auto;max-height:480px;background:#f4f7fb;padding:16px;border-radius:8px;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}details{border-top:1px solid #e2e8f0;padding:10px 0}summary{cursor:pointer;font-weight:600}svg{width:100%;height:auto;max-height:530px}svg text{font-family:system-ui,sans-serif;font-size:12px;fill:#47576c}.scroll{overflow-x:auto}.empty{padding:30px;background:#f8f9fc}@media(max-width:650px){main{padding:20px 12px}h1{font-size:26px}.panel{padding:14px}}
+</style></head><body><main><div class="eyebrow">NPP · reproducible planning report · v0.1</div><h1>Affine cancellation after optical fan-out</h1><p>Complete within the declared candidate family.</p><div class="banner"><strong>Research model, not fabrication signoff.</strong> The bundled hardware library contains illustrative synthetic parameters. Numerical bounds are conditional on the normalized additive Gaussian model; they are not measurements or guaranteed physical performance.</div><div class="grid"><div class="stat"><strong>infeasible</strong>Search status</div><div class="stat"><strong>0</strong>Nondominated designs retained</div><div class="stat"><strong>448</strong>Candidates evaluated</div><div class="stat"><strong>448</strong>Structural candidate space</div></div><section class="panel"><h2>Design trade-offs</h2><p class="empty">No feasible designs were found. Inspect search completeness and rejection reasons.</p><div class="scroll"><table><thead><tr><th>Design</th><th>Energy / inference (pJ)</th><th>Latency (ns)</th><th>Macro area (µm²)</th><th>Output RMS error bound</th><th>Replay check</th></tr></thead><tbody></tbody></table></div></section><section class="panel"><h2>Neural computation</h2><svg viewBox="0 0 620 324" role="img" aria-label="Input neural computation graph"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#a7b5c9"/></marker></defs><path d="M310.0 72 L206.66666666666666 128" stroke="#a7b5c9" marker-end="url(#arrow)"/><path d="M310.0 72 L413.3333333333333 128" stroke="#a7b5c9" marker-end="url(#arrow)"/><path d="M206.66666666666666 180 L310.0 236" stroke="#a7b5c9" marker-end="url(#arrow)"/><path d="M413.3333333333333 180 L310.0 236" stroke="#a7b5c9" marker-end="url(#arrow)"/><rect x="232.0" y="20" width="156" height="52" rx="9" fill="#eef3fa" stroke="#c4d2e4"/><text x="310.0" y="43" text-anchor="middle" font-weight="650">x</text><text x="310.0" y="61" text-anchor="middle">input · 2 values</text><rect x="128.66666666666666" y="128" width="156" height="52" rx="9" fill="#eef3fa" stroke="#c4d2e4"/><text x="206.66666666666666" y="151" text-anchor="middle" font-weight="650">left</text><text x="206.66666666666666" y="169" text-anchor="middle">linear · 2 values</text><rect x="335.3333333333333" y="128" width="156" height="52" rx="9" fill="#eef3fa" stroke="#c4d2e4"/><text x="413.3333333333333" y="151" text-anchor="middle" font-weight="650">right</text><text x="413.3333333333333" y="169" text-anchor="middle">linear · 2 values</text><rect x="232.0" y="236" width="156" height="52" rx="9" fill="#e6f4ee" stroke="#c4d2e4"/><text x="310.0" y="259" text-anchor="middle" font-weight="650">sum</text><text x="310.0" y="277" text-anchor="middle">add · 2 values</text></svg></section><section class="panel"><h2>Search and rejection diagnostics</h2><pre>{
+  &quot;search&quot;: {
+    &quot;mode&quot;: &quot;exhaustive&quot;,
+    &quot;total_candidates&quot;: 448,
+    &quot;candidate_counts&quot;: {
+      &quot;x&quot;: 7,
+      &quot;left&quot;: 4,
+      &quot;right&quot;: 4,
+      &quot;sum&quot;: 4
+    },
+    &quot;evaluated&quot;: 448,
+    &quot;feasible&quot;: 0,
+    &quot;rejected&quot;: 448,
+    &quot;complete&quot;: true,
+    &quot;max_evaluations&quot;: 200000,
+    &quot;beam_width&quot;: 128,
+    &quot;partial_states_expanded&quot;: 0,
+    &quot;partial_states_pruned&quot;: 0,
+    &quot;seed&quot;: 7,
+    &quot;deterministic&quot;: true,
+    &quot;algorithm&quot;: &quot;lazy_cartesian_enumeration&quot;,
+    &quot;space_definition&quot;: &quot;Structurally compatible component/rule combinations before numeric physical and budget guards.&quot;,
+    &quot;pareto_relative_tolerance&quot;: 1e-09,
+    &quot;pareto_absolute_tolerance&quot;: 0.0,
+    &quot;elapsed_seconds&quot;: 0.19358715999987908,
+    &quot;pareto_retained&quot;: 0
+  },
+  &quot;rejection_summary&quot;: [
+    {
+      &quot;code&quot;: &quot;budget_exceeded&quot;,
+      &quot;count&quot;: 448
+    }
+  ],
+  &quot;input_hashes&quot;: {
+    &quot;network&quot;: &quot;8b39e9b3ff2ad5e767cb7484062b9e93bbecfb0ff7bef99d98b6eab981556a9d&quot;,
+    &quot;library&quot;: &quot;fe7e3c0fba85e409f6dfb9bfb6dbaeee3d414ad0c60162fb3a0b406d5ed60f01&quot;,
+    &quot;request&quot;: &quot;8a5b919d434e32a3c87a6ffc690daeec6b5c534eeecaa612049d27ffe0d09c23&quot;
+  }
+}</pre></section><p class="muted">Generated locally. This report has no network dependencies or embedded tracking. The JSON files and source code are the authoritative reproducible artifacts.</p></main></body></html>

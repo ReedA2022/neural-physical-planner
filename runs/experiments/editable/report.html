@@ -1,0 +1,4606 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Neural Physical Planner — Affine cancellation after optical fan-out</title><style>
+body{margin:0;background:#f5f7fb;color:#182438;font:16px/1.5 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:34px 22px 70px}h1{font-size:32px;letter-spacing:-1px;margin:8px 0}h2{font-size:21px;margin:0 0 16px}h3{font-size:18px}p{max-width:90ch}.eyebrow{color:#176c93;text-transform:uppercase;font-size:12px;font-weight:750;letter-spacing:1.5px}.muted{color:#5f6c80;font-size:13px}.banner{background:#fff4dc;border-left:4px solid #dfa94e;padding:16px 20px;margin:24px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.stat,.panel{background:white;border:1px solid #e1e7ef;border-radius:12px;padding:20px}.stat strong{display:block;font-size:27px}.panel{margin-top:22px}.badge{display:inline-block;border-radius:20px;padding:4px 11px;background:#e6f4ee;color:#156747;font-size:12px;font-weight:700}.bad{background:#fce8e8;color:#922c2c}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid #e6ebf2}th{color:#617088;font-weight:600}a{color:#126d99}pre{overflow:auto;max-height:480px;background:#f4f7fb;padding:16px;border-radius:8px;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}details{border-top:1px solid #e2e8f0;padding:10px 0}summary{cursor:pointer;font-weight:600}svg{width:100%;height:auto;max-height:530px}svg text{font-family:system-ui,sans-serif;font-size:12px;fill:#47576c}.scroll{overflow-x:auto}.empty{padding:30px;background:#f8f9fc}@media(max-width:650px){main{padding:20px 12px}h1{font-size:26px}.panel{padding:14px}}
+</style></head><body><main><div class="eyebrow">NPP · reproducible planning report · v0.1</div><h1>Affine cancellation after optical fan-out</h1><p>Complete within the declared candidate family.</p><div class="banner"><strong>Research model, not fabrication signoff.</strong> The bundled hardware library contains illustrative synthetic parameters. Numerical bounds are conditional on the normalized additive Gaussian model; they are not measurements or guaranteed physical performance.</div><div class="grid"><div class="stat"><strong>ok</strong>Search status</div><div class="stat"><strong>10</strong>Nondominated designs retained</div><div class="stat"><strong>128</strong>Candidates evaluated</div><div class="stat"><strong>128</strong>Structural candidate space</div></div><section class="panel"><h2>Design trade-offs</h2><svg viewBox="0 0 620 300" role="img" aria-label="Energy versus latency for returned designs"><path d="M72 20 V246 H594" fill="none" stroke="#9eabc0"/><text x="72.0" y="266" text-anchor="middle">3.64</text><text x="64" y="250.0" text-anchor="end">3.53</text><path d="M72 246.0 H594" stroke="#e6ebf3"/><text x="202.5" y="266" text-anchor="middle">8.25</text><text x="64" y="193.5" text-anchor="end">5.78</text><path d="M72 189.5 H594" stroke="#e6ebf3"/><text x="333.0" y="266" text-anchor="middle">12.9</text><text x="64" y="137.0" text-anchor="end">8.02</text><path d="M72 133.0 H594" stroke="#e6ebf3"/><text x="463.5" y="266" text-anchor="middle">17.5</text><text x="64" y="80.5" text-anchor="end">10.3</text><path d="M72 76.5 H594" stroke="#e6ebf3"/><text x="594.0" y="266" text-anchor="middle">22.1</text><text x="64" y="24.0" text-anchor="end">12.5</text><path d="M72 20.0 H594" stroke="#e6ebf3"/><a href="#p0"><circle cx="108.00000000000001" cy="230.41379310344826" r="6" fill="#176c93" stroke="white"><title>Design 1: 4.91404 pJ; 4.15 ns</title></circle></a><a href="#p1"><circle cx="111.41354052014074" cy="230.41379310344826" r="6" fill="#176c93" stroke="white"><title>Design 2: 5.03455 pJ; 4.15 ns</title></circle></a><a href="#p2"><circle cx="140.90214436925905" cy="222.87208008898776" r="6" fill="#176c93" stroke="white"><title>Design 3: 6.07556 pJ; 4.45 ns</title></circle></a><a href="#p3"><circle cx="166.3963575292005" cy="224.1290322580645" r="6" fill="#176c93" stroke="white"><title>Design 4: 6.97556 pJ; 4.4 ns</title></circle></a><a href="#p4"><circle cx="195.88496137831882" cy="216.58731924360401" r="6" fill="#176c93" stroke="white"><title>Design 5: 8.01657 pJ; 4.7 ns</title></circle></a><a href="#p5"><circle cx="234.63557079319105" cy="166.30923248053392" r="6" fill="#176c93" stroke="white"><title>Design 6: 9.38455 pJ; 6.7 ns</title></circle></a><a href="#p6"><circle cx="340.5352536280577" cy="111.00333704115681" r="6" fill="#176c93" stroke="white"><title>Design 7: 13.123 pJ; 8.9 ns</title></circle></a><a href="#p7"><circle cx="442.51210626782347" cy="35.58620689655169" r="6" fill="#176c93" stroke="white"><title>Design 8: 16.723 pJ; 11.9 ns</title></circle></a><a href="#p8"><circle cx="449.2676268140289" cy="93.4060066740823" r="6" fill="#176c93" stroke="white"><title>Design 9: 16.9615 pJ; 9.6 ns</title></circle></a><a href="#p9"><circle cx="558.0" cy="93.4060066740823" r="6" fill="#176c93" stroke="white"><title>Design 10: 20.8 pJ; 9.6 ns</title></circle></a><text x="335" y="293" text-anchor="middle">Energy per inference (pJ) →</text><text x="19" y="140" transform="rotate(-90 19 140)" text-anchor="middle">Latency (ns) →</text></svg><p class="muted">Two-dimensional projection. Designs may also trade area or numerical error; points need not form a monotone curve.</p><div class="scroll"><table><thead><tr><th>Design</th><th>Energy / inference (pJ)</th><th>Latency (ns)</th><th>Macro area (µm²)</th><th>Output RMS error bound</th><th>Replay check</th></tr></thead><tbody><tr><td><a href="#p0">1</a></td><td>4.91404</td><td>4.15</td><td>56.8</td><td>0.0205595</td><td>Passed</td></tr><tr><td><a href="#p1">2</a></td><td>5.03455</td><td>4.15</td><td>57</td><td>0.0176532</td><td>Passed</td></tr><tr><td><a href="#p2">3</a></td><td>6.07556</td><td>4.45</td><td>67</td><td>0.0152743</td><td>Passed</td></tr><tr><td><a href="#p3">4</a></td><td>6.97556</td><td>4.4</td><td>61</td><td>0.0160792</td><td>Passed</td></tr><tr><td><a href="#p4">5</a></td><td>8.01657</td><td>4.7</td><td>71</td><td>0.0134242</td><td>Passed</td></tr><tr><td><a href="#p5">6</a></td><td>9.38455</td><td>6.7</td><td>75.5</td><td>0.0109522</td><td>Passed</td></tr><tr><td><a href="#p6">7</a></td><td>13.123</td><td>8.9</td><td>76.5</td><td>0.00904738</td><td>Passed</td></tr><tr><td><a href="#p7">8</a></td><td>16.723</td><td>11.9</td><td>87.5</td><td>0.00898917</td><td>Passed</td></tr><tr><td><a href="#p8">9</a></td><td>16.9615</td><td>9.6</td><td>75.5</td><td>0.00639762</td><td>Passed</td></tr><tr><td><a href="#p9">10</a></td><td>20.8</td><td>9.6</td><td>74.5</td><td>0.000331662</td><td>Passed</td></tr></tbody></table></div></section><section class="panel"><h2>Neural computation</h2><svg viewBox="0 0 620 324" role="img" aria-label="Input neural computation graph"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#a7b5c9"/></marker></defs><path d="M310.0 72 L206.66666666666666 128" stroke="#a7b5c9" marker-end="url(#arrow)"/><path d="M310.0 72 L413.3333333333333 128" stroke="#a7b5c9" marker-end="url(#arrow)"/><path d="M206.66666666666666 180 L310.0 236" stroke="#a7b5c9" marker-end="url(#arrow)"/><path d="M413.3333333333333 180 L310.0 236" stroke="#a7b5c9" marker-end="url(#arrow)"/><rect x="232.0" y="20" width="156" height="52" rx="9" fill="#eef3fa" stroke="#c4d2e4"/><text x="310.0" y="43" text-anchor="middle" font-weight="650">x</text><text x="310.0" y="61" text-anchor="middle">input · 2 values</text><rect x="128.66666666666666" y="128" width="156" height="52" rx="9" fill="#eef3fa" stroke="#c4d2e4"/><text x="206.66666666666666" y="151" text-anchor="middle" font-weight="650">left</text><text x="206.66666666666666" y="169" text-anchor="middle">linear · 2 values</text><rect x="335.3333333333333" y="128" width="156" height="52" rx="9" fill="#eef3fa" stroke="#c4d2e4"/><text x="413.3333333333333" y="151" text-anchor="middle" font-weight="650">right</text><text x="413.3333333333333" y="169" text-anchor="middle">linear · 2 values</text><rect x="232.0" y="236" width="156" height="52" rx="9" fill="#e6f4ee" stroke="#c4d2e4"/><text x="310.0" y="259" text-anchor="middle" font-weight="650">sum</text><text x="310.0" y="277" text-anchor="middle">add · 2 values</text></svg></section><section class="panel" id="p0"><h2>Design 1</h2><p class="muted">plan-4d5d6b1a32510d6d675e9a6cd12ac55d051e89d54c1d78f43cb72fae0e7307ca</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;optical_encoder&quot;,
+    &quot;left&quot;: &quot;optical_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;optical_fixed&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;passive_sensitivity&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;optical_encoder&quot;,
+    &quot;rule_id&quot;: &quot;passive_sensitivity&quot;,
+    &quot;kind&quot;: &quot;passive_split&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 1.0,
+    &quot;split_fractions&quot;: [
+      0.5555555555555556,
+      0.4444444444444445
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_encoder&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 5.0,
+      &quot;energy_pj&quot;: 0.17050524755766636,
+      &quot;photon_energy_pj&quot;: 0.02050524755766636,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;passive_sensitivity&quot;,
+      &quot;rule_kind&quot;: &quot;passive_split&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 1.0,
+      &quot;split_policy&quot;: &quot;sensitivity&quot;,
+      &quot;area_um2&quot;: 0.8,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5555555555555556,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 9444.444444444445,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.4444444444444445,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 7555.555555555555,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_fixed&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: false,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 8.0,
+      &quot;energy_pj&quot;: 0.22050524755766637,
+      &quot;photon_energy_pj&quot;: 0.02050524755766636,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 17000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:sum:0:shot&quot;,
+        &quot;edge:sum:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;conversion:sum:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.3
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;passive_split&quot;,
+      &quot;start_ns&quot;: 0.3,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.65
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.65,
+      &quot;end_ns&quot;: 1.65
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 1.65,
+      &quot;end_ns&quot;: 4.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 4.15,
+      &quot;end_ns&quot;: 4.15
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      0.00019991182839215686,
+      4.383566211764706e-05
+    ],
+    [
+      4.383566211764706e-05,
+      0.000222782608627451
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.02050029374523544,
+  &quot;error_rms_bound&quot;: 0.020559533968930517,
+  &quot;mse_empirical&quot;: 0.0004202620436409392,
+  &quot;mse_standard_error&quot;: 5.9960249935534236e-06,
+  &quot;rms_standard_error&quot;: 0.00014624241652505554,
+  &quot;affine_expected_mse&quot;: 0.00042269443701960783,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.00044636053423703084,
+      0.0005941706502125784
+    ],
+    &quot;error_mean&quot;: [
+      0.00025275668812025243,
+      7.46817759893899e-05
+    ],
+    &quot;error_std&quot;: [
+      0.014090509058293165,
+      0.01489074175906539
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: -0.40566765169988495
+}</pre></details></section><section class="panel" id="p1"><h2>Design 2</h2><p class="muted">plan-4cb3aca327a84c1500b2a2f64c213d90c236dd902f83030ab545009627a21763</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;optical_encoder&quot;,
+    &quot;left&quot;: &quot;optical_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;optical_fixed&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;source_boost_2&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;optical_encoder&quot;,
+    &quot;rule_id&quot;: &quot;source_boost_2&quot;,
+    &quot;kind&quot;: &quot;source_boost&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 2.0,
+    &quot;split_fractions&quot;: [
+      0.5,
+      0.5
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_encoder&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 5.0,
+      &quot;energy_pj&quot;: 0.19101049511533272,
+      &quot;photon_energy_pj&quot;: 0.04101049511533272,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;source_boost_2&quot;,
+      &quot;rule_kind&quot;: &quot;source_boost&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 2.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 1.0,
+      &quot;energy_pj&quot;: 0.1
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 2.0,
+      &quot;effective_detected_photons&quot;: 17000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 2.0,
+      &quot;effective_detected_photons&quot;: 17000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_fixed&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: false,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 8.0,
+      &quot;energy_pj&quot;: 0.22050524755766637,
+      &quot;photon_energy_pj&quot;: 0.02050524755766636,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 17000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:sum:0:shot&quot;,
+        &quot;edge:sum:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;conversion:sum:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.3
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;source_boost&quot;,
+      &quot;start_ns&quot;: 0.3,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.65
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.65,
+      &quot;end_ns&quot;: 1.65
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 1.65,
+      &quot;end_ns&quot;: 4.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 4.15,
+      &quot;end_ns&quot;: 4.15
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      0.00015002947545098038,
+      2.2188603294117647e-05
+    ],
+    [
+      2.2188603294117647e-05,
+      0.00016160613803921568
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.017573907101785552,
+  &quot;error_rms_bound&quot;: 0.017653204057343132,
+  &quot;mse_empirical&quot;: 0.0003088422108221887,
+  &quot;mse_standard_error&quot;: 4.357575486125714e-06,
+  &quot;rms_standard_error&quot;: 0.00012397856267497208,
+  &quot;affine_expected_mse&quot;: 0.00031163561349019603,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.0003720970249877573,
+      0.0005727975782765178
+    ],
+    &quot;error_mean&quot;: [
+      0.0001784931788709794,
+      5.330870405332898e-05
+    ],
+    &quot;error_std&quot;: [
+      0.012193554360194541,
+      0.012656481150420397
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: -0.6410451584605688
+}</pre></details></section><section class="panel" id="p2"><h2>Design 3</h2><p class="muted">plan-39c896fcbe5f73b6af906a318585a9f31ff3304b58f83ee7e49fe68e3e7af502</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;optical_encoder&quot;,
+    &quot;left&quot;: &quot;optical_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;optical_programmable&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;source_boost_2&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;optical_encoder&quot;,
+    &quot;rule_id&quot;: &quot;source_boost_2&quot;,
+    &quot;kind&quot;: &quot;source_boost&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 2.0,
+    &quot;split_fractions&quot;: [
+      0.5,
+      0.5
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_encoder&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 5.0,
+      &quot;energy_pj&quot;: 0.19101049511533272,
+      &quot;photon_energy_pj&quot;: 0.04101049511533272,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;source_boost_2&quot;,
+      &quot;rule_kind&quot;: &quot;source_boost&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 2.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 1.0,
+      &quot;energy_pj&quot;: 0.1
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 2.0,
+      &quot;effective_detected_photons&quot;: 17000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 2.0,
+      &quot;effective_detected_photons&quot;: 17000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:sum:0:shot&quot;,
+        &quot;edge:sum:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;conversion:sum:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.3
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;source_boost&quot;,
+      &quot;start_ns&quot;: 0.3,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 0.35
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.35,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.15
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 1.15,
+      &quot;end_ns&quot;: 1.95
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.95,
+      &quot;end_ns&quot;: 1.95
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 1.95,
+      &quot;end_ns&quot;: 4.45
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 4.45,
+      &quot;end_ns&quot;: 4.45
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      0.00011086378917647059,
+      2.2188603294117647e-05
+    ],
+    [
+      2.2188603294117647e-05,
+      0.00012244045176470589
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.015218882302485434,
+  &quot;error_rms_bound&quot;: 0.015274300014769138,
+  &quot;mse_empirical&quot;: 0.00023161437853690435,
+  &quot;mse_standard_error&quot;: 3.317587971146193e-06,
+  &quot;rms_standard_error&quot;: 0.00010899578251565786,
+  &quot;affine_expected_mse&quot;: 0.0002333042409411765,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.00037663808987135574,
+      0.0005505028915488349
+    ],
+    &quot;error_mean&quot;: [
+      0.000183034243754578,
+      3.101401732564678e-05
+    ],
+    &quot;error_std&quot;: [
+      0.010472089097482486,
+      0.011043622155602374
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: -0.5093647610762005
+}</pre></details></section><section class="panel" id="p3"><h2>Design 4</h2><p class="muted">plan-a33fce7bbcfd1f61c5cc50ba248d6bb1be05965dd58ee9b87b58a47365de62a9</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;optical_encoder&quot;,
+    &quot;left&quot;: &quot;optical_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;optical_fixed&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;amplify_4&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;optical_encoder&quot;,
+    &quot;rule_id&quot;: &quot;amplify_4&quot;,
+    &quot;kind&quot;: &quot;amplify&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 4.0,
+    &quot;split_fractions&quot;: [
+      0.5,
+      0.5
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_encoder&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 5.0,
+      &quot;energy_pj&quot;: 0.2320209902306654,
+      &quot;photon_energy_pj&quot;: 0.08202099023066543,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 4.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;amplify_4&quot;,
+      &quot;rule_kind&quot;: &quot;amplify&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 4.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 5.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 4.0,
+      &quot;effective_detected_photons&quot;: 34000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 4.0,
+      &quot;effective_detected_photons&quot;: 34000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_fixed&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: false,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 8.0,
+      &quot;energy_pj&quot;: 0.22050524755766637,
+      &quot;photon_energy_pj&quot;: 0.02050524755766636,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 17000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:sum:0:shot&quot;,
+        &quot;edge:sum:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;conversion:sum:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.3
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;amplify&quot;,
+      &quot;start_ns&quot;: 0.3,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.4,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.4,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 1.4,
+      &quot;end_ns&quot;: 1.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.9,
+      &quot;end_ns&quot;: 1.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 1.9,
+      &quot;end_ns&quot;: 4.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 4.4,
+      &quot;end_ns&quot;: 4.4
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      0.00012618196956862746,
+      1.1839685647058826e-05
+    ],
+    [
+      1.1839685647058826e-05,
+      0.00013235919686274512
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.01608883328744693,
+  &quot;error_rms_bound&quot;: 0.016079215354965943,
+  &quot;mse_empirical&quot;: 0.00025885055655126046,
+  &quot;mse_standard_error&quot;: 3.669536818309187e-06,
+  &quot;rms_standard_error&quot;: 0.00011403986705401093,
+  &quot;affine_expected_mse&quot;: 0.0002585411664313726,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.0002471641228846843,
+      0.0004164537765769463
+    ],
+    &quot;error_mean&quot;: [
+      5.356027676790581e-05,
+      -0.00010303509764624312
+    ],
+    &quot;error_std&quot;: [
+      0.011119751767887355,
+      0.011629272118542486
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: 0.08431312593572386
+}</pre></details></section><section class="panel" id="p4"><h2>Design 5</h2><p class="muted">plan-78f37ecd2f515869d84da49ba37176119220050c485b8aea8fd50f306f32d266</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;optical_encoder&quot;,
+    &quot;left&quot;: &quot;optical_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;optical_programmable&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;amplify_4&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;optical_encoder&quot;,
+    &quot;rule_id&quot;: &quot;amplify_4&quot;,
+    &quot;kind&quot;: &quot;amplify&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 4.0,
+    &quot;split_fractions&quot;: [
+      0.5,
+      0.5
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_encoder&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 5.0,
+      &quot;energy_pj&quot;: 0.2320209902306654,
+      &quot;photon_energy_pj&quot;: 0.08202099023066543,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 4.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;amplify_4&quot;,
+      &quot;rule_kind&quot;: &quot;amplify&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 4.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 5.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 4.0,
+      &quot;effective_detected_photons&quot;: 34000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 0.5,
+      &quot;effective_gain&quot;: 4.0,
+      &quot;effective_detected_photons&quot;: 34000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:sum:0:shot&quot;,
+        &quot;edge:sum:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;conversion:sum:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.3
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;amplify&quot;,
+      &quot;start_ns&quot;: 0.3,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.4,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 1.4,
+      &quot;end_ns&quot;: 1.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 1.4,
+      &quot;end_ns&quot;: 2.2
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 2.2,
+      &quot;end_ns&quot;: 2.2
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 2.2,
+      &quot;end_ns&quot;: 4.7
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 4.7,
+      &quot;end_ns&quot;: 4.7
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      8.701628329411764e-05,
+      1.1839685647058826e-05
+    ],
+    [
+      1.1839685647058826e-05,
+      9.319351058823531e-05
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.013436610763324407,
+  &quot;error_rms_bound&quot;: 0.013424224144521461,
+  &quot;mse_empirical&quot;: 0.0001805425088050853,
+  &quot;mse_standard_error&quot;: 2.5971796694192747e-06,
+  &quot;rms_standard_error&quot;: 9.664563911117924e-05,
+  &quot;affine_expected_mse&quot;: 0.00018020979388235295,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.0002042329977298217,
+      0.00043237795471246204
+    ],
+    &quot;error_mean&quot;: [
+      1.062915161304162e-05,
+      -8.711091951072895e-05
+    ],
+    &quot;error_std&quot;: [
+      0.009239267402208717,
+      0.009757400246415346
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: 0.12810624026129094
+}</pre></details></section><section class="panel" id="p5"><h2>Design 6</h2><p class="muted">plan-de6041856cca5746063a6aceb6685165989d27ab9931bfc136600b91b1f10547</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;digital_input&quot;,
+    &quot;left&quot;: &quot;optical_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;optical_programmable&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;digital_buffer&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;digital_input&quot;,
+    &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+    &quot;kind&quot;: &quot;digital_copy&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 1.0,
+    &quot;split_fractions&quot;: [
+      1.0,
+      1.0
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_input&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 2.0,
+      &quot;energy_pj&quot;: 0.5,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+      &quot;rule_kind&quot;: &quot;digital_copy&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 1.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 0.5,
+      &quot;energy_pj&quot;: 0.1
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:x:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;dac_encoder&quot;,
+      &quot;from_domain&quot;: &quot;digital&quot;,
+      &quot;to_domain&quot;: &quot;optical&quot;,
+      &quot;area_um2&quot;: 6.0,
+      &quot;energy_pj&quot;: 1.5
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:x:1&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;dac_encoder&quot;,
+      &quot;from_domain&quot;: &quot;digital&quot;,
+      &quot;to_domain&quot;: &quot;optical&quot;,
+      &quot;area_um2&quot;: 6.0,
+      &quot;energy_pj&quot;: 1.5
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:sum:0:shot&quot;,
+        &quot;edge:sum:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;conversion:x:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;conversion:x:1&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;conversion:sum:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.5
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;digital_copy&quot;,
+      &quot;start_ns&quot;: 0.5,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:x:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 2.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:x:1&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 2.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 2.6,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 2.6,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 4.2
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 4.2,
+      &quot;end_ns&quot;: 4.2
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 4.2,
+      &quot;end_ns&quot;: 6.7
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 6.7,
+      &quot;end_ns&quot;: 6.7
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      5.9950829411764706e-05,
+      9.430000000000002e-08
+    ],
+    [
+      9.430000000000002e-08,
+      6.00000294117647e-05
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.011061859713465138,
+  &quot;error_rms_bound&quot;: 0.010952207942854692,
+  &quot;mse_empirical&quot;: 0.000122364740320383,
+  &quot;mse_standard_error&quot;: 1.6803998635028041e-06,
+  &quot;rms_standard_error&quot;: 7.595467249766889e-05,
+  &quot;affine_expected_mse&quot;: 0.00011995085882352941,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.0003481163410216908,
+      0.0004976636660287083
+    ],
+    &quot;error_mean&quot;: [
+      0.00015451249490491413,
+      -2.1825208194477766e-05
+    ],
+    &quot;error_std&quot;: [
+      0.007825420819968633,
+      0.007818417476226141
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: 1.436492319049495
+}</pre></details></section><section class="panel" id="p6"><h2>Design 7</h2><p class="muted">plan-ed1804678dec3ebbc3210cc6527e34f4f5ad91837daf653d41acec40577fb823</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;digital_input&quot;,
+    &quot;left&quot;: &quot;optical_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;digital_fixed&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;digital_buffer&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;digital_input&quot;,
+    &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+    &quot;kind&quot;: &quot;digital_copy&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 1.0,
+    &quot;split_fractions&quot;: [
+      1.0,
+      1.0
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_input&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 2.0,
+      &quot;energy_pj&quot;: 0.5,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+      &quot;rule_kind&quot;: &quot;digital_copy&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 1.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 0.5,
+      &quot;energy_pj&quot;: 0.1
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:x:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;dac_encoder&quot;,
+      &quot;from_domain&quot;: &quot;digital&quot;,
+      &quot;to_domain&quot;: &quot;optical&quot;,
+      &quot;area_um2&quot;: 6.0,
+      &quot;energy_pj&quot;: 1.5
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:x:1&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;dac_encoder&quot;,
+      &quot;from_domain&quot;: &quot;digital&quot;,
+      &quot;to_domain&quot;: &quot;optical&quot;,
+      &quot;area_um2&quot;: 6.0,
+      &quot;energy_pj&quot;: 1.5
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:shot&quot;,
+        &quot;edge:left:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:left:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;,
+        &quot;edge:right:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:right:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_fixed&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: false,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 12.0,
+      &quot;energy_pj&quot;: 3.0,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;conversion:x:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;conversion:x:1&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;conversion:left:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;conversion:right:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.5
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;digital_copy&quot;,
+      &quot;start_ns&quot;: 0.5,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:x:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 2.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:x:1&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 2.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 2.6,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 2.6,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:left:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 5.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:right:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 5.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 5.9,
+      &quot;end_ns&quot;: 8.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 8.9,
+      &quot;end_ns&quot;: 8.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 8.9,
+      &quot;end_ns&quot;: 8.9
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      4.0902986274509805e-05,
+      9.430000000000002e-08
+    ],
+    [
+      9.430000000000002e-08,
+      4.09521862745098e-05
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.009036757877340413,
+  &quot;error_rms_bound&quot;: 0.009047384845855712,
+  &quot;mse_empirical&quot;: 8.166299293367401e-05,
+  &quot;mse_standard_error&quot;: 1.1367172162092955e-06,
+  &quot;rms_standard_error&quot;: 6.289408389814246e-05,
+  &quot;affine_expected_mse&quot;: 8.18551725490196e-05,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.00021940594267902847,
+      0.0005296801190391452
+    ],
+    &quot;error_mean&quot;: [
+      2.5802096562250578e-05,
+      1.0191244815955532e-05
+    ],
+    &quot;error_std&quot;: [
+      0.00639780785844931,
+      0.006383307421876811
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: -0.16906545674258794
+}</pre></details></section><section class="panel" id="p7"><h2>Design 8</h2><p class="muted">plan-67165a6aa1ac3a9a5ff77c8f088459178e83ded4c4d2f3338722aaf5bf9c5b09</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;digital_input&quot;,
+    &quot;left&quot;: &quot;digital_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;optical_programmable&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;digital_buffer&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;digital_input&quot;,
+    &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+    &quot;kind&quot;: &quot;digital_copy&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 1.0,
+    &quot;split_fractions&quot;: [
+      1.0,
+      1.0
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_input&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 2.0,
+      &quot;energy_pj&quot;: 0.5,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+      &quot;rule_kind&quot;: &quot;digital_copy&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 1.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 0.5,
+      &quot;energy_pj&quot;: 0.1
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:x:1&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;dac_encoder&quot;,
+      &quot;from_domain&quot;: &quot;digital&quot;,
+      &quot;to_domain&quot;: &quot;optical&quot;,
+      &quot;area_um2&quot;: 6.0,
+      &quot;energy_pj&quot;: 1.5
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 30.0,
+      &quot;energy_pj&quot;: 8.6,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:left:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:left:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;dac_encoder&quot;,
+      &quot;from_domain&quot;: &quot;digital&quot;,
+      &quot;to_domain&quot;: &quot;optical&quot;,
+      &quot;area_um2&quot;: 6.0,
+      &quot;energy_pj&quot;: 1.5
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:sum:0:shot&quot;,
+        &quot;edge:sum:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;conversion:x:1&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;conversion:left:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;conversion:sum:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.5
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;digital_copy&quot;,
+      &quot;start_ns&quot;: 0.5,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:x:1&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 2.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 2.6,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 6.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:left:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 6.6,
+      &quot;end_ns&quot;: 8.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 8.6,
+      &quot;end_ns&quot;: 9.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 9.4,
+      &quot;end_ns&quot;: 9.4
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:sum:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 9.4,
+      &quot;end_ns&quot;: 11.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 11.9,
+      &quot;end_ns&quot;: 11.9
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      4.039298627450981e-05,
+      3.6800000000000005e-08
+    ],
+    [
+      3.6800000000000005e-08,
+      4.0412186274509806e-05
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.008930798160337886,
+  &quot;error_rms_bound&quot;: 0.008989169736356058,
+  &quot;mse_empirical&quot;: 7.975915578069457e-05,
+  &quot;mse_standard_error&quot;: 1.1402758546355006e-06,
+  &quot;rms_standard_error&quot;: 6.383952666736563e-05,
+  &quot;affine_expected_mse&quot;: 8.080517254901964e-05,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.00021065448647195693,
+      0.0004713657116450497
+    ],
+    &quot;error_mean&quot;: [
+      1.7050640355179724e-05,
+      -4.812316257813838e-05
+    ],
+    &quot;error_std&quot;: [
+      0.006290786910679106,
+      0.006340228999236047
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: -0.9173365936608697
+}</pre></details></section><section class="panel" id="p8"><h2>Design 9</h2><p class="muted">plan-275155e8b65cf203d0e87036411ec0dde5feb7035e6990a642169aef645d057a</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;digital_input&quot;,
+    &quot;left&quot;: &quot;digital_programmable&quot;,
+    &quot;right&quot;: &quot;optical_programmable&quot;,
+    &quot;sum&quot;: &quot;digital_fixed&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;digital_buffer&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;digital_input&quot;,
+    &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+    &quot;kind&quot;: &quot;digital_copy&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 1.0,
+    &quot;split_fractions&quot;: [
+      1.0,
+      1.0
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_input&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 2.0,
+      &quot;energy_pj&quot;: 0.5,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+      &quot;rule_kind&quot;: &quot;digital_copy&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 1.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 0.5,
+      &quot;energy_pj&quot;: 0.1
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:x:1:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:x:1&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;dac_encoder&quot;,
+      &quot;from_domain&quot;: &quot;digital&quot;,
+      &quot;to_domain&quot;: &quot;optical&quot;,
+      &quot;area_um2&quot;: 6.0,
+      &quot;energy_pj&quot;: 1.5
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 30.0,
+      &quot;energy_pj&quot;: 8.6,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;optical_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 18.0,
+      &quot;energy_pj&quot;: 1.261515742672999,
+      &quot;photon_energy_pj&quot;: 0.06151574267299907,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;optical&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: 51000.0,
+      &quot;noise_source_ids&quot;: [
+        &quot;edge:right:0:shot&quot;,
+        &quot;edge:right:0:conversion&quot;
+      ],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;conversion:right:0&quot;,
+      &quot;kind&quot;: &quot;domain_conversion&quot;,
+      &quot;conversion_id&quot;: &quot;photodetector_adc&quot;,
+      &quot;from_domain&quot;: &quot;optical&quot;,
+      &quot;to_domain&quot;: &quot;digital&quot;,
+      &quot;area_um2&quot;: 7.0,
+      &quot;energy_pj&quot;: 2.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_fixed&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: false,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 12.0,
+      &quot;energy_pj&quot;: 3.0,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;conversion:x:1&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;conversion:right:0&quot;,
+      &quot;role&quot;: &quot;conversion_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;conversion:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.5
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;digital_copy&quot;,
+      &quot;start_ns&quot;: 0.5,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:x:1&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 2.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 2.6,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 3.4000000000000004
+    },
+    {
+      &quot;instance_id&quot;: &quot;conversion:right:0&quot;,
+      &quot;operation&quot;: &quot;convert&quot;,
+      &quot;start_ns&quot;: 3.4000000000000004,
+      &quot;end_ns&quot;: 5.9
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 6.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 6.6,
+      &quot;end_ns&quot;: 9.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 9.6,
+      &quot;end_ns&quot;: 9.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 9.6,
+      &quot;end_ns&quot;: 9.6
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      2.0455143137254904e-05,
+      3.6800000000000005e-08
+    ],
+    [
+      3.6800000000000005e-08,
+      2.0474343137254905e-05
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.006389553895805231,
+  &quot;error_rms_bound&quot;: 0.006397615671053538,
+  &quot;mse_empirical&quot;: 4.082639898739981e-05,
+  &quot;mse_standard_error&quot;: 5.698884983411576e-07,
+  &quot;rms_standard_error&quot;: 4.459532759519344e-05,
+  &quot;affine_expected_mse&quot;: 4.092948627450981e-05,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.00026059151072169986,
+      0.0004875320767829515
+    ],
+    &quot;error_mean&quot;: [
+      6.698766460492387e-05,
+      -3.195679744023571e-05
+    ],
+    &quot;error_std&quot;: [
+      0.004577948668456476,
+      0.004457739584532548
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: -0.180890274869672
+}</pre></details></section><section class="panel" id="p9"><h2>Design 10</h2><p class="muted">plan-df2eaf69611f816aa72ae06e2641e89c87f59bd8bdafa9ad79d44bb928529b2f</p><span class="badge">exact_affine_gaussian</span><details><summary>Selected implementations</summary><pre>{
+  &quot;components&quot;: {
+    &quot;x&quot;: &quot;digital_input&quot;,
+    &quot;left&quot;: &quot;digital_programmable&quot;,
+    &quot;right&quot;: &quot;digital_programmable&quot;,
+    &quot;sum&quot;: &quot;digital_fixed&quot;
+  },
+  &quot;fanout_rules&quot;: {
+    &quot;x&quot;: &quot;digital_buffer&quot;
+  }
+}</pre></details><details><summary>Applied rules and trace</summary><pre>[
+  {
+    &quot;node_id&quot;: &quot;x&quot;,
+    &quot;component_id&quot;: &quot;digital_input&quot;,
+    &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+    &quot;kind&quot;: &quot;digital_copy&quot;,
+    &quot;guards_passed&quot;: true,
+    &quot;gain&quot;: 1.0,
+    &quot;split_fractions&quot;: [
+      1.0,
+      1.0
+    ],
+    &quot;inherited_error_preserved&quot;: true,
+    &quot;semantics&quot;: &quot;shared normalized signal with independent branch detection&quot;
+  }
+]</pre></details><details><summary>Hardware macro graph and schedule</summary><pre>{
+  &quot;representation&quot;: &quot;abstract_physical_implementation_plan_v1&quot;,
+  &quot;device_netlist&quot;: false,
+  &quot;instances&quot;: [
+    {
+      &quot;id&quot;: &quot;node:x&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_input&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;op&quot;: &quot;input&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 2.0,
+      &quot;energy_pj&quot;: 0.5,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;rule:x&quot;,
+      &quot;kind&quot;: &quot;fanout_rule&quot;,
+      &quot;rule_id&quot;: &quot;digital_buffer&quot;,
+      &quot;rule_kind&quot;: &quot;digital_copy&quot;,
+      &quot;node_id&quot;: &quot;x&quot;,
+      &quot;gain&quot;: 1.0,
+      &quot;split_policy&quot;: &quot;equal&quot;,
+      &quot;area_um2&quot;: 0.5,
+      &quot;energy_pj&quot;: 0.1
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:x:1&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:left&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_programmable&quot;,
+      &quot;node_id&quot;: &quot;left&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 30.0,
+      &quot;energy_pj&quot;: 8.6,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:left:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:right&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_programmable&quot;,
+      &quot;node_id&quot;: &quot;right&quot;,
+      &quot;op&quot;: &quot;linear&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: true,
+      &quot;macs&quot;: 4,
+      &quot;area_um2&quot;: 30.0,
+      &quot;energy_pj&quot;: 8.6,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:right:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;node:sum&quot;,
+      &quot;kind&quot;: &quot;neural_macro&quot;,
+      &quot;component_id&quot;: &quot;digital_fixed&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;op&quot;: &quot;add&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;size&quot;: 2,
+      &quot;editable&quot;: false,
+      &quot;macs&quot;: 0,
+      &quot;area_um2&quot;: 12.0,
+      &quot;energy_pj&quot;: 3.0,
+      &quot;photon_energy_pj&quot;: 0.0,
+      &quot;encoding_count&quot;: 1,
+      &quot;launch_energy_multiplier&quot;: 1.0
+    },
+    {
+      &quot;id&quot;: &quot;channel:sum:0&quot;,
+      &quot;kind&quot;: &quot;normalized_channel&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;split_fraction&quot;: 1.0,
+      &quot;effective_gain&quot;: 1.0,
+      &quot;effective_detected_photons&quot;: null,
+      &quot;noise_source_ids&quot;: [],
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    },
+    {
+      &quot;id&quot;: &quot;output:0&quot;,
+      &quot;kind&quot;: &quot;output_sink&quot;,
+      &quot;domain&quot;: &quot;digital&quot;,
+      &quot;node_id&quot;: &quot;sum&quot;,
+      &quot;size&quot;: 2,
+      &quot;area_um2&quot;: 0.0,
+      &quot;energy_pj&quot;: 0.0
+    }
+  ],
+  &quot;connections&quot;: [
+    {
+      &quot;source&quot;: &quot;node:x&quot;,
+      &quot;target&quot;: &quot;rule:x&quot;,
+      &quot;role&quot;: &quot;fanout_input&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:0&quot;,
+      &quot;target&quot;: &quot;node:left&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;rule:x&quot;,
+      &quot;target&quot;: &quot;channel:x:1&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 1
+    },
+    {
+      &quot;source&quot;: &quot;channel:x:1&quot;,
+      &quot;target&quot;: &quot;node:right&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:left&quot;,
+      &quot;target&quot;: &quot;channel:left:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:left:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:right&quot;,
+      &quot;target&quot;: &quot;channel:right:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:right:0&quot;,
+      &quot;target&quot;: &quot;node:sum&quot;,
+      &quot;input_index&quot;: 1,
+      &quot;role&quot;: &quot;operand&quot;
+    },
+    {
+      &quot;source&quot;: &quot;node:sum&quot;,
+      &quot;target&quot;: &quot;channel:sum:0&quot;,
+      &quot;role&quot;: &quot;branch&quot;,
+      &quot;branch_index&quot;: 0
+    },
+    {
+      &quot;source&quot;: &quot;channel:sum:0&quot;,
+      &quot;target&quot;: &quot;output:0&quot;,
+      &quot;input_index&quot;: 0,
+      &quot;role&quot;: &quot;output&quot;
+    }
+  ],
+  &quot;schedule&quot;: [
+    {
+      &quot;instance_id&quot;: &quot;node:x&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.0,
+      &quot;end_ns&quot;: 0.5
+    },
+    {
+      &quot;instance_id&quot;: &quot;rule:x&quot;,
+      &quot;operation&quot;: &quot;digital_copy&quot;,
+      &quot;start_ns&quot;: 0.5,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:x:1&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 0.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:left&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:right&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 0.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:left:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 6.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:right:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 6.6,
+      &quot;end_ns&quot;: 6.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;node:sum&quot;,
+      &quot;operation&quot;: &quot;compute&quot;,
+      &quot;start_ns&quot;: 6.6,
+      &quot;end_ns&quot;: 9.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;channel:sum:0&quot;,
+      &quot;operation&quot;: &quot;deliver&quot;,
+      &quot;start_ns&quot;: 9.6,
+      &quot;end_ns&quot;: 9.6
+    },
+    {
+      &quot;instance_id&quot;: &quot;output:0&quot;,
+      &quot;operation&quot;: &quot;output&quot;,
+      &quot;start_ns&quot;: 9.6,
+      &quot;end_ns&quot;: 9.6
+    }
+  ]
+}</pre></details><details><summary>Noise analysis and assumptions</summary><pre>{
+  &quot;kind&quot;: &quot;exact_affine_gaussian&quot;,
+  &quot;nominal_bounds&quot;: {
+    &quot;x&quot;: {
+      &quot;lower&quot;: [
+        -1.0,
+        -1.0
+      ],
+      &quot;upper&quot;: [
+        1.0,
+        1.0
+      ]
+    },
+    &quot;left&quot;: {
+      &quot;lower&quot;: [
+        -0.8999999999999999,
+        -0.9
+      ],
+      &quot;upper&quot;: [
+        0.8999999999999999,
+        0.9
+      ]
+    },
+    &quot;right&quot;: {
+      &quot;lower&quot;: [
+        -0.7200000000000001,
+        -0.72
+      ],
+      &quot;upper&quot;: [
+        0.7200000000000001,
+        0.72
+      ]
+    },
+    &quot;sum&quot;: {
+      &quot;lower&quot;: [
+        -1.62,
+        -1.62
+      ],
+      &quot;upper&quot;: [
+        1.62,
+        1.62
+      ]
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;All component and rule parameters are declared model inputs; no measured-device accuracy is implied.&quot;,
+    &quot;Neural operators act on signed real normalized values. A concrete optical encoding of signs, weights and nonlinearities, digital fixed-point rounding, and physical macro internals are outside this backend.&quot;,
+    &quot;Optical links are normalized additive Gaussian computational channels, including optical-to-optical links; coherent-wave propagation and a device-level circuit backend are not implemented.&quot;,
+    &quot;For a delivered optical branch, shot-surrogate variance is 1/(photons*split_fraction*optical_efficiency*effective_gain), independent of the numerical signal value.&quot;,
+    &quot;All primitive noise sources are independent zero-mean isotropic Gaussian vectors. A source reused by branches remains shared, including inherited component noise and pre-split amplifier noise.&quot;,
+    &quot;Noise_std values are in normalized numerical units. Optical gain changes photon budget, not the ideal numerical value. Existing numerical error is never erased by amplification or regeneration.&quot;,
+    &quot;Nominal amplitude guards use conservative interval enclosures; sqrt(gain) times the maximum absolute nominal value must fit the originating optical macro&#x27;s declared headroom. This field-amplitude surrogate is not a detailed encoding model.&quot;,
+    &quot;Nominal range guards do not bound Gaussian tails or guarantee absence of saturation on every stochastic sample. No clipping is applied in the additive model.&quot;,
+    &quot;Error is sqrt(E[||stacked digital outputs - ideal outputs||_2^2]); it is an RMS quantity, not a deterministic error certificate.&quot;,
+    &quot;Scheduling uses dedicated neural macros, unlimited compatible interconnect, ASAP dependencies, no contention except declared serial re-encoding; each graph evaluation is one inference, with no batching or throughput guarantee.&quot;,
+    &quot;Declared rule costs describe one complete fanout recipe. This version has no arity-dependent splitter-tree area model or maximum-port guard; use costs characterized for the intended fanout size. Serial dynamic costs repeat per encoding.&quot;,
+    &quot;Optical energy uses photons*dimension*hc/wavelength/wall_plug_efficiency. Amplifier and regeneration optical replenishment use the originating macro&#x27;s wall-plug efficiency as an explicit surrogate, plus the rule&#x27;s declared electrical overhead.&quot;,
+    &quot;Sensitivity splitting is a deterministic downstream Lipschitz heuristic, not a proof of globally optimal continuous power allocation.&quot;
+  ],
+  &quot;output_covariance&quot;: [
+    [
+      5.499999999999999e-08,
+      0.0
+    ],
+    [
+      0.0,
+      5.499999999999999e-08
+    ]
+  ],
+  &quot;error_bound_method&quot;: &quot;Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands.&quot;
+}</pre></details><details><summary>Replay checker</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;diagnostics&quot;: [],
+  &quot;scope&quot;: &quot;Replay under the declared model; neither model calibration nor fabrication signoff is certified.&quot;
+}</pre></details><details><summary>Monte Carlo validation</summary><pre>{
+  &quot;feasible&quot;: true,
+  &quot;samples&quot;: 5000,
+  &quot;seed&quot;: 7,
+  &quot;error_rms_empirical&quot;: 0.00033020300733122845,
+  &quot;error_rms_bound&quot;: 0.00033166247903553995,
+  &quot;mse_empirical&quot;: 1.0903402605058729e-07,
+  &quot;mse_standard_error&quot;: 1.5974950314598893e-09,
+  &quot;rms_standard_error&quot;: 2.418958937368843e-06,
+  &quot;affine_expected_mse&quot;: 1.0999999999999998e-07,
+  &quot;consistent_with_bound&quot;: true,
+  &quot;sampling_diagnostic&quot;: &quot;Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.&quot;,
+  &quot;numerical_limitations&quot;: &quot;Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.&quot;,
+  &quot;input_sampling&quot;: &quot;independent uniform samples from the declared input box&quot;,
+  &quot;execution&quot;: &quot;independent forward sampling of primitive noise sources; no output-covariance sampler&quot;,
+  &quot;outputs&quot;: {
+    &quot;dimension&quot;: 2,
+    &quot;ideal_mean&quot;: [
+      0.00019360384611677718,
+      0.0005194888742231884
+    ],
+    &quot;physical_mean&quot;: [
+      0.00018801022405445631,
+      0.000521382575260395
+    ],
+    &quot;error_mean&quot;: [
+      -5.5936220623200835e-06,
+      1.8937010372058413e-06
+    ],
+    &quot;error_std&quot;: [
+      0.00023132384711054395,
+      0.0002356060977315239
+    ]
+  },
+  &quot;diagnostics&quot;: [],
+  &quot;mse_difference_standard_errors&quot;: -0.6046804092591885
+}</pre></details></section><section class="panel"><h2>Search and rejection diagnostics</h2><pre>{
+  &quot;search&quot;: {
+    &quot;mode&quot;: &quot;exhaustive&quot;,
+    &quot;total_candidates&quot;: 128,
+    &quot;candidate_counts&quot;: {
+      &quot;x&quot;: 8,
+      &quot;left&quot;: 2,
+      &quot;right&quot;: 2,
+      &quot;sum&quot;: 4
+    },
+    &quot;evaluated&quot;: 128,
+    &quot;feasible&quot;: 128,
+    &quot;rejected&quot;: 0,
+    &quot;complete&quot;: true,
+    &quot;max_evaluations&quot;: 200000,
+    &quot;beam_width&quot;: 128,
+    &quot;partial_states_expanded&quot;: 0,
+    &quot;partial_states_pruned&quot;: 0,
+    &quot;seed&quot;: 7,
+    &quot;deterministic&quot;: true,
+    &quot;algorithm&quot;: &quot;lazy_cartesian_enumeration&quot;,
+    &quot;space_definition&quot;: &quot;Structurally compatible component/rule combinations before numeric physical and budget guards.&quot;,
+    &quot;pareto_relative_tolerance&quot;: 1e-09,
+    &quot;pareto_absolute_tolerance&quot;: 0.0,
+    &quot;elapsed_seconds&quot;: 0.06195249699885608,
+    &quot;pareto_retained&quot;: 10
+  },
+  &quot;rejection_summary&quot;: [],
+  &quot;input_hashes&quot;: {
+    &quot;network&quot;: &quot;8b39e9b3ff2ad5e767cb7484062b9e93bbecfb0ff7bef99d98b6eab981556a9d&quot;,
+    &quot;library&quot;: &quot;fe7e3c0fba85e409f6dfb9bfb6dbaeee3d414ad0c60162fb3a0b406d5ed60f01&quot;,
+    &quot;request&quot;: &quot;da6e82ff0f843bad32e4eb8da19f6ed00e487661b8bb8e2e5e3c7b880e2641ba&quot;
+  }
+}</pre></section><p class="muted">Generated locally. This report has no network dependencies or embedded tracking. The JSON files and source code are the authoritative reproducible artifacts.</p></main></body></html>

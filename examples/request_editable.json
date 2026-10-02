@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1",
+  "name": "Editable branch weights",
+  "objectives": [
+    "energy_pj",
+    "latency_ns",
+    "error_rms_bound"
+  ],
+  "budgets": {
+    "error_rms_bound": 0.1
+  },
+  "required_editable": [
+    "left",
+    "right"
+  ],
+  "allowed_domains": [
+    "digital",
+    "optical"
+  ],
+  "allow_serialization": true,
+  "search": {
+    "mode": "exhaustive",
+    "max_evaluations": 200000,
+    "beam_width": 128
+  },
+  "seed": 7
+}

@@ -1,0 +1,7 @@
+{
+  "plan-aca95f50366d17819688059d432f7b6280651e1429622166127cafe036d2a390": {
+    "valid": true,
+    "diagnostics": [],
+    "scope": "Replay under the declared model; neither model calibration nor fabrication signoff is certified."
+  }
+}

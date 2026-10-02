@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1",
+  "name": "Deliberately impossible zero-energy budget",
+  "objectives": [
+    "energy_pj",
+    "latency_ns",
+    "error_rms_bound"
+  ],
+  "budgets": {
+    "energy_pj": 0.0
+  },
+  "required_editable": [],
+  "allowed_domains": [
+    "digital",
+    "optical"
+  ],
+  "allow_serialization": false,
+  "search": {
+    "mode": "exhaustive",
+    "max_evaluations": 200000,
+    "beam_width": 128
+  },
+  "seed": 7
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.1",
+  "software_version": "0.1.0",
+  "input_hashes": {
+    "network": "8b39e9b3ff2ad5e767cb7484062b9e93bbecfb0ff7bef99d98b6eab981556a9d",
+    "library": "fe7e3c0fba85e409f6dfb9bfb6dbaeee3d414ad0c60162fb3a0b406d5ed60f01",
+    "request": "da6e82ff0f843bad32e4eb8da19f6ed00e487661b8bb8e2e5e3c7b880e2641ba"
+  },
+  "plans": [
+    "plans/plan-4d5d6b1a32510d6d675e9a6cd12ac55d051e89d54c1d78f43cb72fae0e7307ca.json",
+    "plans/plan-4cb3aca327a84c1500b2a2f64c213d90c236dd902f83030ab545009627a21763.json",
+    "plans/plan-39c896fcbe5f73b6af906a318585a9f31ff3304b58f83ee7e49fe68e3e7af502.json",
+    "plans/plan-a33fce7bbcfd1f61c5cc50ba248d6bb1be05965dd58ee9b87b58a47365de62a9.json",
+    "plans/plan-78f37ecd2f515869d84da49ba37176119220050c485b8aea8fd50f306f32d266.json",
+    "plans/plan-de6041856cca5746063a6aceb6685165989d27ab9931bfc136600b91b1f10547.json",
+    "plans/plan-ed1804678dec3ebbc3210cc6527e34f4f5ad91837daf653d41acec40577fb823.json",
+    "plans/plan-67165a6aa1ac3a9a5ff77c8f088459178e83ded4c4d2f3338722aaf5bf9c5b09.json",
+    "plans/plan-275155e8b65cf203d0e87036411ec0dde5feb7035e6990a642169aef645d057a.json",
+    "plans/plan-df2eaf69611f816aa72ae06e2641e89c87f59bd8bdafa9ad79d44bb928529b2f.json"
+  ],
+  "files": [
+    "report.json",
+    "checks.json",
+    "simulations.json",
+    "pareto.csv",
+    "report.html",
+    "inputs/network.json",
+    "inputs/library.json",
+    "inputs/request.json"
+  ],
+  "note": "This manifest identifies the current run. --overwrite may leave older, unreferenced files in the directory."
+}
