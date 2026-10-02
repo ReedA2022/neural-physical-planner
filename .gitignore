@@ -19,10 +19,11 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Preserve the validated v0.1 snapshots; ignore new working runs.
+# Preserve the bundled validation snapshots; ignore new working runs.
 /runs/*
 !/runs/demo/
 !/runs/experiments/
+!/runs/friendly-v0.2/
 
 # Initial implementation coordination; public specifications live in docs/.
 /IMPLEMENTATION_CONTRACT.md

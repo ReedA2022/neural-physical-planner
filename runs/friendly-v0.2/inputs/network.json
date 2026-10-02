@@ -1,0 +1,78 @@
+{
+  "schema_version": "0.1",
+  "name": "Small dense network",
+  "nodes": [
+    {
+      "id": "x",
+      "op": "input",
+      "inputs": [],
+      "size": 2,
+      "input_bounds": {
+        "lower": [
+          -1.0,
+          -1.0
+        ],
+        "upper": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": "hidden",
+      "op": "linear",
+      "inputs": [
+        "x"
+      ],
+      "size": 3,
+      "weights": [
+        [
+          0.5,
+          -0.2
+        ],
+        [
+          0.1,
+          0.4
+        ],
+        [
+          -0.3,
+          0.2
+        ]
+      ],
+      "bias": [
+        0.1,
+        0.0,
+        -0.05
+      ]
+    },
+    {
+      "id": "activation",
+      "op": "relu",
+      "inputs": [
+        "hidden"
+      ],
+      "size": 3
+    },
+    {
+      "id": "readout",
+      "op": "linear",
+      "inputs": [
+        "activation"
+      ],
+      "size": 1,
+      "weights": [
+        [
+          0.6,
+          -0.4,
+          0.2
+        ]
+      ],
+      "bias": [
+        0.01
+      ]
+    }
+  ],
+  "outputs": [
+    "readout"
+  ]
+}

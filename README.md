@@ -1,12 +1,86 @@
-# Neural Physical Planner — research prototype v0.1
+# Neural Physical Planner — research prototype v0.2
 
 A runnable compiler for exploring alternative **hardware macro-plans** for a neural computation graph. It takes explicit weights, a physical component and compensation-rule library, and a design request. It returns feasible implementations, a Pareto set, predicted costs and error, an expanded implementation graph, and a schedule.
 
 This release establishes a concrete input/output contract and an end-to-end implementation. The example hardware coefficients are **synthetic**. The backend is an explicitly defined additive Gaussian surrogate for digital/optical computation, **not a fabrication netlist generator or a calibrated photonic simulator**. No novelty or hardware-performance claim follows from these examples.
 
-## Run the working demo
+## Start with a friendly project
 
-Requires Python 3.10+ with NumPy and Pydantic 2. From this directory:
+Version 0.2 adds commented YAML specifications, external saved weights, physical units and a single project file. Existing v0.1 JSON inputs and saved-plan replay remain supported; the physical model is unchanged.
+
+```bash
+python -m pip install .
+npp init my-design
+npp inspect-weights my-design/weights.npz
+npp plan --project my-design/project.yaml --out-dir runs/my-design --samples 10000
+```
+
+The starter writes `project.yaml`, `model.yaml`, `hardware.yaml`, `design.yaml` and a small `weights.npz`. Relative paths are resolved beside the file that declares them, so the command works from another directory. YAML comments explain the settings. The starter hardware is explicitly synthetic.
+
+A model can refer to trained tensors by name:
+
+```yaml
+name: My trained network
+weights: trained.pth
+layout: out_in
+input:
+  size: 2
+  bounds: [-1, 1]
+layers:
+  - name: hidden
+    type: linear
+    weights: hidden.weight
+    bias: hidden.bias
+  - name: activation
+    type: relu
+  - name: readout
+    type: linear
+    weights: readout.weight
+    bias: readout.bias
+```
+
+The layer list defines the actual architecture. The compiler infers output dimensions and connections for this sequential form; it does not guess activations from weights. Residual/DAG networks can still use the explicit graph form. Input bounds describe the operating range of the data supplied at inference.
+
+Design requests can use readable names and units:
+
+```yaml
+minimize: [energy, latency, error]
+limits:
+  latency: 20 ns
+  energy: 2 nJ
+  error: 0.1
+editable: true
+search: exhaustive
+```
+
+See [the input guide](docs/INPUT_GUIDE.md) for full examples, hardware overrides, matrix orientation and troubleshooting. To inspect exactly what will be compiled, run `npp normalize --project my-design/project.yaml --out-dir normalized`. The resulting canonical JSON embeds the resolved weights and is independent of the source weight files.
+
+## Saved weight formats
+
+| File format | Support | Install extra |
+|---|---|---|
+| NumPy `.npz`, `.npy` | Named arrays, or a single array named `array` | Included |
+| PyTorch `.pt`, `.pth`, `.bin` | Tensor `state_dict`; common checkpoint wrappers; explicit custom wrapper key | `pytorch` |
+| SafeTensors `.safetensors` | Named dense tensors | `safetensors` |
+| HDF5 `.h5`, `.hdf5`, `.weights.h5` | Numeric datasets selected by their exact paths | `hdf5` |
+| Keras `.keras` | Embedded HDF5 weights; architecture described separately | `hdf5` |
+| ONNX `.onnx` | Embedded initializer weights, or supported graph import | `onnx` |
+
+Install the extras you need, for example `python -m pip install '.[pytorch,safetensors]'`, or `python -m pip install '.[all]'` for every importer. The core installation does not require PyTorch, TensorFlow or ONNX. Use `npp inspect-weights PATH` to list names, shapes and dtypes; add `--json` for agents/scripts. PyTorch loading always uses the restricted weights-only CPU path. Full pickled Python models and TorchScript archives are not loaded.
+
+Keras Dense kernels use `[input, output]`, so specify `layout: in_out`. The default `out_in` follows PyTorch Linear. No transpose is guessed from a square matrix. HDF5 is a container format: use the convention of the software that saved it.
+
+ONNX can include the architecture as well:
+
+```bash
+npp import-model network.onnx --out network.json --input-min -1 --input-max 1
+```
+
+The graph importer supports one vector/batch-one input and standard `Gemm`, constant-weight `MatMul`, supported `Add`, `Relu`, `Identity` and constants. Unsupported operators are rejected. This does not add CNN, recurrent-network or Transformer synthesis to the backend. External-data ONNX models and sharded checkpoints require a self-contained export. Import size limits are documented in the input guide.
+
+## Run the original working demo
+
+Requires Python 3.10+ with NumPy, Pydantic 2 and PyYAML. From this directory:
 
 ```bash
 python -m venv .venv
@@ -51,7 +125,7 @@ npp plan --network examples/split_recombine.json \
 npp schemas --out-dir exported-schemas
 ```
 
-All command results are JSON. Exit codes are `0` for success, `2` for invalid input or a failed plan check, `3` for infeasibility established within the finite declared choice space, and `4` for an incomplete search that found no feasible plan. A successful heuristic search can return useful plans with `search.complete=false`; success does not assert optimality. Output directories must be new or empty unless `--overwrite` is explicit. The run manifest lists the current plans; overwriting does not delete unrelated or stale files.
+Command results are JSON except the human-readable `inspect-weights` table (use `--json` for structured output). Exit codes are `0` for success, `2` for invalid input or a failed plan check, `3` for infeasibility established within the finite declared choice space, and `4` for an incomplete search that found no feasible plan. A successful heuristic search can return useful plans with `search.complete=false`; success does not assert optimality. Output directories must be new or empty unless `--overwrite` is explicit. The run manifest lists the current plans; overwriting does not delete unrelated or stale files.
 
 ## Inspect and verify outputs
 
@@ -105,6 +179,8 @@ The supplied experiments validate software semantics under these assumptions. Th
 ## Project map and extension points
 
 - `npp/models.py`: strict contracts and schema generation.
+- `npp/config.py`, `npp/templates.py`: friendly specifications, unit conversion and starter projects.
+- `npp/weights.py`, `npp/onnx_import.py`: external tensor loading and supported ONNX graph lowering.
 - `npp/physics.py`: guards, interval analysis, noise propagation, scheduling and sampling.
 - `npp/planner.py`: choice construction, enumeration, beam search and Pareto filtering.
 - `npp/checker.py`: saved-plan replay checking.
@@ -114,4 +190,4 @@ The supplied experiments validate software semantics under these assumptions. Th
 - `tests/`: independent numerical oracles, rejection, optimization, tampering and CLI checks.
 - [System specification](docs/SYSTEM_SPEC.md), [physical model](docs/PHYSICS.md), [agent interface](docs/AGENT_INTERFACE.md).
 
-The immediate engineering path is to choose one real hardware family, characterize macro/rule coefficients and uncertainty, add port/routing constraints, and implement a lowering backend with external validation. ONNX/PyTorch import, storage synthesis and broader device mechanisms should build on that checked core.
+The immediate engineering path is to choose one real hardware family, characterize macro/rule coefficients and uncertainty, add port/routing constraints, and implement a lowering backend with external validation. Broader operator lowering, storage synthesis and additional device mechanisms should build on that checked core.

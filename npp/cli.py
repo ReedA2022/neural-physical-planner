@@ -8,6 +8,7 @@ import sys
 
 from . import __version__
 from .checker import check_record
+from .config import load_inputs
 from .models import InputValidationError, load_json, schema_bundle, validate_inputs
 from .output_contracts import output_schema_bundle
 from .physics import simulate
@@ -25,7 +26,8 @@ def _emit(value: object) -> None:
 
 
 def _inputs(args) -> tuple[dict, dict, dict]:
-    return validate_inputs(load_json(args.network), load_json(args.library), load_json(args.request))
+    return load_inputs(network_path=args.network, library_path=args.library,
+                       request_path=args.request, project_path=args.project)
 
 
 def _output_directory(path: str, overwrite: bool) -> Path:
@@ -80,17 +82,22 @@ def parser() -> argparse.ArgumentParser:
     cli = argparse.ArgumentParser(prog="npp", description="Physics-aware neural hardware macro-plan exploration.")
     cli.add_argument("--version", action="version", version=__version__)
     commands = cli.add_subparsers(dest="command", required=True)
-    for command, help_text in (("validate", "Validate three inputs and print their normalized hashes."),
+    for command, help_text in (("validate", "Validate a project or three input specs and print normalized hashes."),
                                ("plan", "Search, check and export a complete run bundle."),
+                               ("normalize", "Resolve YAML, units and external weights to portable canonical JSON."),
                                ("check", "Recompute a saved plan and reject altered claims."),
                                ("simulate", "Sample primitive errors for a checked saved plan.")):
         child = commands.add_parser(command, help=help_text)
+        child.add_argument("--project", "-p", metavar="YAML_OR_JSON",
+                           help="Project file combining model, hardware and design settings.")
         for name in ("network", "library", "request"):
-            child.add_argument(f"--{name}", required=True, metavar="JSON")
-        if command == "plan":
+            child.add_argument(f"--{name}", metavar="YAML_OR_JSON",
+                               help="Use all three input options together, instead of --project.")
+        if command in ("plan", "normalize"):
             child.add_argument("--out-dir", required=True)
-            child.add_argument("--samples", type=int, default=0, help="Monte Carlo samples per retained plan; 0 disables.")
             child.add_argument("--overwrite", action="store_true")
+        if command == "plan":
+            child.add_argument("--samples", type=int, default=0, help="Monte Carlo samples per retained plan; 0 disables.")
         if command in ("check", "simulate"):
             child.add_argument("--plan", required=True, metavar="JSON")
         if command == "simulate":
@@ -103,12 +110,55 @@ def parser() -> argparse.ArgumentParser:
     schemas = commands.add_parser("schemas", help="Export versioned JSON input and output schemas.")
     schemas.add_argument("--out-dir", required=True)
     schemas.add_argument("--overwrite", action="store_true")
+    starter = commands.add_parser("init", help="Create a commented YAML starter project and example weight file.")
+    starter.add_argument("directory")
+    starter.add_argument("--overwrite", action="store_true")
+    inspect = commands.add_parser("inspect-weights", help="List tensor names, dimensions and dtypes in a saved weight file.")
+    inspect.add_argument("file")
+    inspect.add_argument("--state-dict-key", help="Exact top-level PyTorch checkpoint key containing the state dictionary.")
+    inspect.add_argument("--json", action="store_true", help="Return machine-readable JSON instead of a table.")
+    importer = commands.add_parser("import-model", help="Import a supported ONNX graph into canonical network JSON.")
+    importer.add_argument("file", help="Self-contained ONNX file with supported vector/dense operations.")
+    importer.add_argument("--out", required=True)
+    importer.add_argument("--input-min", required=True, type=float, help="Declared minimum for every input feature.")
+    importer.add_argument("--input-max", required=True, type=float, help="Declared maximum for every input feature.")
+    importer.add_argument("--name")
+    importer.add_argument("--overwrite", action="store_true")
     return cli
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     try:
+        if args.command == "init":
+            from .templates import create_project
+            _emit(create_project(args.directory, overwrite=args.overwrite))
+            return 0
+        if args.command == "inspect-weights":
+            from .weights import inspect_weights
+            result = inspect_weights(args.file, state_dict_key=args.state_dict_key)
+            if args.json:
+                _emit(result)
+            else:
+                print(f"Format: {result['format']}")
+                print(f"{'Tensor name':<48} {'Shape':<20} Dtype")
+                for tensor in result["tensors"]:
+                    shape = " × ".join(str(d) for d in tensor["shape"]) or "scalar"
+                    print(f"{tensor['name']:<48} {shape:<20} {tensor['dtype']}")
+                print("\nUse these exact tensor names in model.yaml. See docs/INPUT_GUIDE.md for weight layouts.")
+            return 0
+        if args.command == "import-model":
+            from .onnx_import import import_onnx
+            if Path(args.file).suffix.lower() != ".onnx":
+                raise ValueError("import-model accepts ONNX graphs. For weights-only files, use inspect-weights and a model YAML description.")
+            output = Path(args.out).resolve()
+            if output.exists() and not args.overwrite:
+                raise ValueError(f"Output exists: {output}. Choose another file or use --overwrite.")
+            network = import_onnx(args.file, input_bounds=(args.input_min, args.input_max), name=args.name)
+            _write(output, network)
+            _emit({"status": "ok", "network": str(output), "nodes": len(network["nodes"]),
+                   "outputs": network["outputs"], "input_bounds": [args.input_min, args.input_max]})
+            return 0
         if hasattr(args, "samples") and (args.samples < 0 or args.samples == 1 or
                                         (args.command == "simulate" and args.samples == 0)):
             raise ValueError("samples must be >= 2, or 0 to disable simulation in plan/demo")
@@ -128,6 +178,14 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "validate":
             _emit({"valid": True, "schema_version": "0.1", "input_hashes": {
                 "network": input_hash(network), "library": input_hash(library), "request": input_hash(request)}})
+            return 0
+        if args.command == "normalize":
+            directory = _output_directory(args.out_dir, args.overwrite)
+            for name, value in (("network", network), ("library", library), ("request", request)):
+                _write(directory / f"{name}.json", value)
+            _emit({"status": "ok", "output_directory": str(directory),
+                   "files": ["network.json", "library.json", "request.json"],
+                   "note": "Resolved tensors are embedded; these files no longer depend on the source weight files."})
             return 0
         if args.command in ("plan", "demo"):
             directory = _output_directory(args.out_dir, args.overwrite)

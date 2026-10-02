@@ -1,0 +1,14 @@
+# SYNTHETIC example library for testing the workflow.
+# Replace it with characterized hardware values before interpreting predictions.
+extends: example
+
+# Override only what changes. Component IDs come from the selected library.
+# Numbers use canonical units; strings can include a supported unit explicitly.
+overrides:
+  components:
+    optical_fixed:
+      latency: 0.5 ns
+
+# Example alternatives (uncomment inside the component entry above):
+#     energy: 0.2 pJ
+#     area: 8 um2

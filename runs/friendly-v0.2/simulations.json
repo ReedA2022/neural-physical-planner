@@ -1,0 +1,98 @@
+{
+  "plan-2e51a8ca5f296d0e5dc1e7d4889217a4efa57105fd02a900fcd748b89ea5aeaa": {
+    "feasible": true,
+    "samples": 10000,
+    "seed": 7,
+    "error_rms_empirical": 0.00475369651784917,
+    "error_rms_bound": 0.011320065081002329,
+    "mse_empirical": 2.259763058381132e-05,
+    "mse_standard_error": 3.867085468891127e-07,
+    "rms_standard_error": 4.067450934626351e-05,
+    "affine_expected_mse": null,
+    "consistent_with_bound": true,
+    "sampling_diagnostic": "Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.",
+    "numerical_limitations": "Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.",
+    "input_sampling": "independent uniform samples from the declared input box",
+    "execution": "independent forward sampling of primitive noise sources; no output-covariance sampler",
+    "outputs": {
+      "dimension": 1,
+      "ideal_mean": [
+        0.09349697641620193
+      ],
+      "physical_mean": [
+        0.0934965425479056
+      ],
+      "error_mean": [
+        -4.338682963207219e-07
+      ],
+      "error_std": [
+        0.004753934200702413
+      ]
+    },
+    "diagnostics": []
+  },
+  "plan-b1133348c863e177e61201af46652265cb66cca0a0646c4ac8a374170659fa18": {
+    "feasible": true,
+    "samples": 10000,
+    "seed": 7,
+    "error_rms_empirical": 0.003278206008600999,
+    "error_rms_bound": 0.00789591796417312,
+    "mse_empirical": 1.0746634634827693e-05,
+    "mse_standard_error": 1.8846164686736123e-07,
+    "rms_standard_error": 2.8744631419272636e-05,
+    "affine_expected_mse": null,
+    "consistent_with_bound": true,
+    "sampling_diagnostic": "Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.",
+    "numerical_limitations": "Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.",
+    "input_sampling": "independent uniform samples from the declared input box",
+    "execution": "independent forward sampling of primitive noise sources; no output-covariance sampler",
+    "outputs": {
+      "dimension": 1,
+      "ideal_mean": [
+        0.09349697641620193
+      ],
+      "physical_mean": [
+        0.09348352318193547
+      ],
+      "error_mean": [
+        -1.3453234266461483e-05
+      ],
+      "error_std": [
+        0.0032783423247359756
+      ]
+    },
+    "diagnostics": []
+  },
+  "plan-5be47170d4f2b5a8260969485ff354fe228f298e5e1790191467362ba2af64ac": {
+    "feasible": true,
+    "samples": 10000,
+    "seed": 7,
+    "error_rms_empirical": 0.00013662955269600784,
+    "error_rms_bound": 0.000208806130178211,
+    "mse_empirical": 1.8667634669911183e-08,
+    "mse_standard_error": 2.7092171787849906e-10,
+    "rms_standard_error": 9.914462593655813e-07,
+    "affine_expected_mse": null,
+    "consistent_with_bound": true,
+    "sampling_diagnostic": "Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.",
+    "numerical_limitations": "Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.",
+    "input_sampling": "independent uniform samples from the declared input box",
+    "execution": "independent forward sampling of primitive noise sources; no output-covariance sampler",
+    "outputs": {
+      "dimension": 1,
+      "ideal_mean": [
+        0.09349697641620193
+      ],
+      "physical_mean": [
+        0.09349628556382243
+      ],
+      "error_mean": [
+        -6.908523794945906e-07
+      ],
+      "error_std": [
+        0.00013663463797782195
+      ]
+    },
+    "diagnostics": []
+  }
+}

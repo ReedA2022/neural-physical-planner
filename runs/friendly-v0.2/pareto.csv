@@ -1,0 +1,4 @@
+plan_id,energy_pj,latency_ns,area_um2,error_rms_bound,analysis_kind,components,fanout_rules
+plan-2e51a8ca5f296d0e5dc1e7d4889217a4efa57105fd02a900fcd748b89ea5aeaa,6.551263118894166,7.3,36.0,0.011320065081002329,conservative_lipschitz_rms,"{""activation"": ""digital_relu"", ""hidden"": ""optical_fixed"", ""readout"": ""digital_fixed"", ""x"": ""optical_encoder""}",{}
+plan-b1133348c863e177e61201af46652265cb66cca0a0646c4ac8a374170659fa18,7.612778861567165,7.6,46.0,0.00789591796417312,conservative_lipschitz_rms,"{""activation"": ""digital_relu"", ""hidden"": ""optical_programmable"", ""readout"": ""digital_fixed"", ""x"": ""optical_encoder""}",{}
+plan-5be47170d4f2b5a8260969485ff354fe228f298e5e1790191467362ba2af64ac,7.949999999999999,7.5,30.0,0.000208806130178211,conservative_lipschitz_rms,"{""activation"": ""digital_relu"", ""hidden"": ""digital_fixed"", ""readout"": ""digital_fixed"", ""x"": ""digital_input""}",{}

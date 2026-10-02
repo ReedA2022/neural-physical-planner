@@ -6,8 +6,8 @@ An agent can assemble a bounded NN specification, select an approved library, ex
 
 The intended loop is:
 
-1. Translate requirements into the three JSON inputs.
-2. Validate the inputs and fix explicit schema or graph errors.
+1. Translate requirements into project/YAML inputs or the canonical three JSON inputs.
+2. Inspect external tensor names, normalize the inputs and fix explicit schema or graph errors.
 3. Generate a candidate family under a declared search budget.
 4. Inspect feasibility, search completeness and the requested trade-offs.
 5. Replay-check selected plans using the exact normalized input snapshots.
@@ -20,7 +20,35 @@ A budget violation is not permission to change the user's budget. An agent may p
 
 Invoke the installed `npp` entry point or `python -m npp`. The project root contains working examples. These commands perform local computation and write local artifacts; no API keys or remote services are required.
 
-Validate a complete input set:
+### Friendly project workflow
+
+```bash
+python -m npp init my-project
+python -m npp inspect-weights my-project/weights.npz --json
+python -m npp validate --project my-project/project.yaml
+python -m npp normalize --project my-project/project.yaml --out-dir runs/normalized
+python -m npp plan --project my-project/project.yaml --out-dir runs/project --samples 10000
+```
+
+`init` writes a commented, runnable example: `project.yaml`, `model.yaml`, `hardware.yaml`, `design.yaml` and numeric `weights.npz`. It checks target collisions before writing and requires explicit `--overwrite` to replace existing files. These generated values are synthetic demonstrations, not inferred hardware measurements.
+
+`inspect-weights` returns a human-readable table by default; agents should pass `--json`. Its output contains `format`, `tensors` (each with `name`, `shape`, `dtype`) and `note`. Bind exact tensor names. Do not infer network topology or tensor orientation from names or square matrix dimensions. `--state-dict-key KEY` selects an exact top-level PyTorch checkpoint wrapper; use the corresponding `{file: checkpoint.pt, state_dict_key: KEY}` source in the model specification.
+
+`normalize` writes `network.json`, `library.json` and `request.json` with concrete matrices and canonical units. Inspect these before launching expensive searches, especially when converting Keras `in_out` kernels to the planner's `out_in` convention. `validate`, `normalize`, `plan`, `check` and `simulate` accept either `--project PATH` or the complete `--network`/`--library`/`--request` triple; do not combine both forms. Model and checkpoint paths are anchored to the declaring file.
+
+To lower a supported ONNX graph:
+
+```bash
+python -m npp import-model trained.onnx --out model.json --input-min -1 --input-max 1
+```
+
+This operation requires explicit finite input bounds. Set the project model path to the emitted JSON, or use `model: {file: trained.onnx, input_bounds: [-1, 1]}` directly in a project file. Import supports only the documented dense-vector subset; unknown operators, shapes or attributes are errors. It is not a general framework-to-hardware compiler. For weights-only PyTorch, SafeTensors, NumPy or Keras/HDF5 files, use tensor inspection plus explicit network structure. No model class, custom Keras layer or arbitrary pickled module is executed.
+
+The friendly syntax, format-specific restrictions and optional dependency extras are described in [INPUT_GUIDE.md](INPUT_GUIDE.md). Software v0.2 lowers to the existing canonical schema `"0.1"`; do not change input `schema_version` to `"0.2"`.
+
+### Canonical input workflow
+
+The original three-input interface remains valid. Each specification may now be JSON or YAML. Validate a complete input set:
 
 ```bash
 python -m npp validate \
@@ -84,11 +112,26 @@ python -m npp demo --out-dir runs/demo --samples 10000
 python -m npp schemas --out-dir runs/schemas
 ```
 
-CLI responses are JSON on standard output. Exit codes are `0` for a successful command or a plan run with feasible results, `2` for invalid input or failed replay checking, `3` for model-relative infeasibility, and `4` for an incomplete search that found no feasible plan. A sampling inconsistency is recorded in the returned JSON; agents must inspect it rather than rely only on the process exit code. `simulate --seed N` overrides the request seed for that invocation.
+Command results are JSON on standard output, except `inspect-weights` uses a table unless `--json` is supplied. Help/version output also uses ordinary text. Exit codes are `0` for a successful command or a plan run with feasible results, `2` for invalid input or failed replay checking, `3` for model-relative infeasibility, and `4` for an incomplete search that found no feasible plan. A sampling inconsistency is recorded in the returned JSON; agents must inspect it rather than rely only on the process exit code. `simulate --seed N` overrides the request seed for that invocation.
 
 ## Python API
 
 The planner accepts normalized dictionaries. Always validate user-supplied inputs before calling it.
+
+For project files and friendly specifications, use the configuration loader, which also performs canonical validation:
+
+```python
+from npp.config import load_inputs
+from npp.weights import inspect_weights
+from npp.templates import create_project
+
+created = create_project("my-project")
+metadata = inspect_weights("my-project/weights.npz")
+network, library, request = load_inputs(project_path="my-project/project.yaml")
+# Alternatively: load_inputs(network_path=..., library_path=..., request_path=...)
+```
+
+For already canonical JSON files, the original API remains available:
 
 ```python
 from npp.models import InputValidationError, load_json, validate_inputs
@@ -151,6 +194,10 @@ Treat the structured `code`, `path` and `message` as the explanation of a failur
 
 | Diagnostic family | Appropriate response |
 |---|---|
+| Missing importer dependency | Install the declared optional extra; do not silently switch to another file format or interpretation. |
+| Missing tensor, unsupported checkpoint, wrong matrix layout | Inspect exact names/shapes, select the intended state dictionary and confirm orientation; do not guess missing numerical values. |
+| Unsupported ONNX operator or shape | Explain the unsupported graph construct or provide a supported export; do not silently delete it. |
+| Unit mismatch or unknown friendly configuration key | Correct the units or field name while preserving the requested physical quantity. |
 | Schema error, extra field, invalid number | Correct the input representation; do not silently discard unsupported requirements. |
 | Missing graph predecessor or dimension mismatch | Correct the graph from the intended NN computation. |
 | No compatible macro | Report the missing operation, domain, width or editability capability; a new validated library entry may be needed. |

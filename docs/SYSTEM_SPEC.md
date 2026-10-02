@@ -1,4 +1,14 @@
-# Neural Physical Planner v0.1 — system specification
+# Neural Physical Planner v0.2 — front end and canonical schema 0.1
+
+## Versioned contracts and the friendly front end
+
+Software version **0.2** adds project files, commented YAML specifications, external saved-weight loading, human-readable physical units and a restricted ONNX importer. The normalized network/library/request and saved-plan **schema versions remain `"0.1"`**: existing canonical JSON inputs and the physical evaluator retain their established meanings.
+
+The tables below specify the canonical representation. For authoring shorter inputs, use [INPUT_GUIDE.md](INPUT_GUIDE.md) and start with `npp init my-project`. A project file identifies `model`, `hardware` and `design` specifications; `npp validate --project my-project/project.yaml` loads and checks them. `npp normalize --project my-project/project.yaml --out-dir normalized-inputs` writes the exact self-contained JSON inputs that reach the planner.
+
+The front end resolves saved tensor references, expands known defaults, converts declared matrix layouts and units, and validates the resulting canonical inputs. It does not guess activations from tensor names or create new physical semantics. Sequential YAML supports dense linear layers, ReLU and identity; explicit graphs also support branching and addition. ONNX import supports its documented dense-vector subset and rejects unsupported operators/shapes.
+
+The static schemas under `schemas/` describe canonical schema 0.1, not every friendly shorthand. Use the configuration loader for YAML/project validation. Paths are relative to the file declaring them, unknown fields and duplicate keys are rejected, and normalization makes all resolved values inspectable.
 
 ## Purpose and implementation boundary
 
@@ -8,7 +18,7 @@ A plan is a **macro graph**, with selected components, compensation recipes, dom
 
 The bundled library is explicitly synthetic. Its parameters exercise the algorithms; they do not support claims about the performance of real hardware. The implemented model is `normalized_additive_gaussian_v1`, not a coherent optical simulator. Signed real arithmetic is abstracted; signal encodings for negative weights, digital rounding, wavelength interference and device nonlinearities are outside this model.
 
-## Input 1: neural computation
+## Canonical input 1: neural computation
 
 The JSON object has these fields:
 
@@ -25,15 +35,15 @@ Each node has `id`, `op`, `inputs` and positive integer `size`. `size` is the ou
 |---|---|---|
 | `input` | No predecessors; `input_bounds.lower` and `.upper` vectors of length `size`. | Bounded real input vector. Each lower bound must not exceed the corresponding upper bound. |
 | `linear` | One predecessor; rectangular `weights` with `size` rows and input-dimension columns; optional length-`size` `bias`. | `weights @ input + bias`; omitted bias becomes a zero vector. |
-| `relu` | One predecessor of the same size. | Coordinatewise maximum with zero. Only digital components support this operation in v0.1. |
+| `relu` | One predecessor of the same size. | Coordinatewise maximum with zero. Only digital components support this operation in the current backend. |
 | `identity` | One predecessor of the same size. | Unchanged vector. |
 | `add` | At least two predecessors, all of the same size. | Coordinatewise sum, including repeated operands. |
 
-Weights and bias are accepted only on `linear` nodes; bounds only on the input. Dimensions, references, ordering and reachability are validated before search. There is no arbitrary Python expression, executable model importer or implicit broadcasting. Weights alone are not a complete input: the graph and input domain are also required.
+Weights and bias are accepted only on `linear` nodes; bounds only on the input. Dimensions, references, ordering and reachability are validated before search. Canonical nodes have no arbitrary Python expressions or implicit broadcasting. The front end reads tensors without constructing saved model classes and explicitly lowers its supported ONNX broadcasts. Weights alone are not a complete input: the graph and input domain are also required.
 
 The reference values use NumPy floating-point arithmetic. They are not bit-exact fixed-point hardware semantics. An additional quantization contract and backend would be needed for that claim.
 
-## Input 2: component and rule knowledge base
+## Canonical input 2: component and rule knowledge base
 
 The library object contains `schema_version`, `name`, the fixed model identifier, nonempty `provenance`, `components`, `rules` and `conversions`. Provenance should identify how parameters were obtained, their intended operating conditions and their uncertainty. It is currently descriptive metadata, not a verified calibration record.
 
@@ -66,7 +76,7 @@ Default values are materialized by `validate_inputs`. Digital components still r
 
 ### Trusted compensation kinds
 
-Every rule has `id`, `kind`, `domains`, `split_policy`, `gain`, `added_noise_std`, `area_um2`, `latency_ns`, `energy_pj` and `notes`. Costs cover one complete fan-out recipe. v0.1 has no automatic splitter-tree synthesis, port limit or fan-out-dependent area scaling, so supplied costs must be appropriate for the intended number of branches.
+Every rule has `id`, `kind`, `domains`, `split_policy`, `gain`, `added_noise_std`, `area_um2`, `latency_ns`, `energy_pj` and `notes`. Costs cover one complete fan-out recipe. The current backend has no automatic splitter-tree synthesis, port limit or fan-out-dependent area scaling, so supplied costs must be appropriate for the intended number of branches.
 
 A rule is selected exactly where a node has more than one outgoing use. Output delivery counts as a use. Rules do not apply to arbitrary locations in this version.
 
@@ -95,11 +105,11 @@ There is currently no search among alternative conversion types for the same dir
 
 ### What “extending the knowledge base” means
 
-Adding component entries or parameterized alternatives for an existing rule kind requires only JSON changes. The same search engine can consider them immediately.
+Adding component entries or parameterized alternatives for an existing rule kind requires only JSON or YAML changes. The same search engine can consider them immediately.
 
 A new physical mechanism requires more than a note in JSON. It needs executable applicability guards, numerical semantics, noise-source sharing semantics, cost/schedule semantics, forward-simulation behavior and tests. Those changes belong in the trusted backend. Unknown rule kinds are rejected. No LLM-produced text is treated as a verified physical law.
 
-## Input 3: design request
+## Canonical input 3: design request
 
 | Field | Meaning |
 |---|---|

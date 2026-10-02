@@ -1,0 +1,6 @@
+# Start here: all paths are relative to this file.
+# The bundled hardware values are SYNTHETIC, not measured device specifications.
+name: My neural hardware project
+model: model.yaml
+hardware: hardware.yaml
+design: design.yaml

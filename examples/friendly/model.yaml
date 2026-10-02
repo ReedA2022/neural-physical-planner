@@ -1,0 +1,27 @@
+# Network structure and learned parameters are separate.
+# Inspect available tensor names with: npp inspect-weights weights.npz
+name: Small dense network
+weights: weights.npz
+
+# out_in: each dense matrix has shape [output_size, input_size] (PyTorch).
+# Use in_out for Keras dense kernels; this transposes even square matrices.
+layout: out_in
+
+input:
+  name: x
+  size: 2
+  bounds: [-1, 1]  # The same lower/upper bound applies to every input coordinate.
+
+# Layers form a sequential chain. Widths are inferred from the saved matrices.
+# Weights-only checkpoints do not specify activations: list those explicitly.
+layers:
+  - name: hidden
+    type: linear
+    weights: hidden.weight
+    bias: hidden.bias
+  - name: activation
+    type: relu
+  - name: readout
+    type: linear
+    weights: readout.weight
+    bias: readout.bias

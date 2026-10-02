@@ -1,0 +1,20 @@
+# Minimize these metrics together: the planner returns Pareto alternatives.
+minimize: [energy, latency, error]
+
+# Hard limits are separate from optimization objectives. Omit unwanted limits.
+# Error is an RMS bound in normalized output units, not a classification score.
+limits:
+  error: 0.1
+  latency: 20 ns
+
+# true requires every linear layer to have editable weights.
+# A list such as [hidden] requires editability only on those named layers.
+# false imposes no editability requirement; it does not forbid editable macros.
+editable: false
+domains: [digital, optical]
+serialization: false
+
+# Exhaustive is suitable for this small example. For larger choice spaces use
+# search: {mode: beam, max_evaluations: 10000, beam_width: 64}
+search: exhaustive
+seed: 7

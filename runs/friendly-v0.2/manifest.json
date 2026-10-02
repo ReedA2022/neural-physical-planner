@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1",
+  "software_version": "0.2.0",
+  "input_hashes": {
+    "network": "a0f07e5dd93baf38d50fdd768fbe185ae7bb9115e269fa2a98c4f2eb329bb36a",
+    "library": "e1e4a08018bb278363eefde3fc16d461a6404541d49baf134ba785fe725a8679",
+    "request": "39057ae7554102404b808a7b2137e36ad314df310b4c2f87e78d59833d7dbb51"
+  },
+  "plans": [
+    "plans/plan-2e51a8ca5f296d0e5dc1e7d4889217a4efa57105fd02a900fcd748b89ea5aeaa.json",
+    "plans/plan-b1133348c863e177e61201af46652265cb66cca0a0646c4ac8a374170659fa18.json",
+    "plans/plan-5be47170d4f2b5a8260969485ff354fe228f298e5e1790191467362ba2af64ac.json"
+  ],
+  "files": [
+    "report.json",
+    "checks.json",
+    "simulations.json",
+    "pareto.csv",
+    "report.html",
+    "inputs/network.json",
+    "inputs/library.json",
+    "inputs/request.json"
+  ],
+  "note": "This manifest identifies the current run. --overwrite may leave older, unreferenced files in the directory."
+}

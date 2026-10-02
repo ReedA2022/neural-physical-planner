@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1",
+  "name": "My neural hardware project design",
+  "objectives": [
+    "energy_pj",
+    "latency_ns",
+    "error_rms_bound"
+  ],
+  "budgets": {
+    "latency_ns": 20.0,
+    "error_rms_bound": 0.1
+  },
+  "required_editable": [],
+  "allowed_domains": [
+    "digital",
+    "optical"
+  ],
+  "allow_serialization": false,
+  "search": {
+    "mode": "exhaustive",
+    "max_evaluations": 10000,
+    "beam_width": 128
+  },
+  "seed": 7
+}

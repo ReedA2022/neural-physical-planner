@@ -4,11 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neural-physical-planner"
-version = "0.1.0"
+version = "0.2.0"
 description = "Inspectable neural hardware planning with guarded physical transformations and multi-objective search"
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.24,<3", "pydantic>=2.6,<3"]
+dependencies = ["numpy>=1.24,<3", "pydantic>=2.6,<3", "PyYAML>=6,<7"]
 readme = "README.md"
+
+[project.optional-dependencies]
+pytorch = ["torch>=2.6,<3"]
+safetensors = ["safetensors>=0.5,<1"]
+hdf5 = ["h5py>=3.10,<4"]
+onnx = ["onnx>=1.16,<2"]
+all = ["torch>=2.6,<3", "safetensors>=0.5,<1", "h5py>=3.10,<4", "onnx>=1.16,<2"]
 
 [project.scripts]
 npp = "npp.cli:main"
