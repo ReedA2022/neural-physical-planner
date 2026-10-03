@@ -1,0 +1,1239 @@
+{
+  "schema_version": "0.3",
+  "kind": "physical_realization",
+  "network": {
+    "schema_version": "0.1",
+    "name": "validation_fanout_4",
+    "nodes": [
+      {
+        "id": "x",
+        "op": "input",
+        "inputs": [],
+        "size": 1,
+        "weights": null,
+        "bias": null,
+        "input_bounds": {
+          "lower": [
+            0.0
+          ],
+          "upper": [
+            1.0
+          ]
+        }
+      }
+    ],
+    "outputs": [
+      "x",
+      "x",
+      "x",
+      "x"
+    ]
+  },
+  "technology": {
+    "schema_version": "0.3",
+    "id": "illustrative_intensity",
+    "name": "Illustrative scalar intensity reference technology",
+    "version": "0.3.0",
+    "calibration_status": "illustrative",
+    "encoding": {
+      "id": "normalized_intensity",
+      "optical_quantity": "power_mw",
+      "electrical_quantity": "normalized_sample",
+      "logical_minimum": 0.0,
+      "logical_maximum": 1.0,
+      "interpretation": "P(t)=full_scale_power_mw*x; 0<=x<=1",
+      "energy_accounting": "full_scale_per_symbol_upper_bound"
+    },
+    "review": {
+      "status": "unreviewed",
+      "reviewer": null,
+      "report_source_id": null,
+      "notes": "No photonics collaborator has reviewed this pack. Software review and tests do not constitute device calibration or expert hardware validation."
+    },
+    "sources": [
+      {
+        "id": "illustrative_v1",
+        "kind": "illustrative_assumption",
+        "citation": "Neural Physical Planner illustrative fixture, v0.3.0",
+        "url": null,
+        "version": "0.3.0",
+        "coverage": "Every numeric component parameter, every operating envelope, all per-instance costs, port cardinalities and ideal encoding assumptions in this bundled reference. These are chosen examples, not measured specifications.",
+        "limitations": "No claimed fabrication process, foundry, commercial part, measured calibration, uncertainty distribution, temperature fit, or usable-device guarantee."
+      },
+      {
+        "id": "model_contract_v1",
+        "kind": "model_reference",
+        "citation": "NPP scalar intensity v1 equations, docs/TECHNOLOGY.md",
+        "url": null,
+        "version": "scalar_intensity_v1",
+        "coverage": "Definitions: dB power transmission; two-way power division; uniform-waveguide delay; wall-plug source energy; Poisson photoelectron count and normalized noise; ideal calibrated intensity modulation.",
+        "limitations": "Equations define this reduced model. They do not validate any numeric parameter or the omitted device behavior."
+      },
+      {
+        "id": "nist_si",
+        "kind": "standard",
+        "citation": "NIST: Definitions of SI Base Units",
+        "url": "https://www.nist.gov/si-redefinition/definitions-si-base-units",
+        "version": "2019 SI definitions, retrieved 2026-10-03",
+        "coverage": "Exact speed of light c=299792458 m/s and Planck constant h=6.62607015e-34 J s only.",
+        "limitations": "Does not support any component parameter, assumed envelope or noise approximation."
+      },
+      {
+        "id": "sax_workflow",
+        "kind": "model_reference",
+        "citation": "GDSFactory Plugins: SAX circuit simulator",
+        "url": "https://gdsfactory.github.io/gplugins/notebooks/sax_01_sax/",
+        "version": "documentation retrieved 2026-10-03",
+        "coverage": "Component netlists, complex scattering models and circuit composition as an independent passive-circuit simulation workflow.",
+        "limitations": "Workflow reference only. No foundry model or calibrated S parameters are bundled."
+      },
+      {
+        "id": "ansys_detector_scope",
+        "kind": "model_reference",
+        "citation": "Ansys: photodetector_simple CML Compiler Model",
+        "url": "https://optics.ansys.com/hc/en-us/articles/360034710353-photodetector-simple-CML-Compiler-Model",
+        "version": "documentation retrieved 2026-10-03",
+        "coverage": "Reference for separating optical/electrical ports, receiver operating limits, shot noise, thermal noise and power saturation in compact-model workflows.",
+        "limitations": "This software neither embeds nor reproduces Ansys models. This citation supplies no numerical detector calibration."
+      }
+    ],
+    "components": [
+      {
+        "id": "source",
+        "kind": "source",
+        "model_version": "scalar_intensity_v1",
+        "ports": [
+          {
+            "name": "out",
+            "direction": "out",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          }
+        ],
+        "operating_envelope": {
+          "wavelength_nm": {
+            "minimum": 1540.0,
+            "maximum": 1560.0
+          },
+          "temperature_c": {
+            "minimum": 20.0,
+            "maximum": 30.0
+          },
+          "symbol_duration_ns": {
+            "minimum": 0.5,
+            "maximum": 10.0
+          },
+          "max_input_power_mw": null
+        },
+        "costs": {
+          "area_um2": 1000.0,
+          "fixed_energy_pj": 0.0,
+          "latency_ns": 0.1
+        },
+        "evidence": {
+          "parameters": [
+            "illustrative_v1"
+          ],
+          "operating_envelope": [
+            "illustrative_v1"
+          ],
+          "costs": [
+            "illustrative_v1"
+          ],
+          "model": [
+            "model_contract_v1"
+          ]
+        },
+        "notes": "Already encoded, externally driven scalar launch source. Fixed source/encoding overhead is illustrative. The source input interface is outside this distribution subcircuit; this does not implement a neural operation.",
+        "parameters": {
+          "minimum_output_power_mw": 0.01,
+          "maximum_output_power_mw": 10.0,
+          "wall_plug_efficiency": 0.2,
+          "relative_intensity_noise_rms": 0.001
+        }
+      },
+      {
+        "id": "splitter",
+        "kind": "splitter",
+        "model_version": "scalar_intensity_v1",
+        "ports": [
+          {
+            "name": "in",
+            "direction": "in",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          },
+          {
+            "name": "out1",
+            "direction": "out",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          },
+          {
+            "name": "out2",
+            "direction": "out",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          }
+        ],
+        "operating_envelope": {
+          "wavelength_nm": {
+            "minimum": 1540.0,
+            "maximum": 1560.0
+          },
+          "temperature_c": {
+            "minimum": 20.0,
+            "maximum": 30.0
+          },
+          "symbol_duration_ns": {
+            "minimum": 0.5,
+            "maximum": 10.0
+          },
+          "max_input_power_mw": 10.0
+        },
+        "costs": {
+          "area_um2": 20.0,
+          "fixed_energy_pj": 0.0,
+          "latency_ns": 0.0
+        },
+        "evidence": {
+          "parameters": [
+            "illustrative_v1"
+          ],
+          "operating_envelope": [
+            "illustrative_v1"
+          ],
+          "costs": [
+            "illustrative_v1"
+          ],
+          "model": [
+            "model_contract_v1"
+          ]
+        },
+        "notes": "Fixed 50:50 two-way splitter; 0.2 dB is excess insertion loss in addition to division. No continuously tunable splitting or lossless duplication.",
+        "parameters": {
+          "power_ratio": 0.5,
+          "insertion_loss_db": 0.2,
+          "ratio_tunability": "fixed"
+        }
+      },
+      {
+        "id": "waveguide",
+        "kind": "waveguide",
+        "model_version": "scalar_intensity_v1",
+        "ports": [
+          {
+            "name": "in",
+            "direction": "in",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          },
+          {
+            "name": "out",
+            "direction": "out",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          }
+        ],
+        "operating_envelope": {
+          "wavelength_nm": {
+            "minimum": 1540.0,
+            "maximum": 1560.0
+          },
+          "temperature_c": {
+            "minimum": 20.0,
+            "maximum": 30.0
+          },
+          "symbol_duration_ns": {
+            "minimum": 0.5,
+            "maximum": 10.0
+          },
+          "max_input_power_mw": 10.0
+        },
+        "costs": {
+          "area_um2": 0.0,
+          "fixed_energy_pj": 0.0,
+          "latency_ns": 0.0
+        },
+        "evidence": {
+          "parameters": [
+            "illustrative_v1"
+          ],
+          "operating_envelope": [
+            "illustrative_v1"
+          ],
+          "costs": [
+            "illustrative_v1"
+          ],
+          "model": [
+            "model_contract_v1",
+            "nist_si"
+          ]
+        },
+        "notes": "Uniform, matched, single-mode waveguide with constant coefficients inside the declared envelope. Width times length estimates occupied core area, excluding spacing and bends.",
+        "parameters": {
+          "attenuation_db_per_um": 0.0002,
+          "group_index": 4.0,
+          "effective_index": 2.4,
+          "width_um": 0.5,
+          "maximum_length_um": 10000.0
+        }
+      },
+      {
+        "id": "detector",
+        "kind": "detector",
+        "model_version": "scalar_intensity_v1",
+        "ports": [
+          {
+            "name": "in",
+            "direction": "in",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          },
+          {
+            "name": "out",
+            "direction": "out",
+            "domain": "electrical",
+            "quantity": "normalized_sample",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          }
+        ],
+        "operating_envelope": {
+          "wavelength_nm": {
+            "minimum": 1540.0,
+            "maximum": 1560.0
+          },
+          "temperature_c": {
+            "minimum": 20.0,
+            "maximum": 30.0
+          },
+          "symbol_duration_ns": {
+            "minimum": 0.5,
+            "maximum": 10.0
+          },
+          "max_input_power_mw": 1.0
+        },
+        "costs": {
+          "area_um2": 100.0,
+          "fixed_energy_pj": 0.1,
+          "latency_ns": 0.2
+        },
+        "evidence": {
+          "parameters": [
+            "illustrative_v1"
+          ],
+          "operating_envelope": [
+            "illustrative_v1"
+          ],
+          "costs": [
+            "illustrative_v1"
+          ],
+          "model": [
+            "model_contract_v1",
+            "nist_si"
+          ]
+        },
+        "notes": "Ideal calibrated normalized sample output plus shot and input-referred electronic noise. Minimum power is minimum full-scale calibration power, not a requirement that x=0 emit light. One electrical load only; cost assumes receiver and normalization electronics.",
+        "parameters": {
+          "minimum_full_scale_power_mw": 0.01,
+          "quantum_efficiency": 0.8,
+          "input_referred_noise_mw_rms": 0.0001
+        }
+      },
+      {
+        "id": "modulator",
+        "kind": "modulator",
+        "model_version": "scalar_intensity_v1",
+        "ports": [
+          {
+            "name": "carrier",
+            "direction": "in",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          },
+          {
+            "name": "sample",
+            "direction": "in",
+            "domain": "electrical",
+            "quantity": "normalized_sample",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          },
+          {
+            "name": "out",
+            "direction": "out",
+            "domain": "optical",
+            "quantity": "power_mw",
+            "encoding": "normalized_intensity",
+            "max_connections": 1
+          }
+        ],
+        "operating_envelope": {
+          "wavelength_nm": {
+            "minimum": 1540.0,
+            "maximum": 1560.0
+          },
+          "temperature_c": {
+            "minimum": 20.0,
+            "maximum": 30.0
+          },
+          "symbol_duration_ns": {
+            "minimum": 0.5,
+            "maximum": 10.0
+          },
+          "max_input_power_mw": 10.0
+        },
+        "costs": {
+          "area_um2": 100.0,
+          "fixed_energy_pj": 0.1,
+          "latency_ns": 0.2
+        },
+        "evidence": {
+          "parameters": [
+            "illustrative_v1"
+          ],
+          "operating_envelope": [
+            "illustrative_v1"
+          ],
+          "costs": [
+            "illustrative_v1"
+          ],
+          "model": [
+            "model_contract_v1"
+          ]
+        },
+        "notes": "Ideal linear intensity reencoder: output full scale is carrier power times insertion transmission. The carrier and one normalized electrical sample must both be supplied. Drive/normalization overhead is included only as an illustrative fixed cost.",
+        "parameters": {
+          "insertion_loss_db": 1.0,
+          "added_sample_noise_rms": 0.002
+        }
+      }
+    ],
+    "assumptions": [
+      "One scalar, nonnegative intensity sample, x in [0,1], per optical lane and rectangular symbol; negative signed NN values need a separately specified encoder.",
+      "Full-scale power is a calibration/operating-point parameter. Energy is a full-scale-per-symbol upper bound, not workload-averaged energy.",
+      "Passive components are matched, reflection-free, single-mode and linear; parameters are constant only within the stated envelope.",
+      "Receiver gain and modulation are ideally calibrated. Detector quantum efficiency thins a Poisson photon count; a separate input-referred RMS term models electronics.",
+      "Physical ports allow one connection each, including electrical outputs; electrical broadcast needs additional modeled components.",
+      "Electrical receiver/reencoder fixed costs are illustrative lumped overheads; no free detector or carrier source is implied."
+    ],
+    "excluded_effects": [
+      "Fabrication/layout/DRC and foundry qualification",
+      "Signed, coherent, phase, wavelength-multiplexed or quantum state encoding",
+      "Back reflections, interference, dispersion, crosstalk, bends and coupling/packaging loss",
+      "Bandwidth waveform distortion, modulator extinction/nonlinearity and laser start-up dynamics",
+      "Temperature variation within the envelope, process variation, ageing and calibration drift",
+      "NN task accuracy, covariance guarantees after regeneration, complete memory/control/IO costs",
+      "Optical amplification, serialized delivery, switching and storage"
+    ]
+  },
+  "spec": {
+    "schema_version": "0.3",
+    "source_node": "x",
+    "recipe": "passive",
+    "source_power_mw": 1.0,
+    "regeneration_power_mw": null,
+    "lengths_um": [
+      250.0,
+      1000.0,
+      1750.0,
+      2500.0
+    ],
+    "operating": {
+      "wavelength_nm": 1550.0,
+      "temperature_c": 25.0,
+      "symbol_duration_ns": 1.0
+    },
+    "components": {
+      "source": "source",
+      "splitter": "splitter",
+      "waveguide": "waveguide",
+      "detector": "detector",
+      "modulator": "modulator"
+    }
+  },
+  "graph": {
+    "schema_version": "0.3",
+    "kind": "intensity_fanout_subcircuit",
+    "network": {
+      "schema_version": "0.1",
+      "name": "validation_fanout_4",
+      "nodes": [
+        {
+          "id": "x",
+          "op": "input",
+          "inputs": [],
+          "size": 1,
+          "weights": null,
+          "bias": null,
+          "input_bounds": {
+            "lower": [
+              0.0
+            ],
+            "upper": [
+              1.0
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        "x",
+        "x",
+        "x",
+        "x"
+      ]
+    },
+    "source_node": "x",
+    "recipe": "passive",
+    "operating": {
+      "wavelength_nm": 1550.0,
+      "temperature_c": 25.0,
+      "symbol_duration_ns": 1.0
+    },
+    "instances": [
+      {
+        "id": "lane0.launch",
+        "component": "source",
+        "parameters": {
+          "power_mw": 1.0,
+          "length_um": null
+        },
+        "role": "encoded_launch",
+        "source_node": "x",
+        "lane": 0
+      },
+      {
+        "id": "lane0.split0.0",
+        "component": "splitter",
+        "parameters": {
+          "power_mw": null,
+          "length_um": null
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.split1.0",
+        "component": "splitter",
+        "parameters": {
+          "power_mw": null,
+          "length_um": null
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.split1.1",
+        "component": "splitter",
+        "parameters": {
+          "power_mw": null,
+          "length_um": null
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use0.route",
+        "component": "waveguide",
+        "parameters": {
+          "power_mw": null,
+          "length_um": 250.0
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use0.receiver",
+        "component": "detector",
+        "parameters": {
+          "power_mw": null,
+          "length_um": null
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use1.route",
+        "component": "waveguide",
+        "parameters": {
+          "power_mw": null,
+          "length_um": 1000.0
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use1.receiver",
+        "component": "detector",
+        "parameters": {
+          "power_mw": null,
+          "length_um": null
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use2.route",
+        "component": "waveguide",
+        "parameters": {
+          "power_mw": null,
+          "length_um": 1750.0
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use2.receiver",
+        "component": "detector",
+        "parameters": {
+          "power_mw": null,
+          "length_um": null
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use3.route",
+        "component": "waveguide",
+        "parameters": {
+          "power_mw": null,
+          "length_um": 2500.0
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      },
+      {
+        "id": "lane0.use3.receiver",
+        "component": "detector",
+        "parameters": {
+          "power_mw": null,
+          "length_um": null
+        },
+        "role": null,
+        "source_node": null,
+        "lane": null
+      }
+    ],
+    "connections": [
+      {
+        "source": {
+          "instance": "lane0.launch",
+          "port": "out"
+        },
+        "target": {
+          "instance": "lane0.split0.0",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.split0.0",
+          "port": "out1"
+        },
+        "target": {
+          "instance": "lane0.split1.0",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.split0.0",
+          "port": "out2"
+        },
+        "target": {
+          "instance": "lane0.split1.1",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.split1.0",
+          "port": "out1"
+        },
+        "target": {
+          "instance": "lane0.use0.route",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.use0.route",
+          "port": "out"
+        },
+        "target": {
+          "instance": "lane0.use0.receiver",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.split1.0",
+          "port": "out2"
+        },
+        "target": {
+          "instance": "lane0.use1.route",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.use1.route",
+          "port": "out"
+        },
+        "target": {
+          "instance": "lane0.use1.receiver",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.split1.1",
+          "port": "out1"
+        },
+        "target": {
+          "instance": "lane0.use2.route",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.use2.route",
+          "port": "out"
+        },
+        "target": {
+          "instance": "lane0.use2.receiver",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.split1.1",
+          "port": "out2"
+        },
+        "target": {
+          "instance": "lane0.use3.route",
+          "port": "in"
+        }
+      },
+      {
+        "source": {
+          "instance": "lane0.use3.route",
+          "port": "out"
+        },
+        "target": {
+          "instance": "lane0.use3.receiver",
+          "port": "in"
+        }
+      }
+    ],
+    "launch_boundaries": [
+      {
+        "instance": "lane0.launch",
+        "port": "out"
+      }
+    ],
+    "receivers": [
+      {
+        "port": {
+          "instance": "lane0.use0.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 0
+      },
+      {
+        "port": {
+          "instance": "lane0.use1.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 1
+      },
+      {
+        "port": {
+          "instance": "lane0.use2.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 2
+      },
+      {
+        "port": {
+          "instance": "lane0.use3.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 3
+      }
+    ],
+    "terminations": []
+  },
+  "hashes": {
+    "network": "28595f929d35bb81b3e138b5d4c3d37d549debf3c4d71fc4563dbc3b38f33547",
+    "technology": "4b6572c6abe78c85890fb06ecb6d36c3555423f0f70241e790384a470aa80ce1",
+    "spec": "25a153ef99fb6b6bc282e9c74b0d3c0b565d3344c0a2e4fa4f02d3a51c347711",
+    "graph": "44df252cac35a87ea9f071433b1fb6fa1c87b2a16b996362192d1d7bc718eef0"
+  },
+  "evaluation": {
+    "feasible": true,
+    "diagnostics": [],
+    "metrics": {
+      "energy_pj": 5.4,
+      "area_um2": 4210.0,
+      "latency_ns": 1.3333564095198152,
+      "noise_rms_estimate": 0.001424960518093036,
+      "stacked_noise_rms_estimate": 0.002805767792353965,
+      "terminated_power_mw": 0.0,
+      "instance_count": 12,
+      "receiver_count": 4
+    },
+    "ledger": [
+      {
+        "instance": "lane0.launch",
+        "component": "source",
+        "kind": "source",
+        "role": "encoded_launch",
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out": 1.0
+        },
+        "area_um2": 1000.0,
+        "energy_pj": 5.0,
+        "latency_ns": 0.1,
+        "added_noise_variance": 1e-06,
+        "input_power_mw": null,
+        "complete_symbol_ready_ns": 1.1,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.split0.0",
+        "component": "splitter",
+        "kind": "splitter",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out1": 0.477496293010718,
+          "out2": 0.477496293010718
+        },
+        "area_um2": 20.0,
+        "energy_pj": 0.0,
+        "latency_ns": 0.0,
+        "added_noise_variance": 0.0,
+        "input_power_mw": 1.0,
+        "complete_symbol_ready_ns": 1.1,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.split1.0",
+        "component": "splitter",
+        "kind": "splitter",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out1": 0.22800270983897747,
+          "out2": 0.22800270983897747
+        },
+        "area_um2": 20.0,
+        "energy_pj": 0.0,
+        "latency_ns": 0.0,
+        "added_noise_variance": 0.0,
+        "input_power_mw": 0.477496293010718,
+        "complete_symbol_ready_ns": 1.1,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.split1.1",
+        "component": "splitter",
+        "kind": "splitter",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out1": 0.22800270983897747,
+          "out2": 0.22800270983897747
+        },
+        "area_um2": 20.0,
+        "energy_pj": 0.0,
+        "latency_ns": 0.0,
+        "added_noise_variance": 0.0,
+        "input_power_mw": 0.477496293010718,
+        "complete_symbol_ready_ns": 1.1,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.use0.route",
+        "component": "waveguide",
+        "kind": "waveguide",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out": 0.22539278440148927
+        },
+        "area_um2": 125.0,
+        "energy_pj": 0.0,
+        "latency_ns": 0.0033356409519815205,
+        "added_noise_variance": 0.0,
+        "input_power_mw": 0.22800270983897747,
+        "complete_symbol_ready_ns": 1.1033356409519817,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.use1.route",
+        "component": "waveguide",
+        "kind": "waveguide",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out": 0.2177408974890202
+        },
+        "area_um2": 500.0,
+        "energy_pj": 0.0,
+        "latency_ns": 0.013342563807926082,
+        "added_noise_variance": 0.0,
+        "input_power_mw": 0.22800270983897747,
+        "complete_symbol_ready_ns": 1.1133425638079262,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.use2.route",
+        "component": "waveguide",
+        "kind": "waveguide",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out": 0.2103487854112988
+        },
+        "area_um2": 875.0,
+        "energy_pj": 0.0,
+        "latency_ns": 0.023349486663870645,
+        "added_noise_variance": 0.0,
+        "input_power_mw": 0.22800270983897747,
+        "complete_symbol_ready_ns": 1.1233494866638707,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.use3.route",
+        "component": "waveguide",
+        "kind": "waveguide",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {
+          "out": 0.20320762904102485
+        },
+        "area_um2": 1250.0,
+        "energy_pj": 0.0,
+        "latency_ns": 0.03335640951981521,
+        "added_noise_variance": 0.0,
+        "input_power_mw": 0.22800270983897747,
+        "complete_symbol_ready_ns": 1.1333564095198152,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001
+        }
+      },
+      {
+        "instance": "lane0.use0.receiver",
+        "component": "detector",
+        "kind": "detector",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {},
+        "area_um2": 100.0,
+        "energy_pj": 0.1,
+        "latency_ns": 0.2,
+        "added_noise_variance": 9.07590008695118e-07,
+        "mean_photoelectrons": 1406970.4021985475,
+        "electrical_output_full_scale": 1.0,
+        "input_power_mw": 0.22539278440148927,
+        "complete_symbol_ready_ns": 1.3033356409519816,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use0.receiver:detection": 0.0009526751853045811
+        }
+      },
+      {
+        "instance": "lane0.use1.receiver",
+        "component": "detector",
+        "kind": "detector",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {},
+        "area_um2": 100.0,
+        "energy_pj": 0.1,
+        "latency_ns": 0.2,
+        "added_noise_variance": 9.466452732635482e-07,
+        "mean_photoelectrons": 1359204.993756558,
+        "electrical_output_full_scale": 1.0,
+        "input_power_mw": 0.2177408974890202,
+        "complete_symbol_ready_ns": 1.3133425638079261,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use1.receiver:detection": 0.0009729569740042713
+        }
+      },
+      {
+        "instance": "lane0.use2.receiver",
+        "component": "detector",
+        "kind": "detector",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {},
+        "area_um2": 100.0,
+        "energy_pj": 0.1,
+        "latency_ns": 0.2,
+        "added_noise_variance": 9.875851445282015e-07,
+        "mean_photoelectrons": 1313061.1789458669,
+        "electrical_output_full_scale": 1.0,
+        "input_power_mw": 0.2103487854112988,
+        "complete_symbol_ready_ns": 1.3233494866638706,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use2.receiver:detection": 0.0009937731856556613
+        }
+      },
+      {
+        "instance": "lane0.use3.receiver",
+        "component": "detector",
+        "kind": "detector",
+        "role": null,
+        "status": "evaluated",
+        "output_powers_mw": {},
+        "area_um2": 100.0,
+        "energy_pj": 0.1,
+        "latency_ns": 0.2,
+        "added_noise_variance": 1.030512478123974e-06,
+        "mean_photoelectrons": 1268483.906088055,
+        "electrical_output_full_scale": 1.0,
+        "input_power_mw": 0.20320762904102485,
+        "complete_symbol_ready_ns": 1.3333564095198152,
+        "carrier_ready_ns": null,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use3.receiver:detection": 0.0010151416049615806
+        }
+      }
+    ],
+    "receivers": [
+      {
+        "port": {
+          "instance": "lane0.use0.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 0,
+        "use": {
+          "target": "@output:0",
+          "index": 0,
+          "output": true
+        },
+        "status": "evaluated",
+        "full_scale_power_mw": 0.22539278440148927,
+        "sensitivity_margin_mw": 0.21539278440148926,
+        "overload_margin_mw": 0.7746072155985108,
+        "complete_symbol_ready_ns": 1.3033356409519816,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use0.receiver:detection": 0.0009526751853045811
+        },
+        "noise_variance_estimate": 1.907590008695118e-06,
+        "noise_rms_estimate": 0.001381155316644409
+      },
+      {
+        "port": {
+          "instance": "lane0.use1.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 1,
+        "use": {
+          "target": "@output:1",
+          "index": 1,
+          "output": true
+        },
+        "status": "evaluated",
+        "full_scale_power_mw": 0.2177408974890202,
+        "sensitivity_margin_mw": 0.2077408974890202,
+        "overload_margin_mw": 0.7822591025109797,
+        "complete_symbol_ready_ns": 1.3133425638079261,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use1.receiver:detection": 0.0009729569740042713
+        },
+        "noise_variance_estimate": 1.9466452732635483e-06,
+        "noise_rms_estimate": 0.001395222302453465
+      },
+      {
+        "port": {
+          "instance": "lane0.use2.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 2,
+        "use": {
+          "target": "@output:2",
+          "index": 2,
+          "output": true
+        },
+        "status": "evaluated",
+        "full_scale_power_mw": 0.2103487854112988,
+        "sensitivity_margin_mw": 0.2003487854112988,
+        "overload_margin_mw": 0.7896512145887011,
+        "complete_symbol_ready_ns": 1.3233494866638706,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use2.receiver:detection": 0.0009937731856556613
+        },
+        "noise_variance_estimate": 1.9875851445282014e-06,
+        "noise_rms_estimate": 0.0014098174153159696
+      },
+      {
+        "port": {
+          "instance": "lane0.use3.receiver",
+          "port": "out"
+        },
+        "source_node": "x",
+        "lane": 0,
+        "use_index": 3,
+        "use": {
+          "target": "@output:3",
+          "index": 3,
+          "output": true
+        },
+        "status": "evaluated",
+        "full_scale_power_mw": 0.20320762904102485,
+        "sensitivity_margin_mw": 0.19320762904102484,
+        "overload_margin_mw": 0.7967923709589751,
+        "complete_symbol_ready_ns": 1.3333564095198152,
+        "noise_loadings": {
+          "lane0.launch:rin": 0.001,
+          "lane0.use3.receiver:detection": 0.0010151416049615806
+        },
+        "noise_variance_estimate": 2.0305124781239735e-06,
+        "noise_rms_estimate": 0.001424960518093036
+      }
+    ],
+    "receiver_covariance_estimate": [
+      [
+        1.907590008695118e-06,
+        1e-06,
+        1e-06,
+        1e-06
+      ],
+      [
+        1e-06,
+        1.9466452732635483e-06,
+        1e-06,
+        1e-06
+      ],
+      [
+        1e-06,
+        1e-06,
+        1.9875851445282014e-06,
+        1e-06
+      ],
+      [
+        1e-06,
+        1e-06,
+        1e-06,
+        2.0305124781239735e-06
+      ]
+    ],
+    "terminations": [],
+    "instance_counts": {
+      "detector": 4,
+      "source": 1,
+      "splitter": 3,
+      "waveguide": 4
+    },
+    "scope": {
+      "implementation": "one NN node's scalar-lane optical fanout distribution subcircuit",
+      "encoding": "normalized intensity P=P_full_scale*x, nominal 0<=x<=1; no implicit rescaling",
+      "input_boundary": "each encoded_launch source is externally driven by the selected NN value; NN computation and encoding/driver internals are outside this subcircuit",
+      "output_boundary": "complete calibrated electrical samples at receiver ports; wiring and consumer NN operators are outside this subcircuit",
+      "energy": "full-scale per-symbol electrical energy upper bound under the declared nominal model; includes every launch and carrier source and component overhead; not workload averaged",
+      "latency": "complete-symbol readiness from launch start; one acquisition interval at launch and an additional interval for each regeneration; fixed component overheads are additional",
+      "carrier_schedule": "fresh carrier for each generated regenerative branch is gated to one symbol at reencoding; startup/transient and standby costs are excluded",
+      "noise": "first-order normalized full-scale covariance and RMS estimate with shared upstream contributions; not a guaranteed NN error bound, clipping proof, or task-accuracy prediction",
+      "termination": "unused optical leaves are ideal matched external termination boundaries; their power is lost and not redistributed; termination device area/cost is outside scope",
+      "aggregation": "subcircuit instance costs only; not added to legacy neural macro estimates",
+      "excluded": [
+        "complete neural hardware",
+        "signed encoding",
+        "fabrication and layout",
+        "routing spacing/bends/coupling",
+        "complete control/memory/IO",
+        "throughput",
+        "noise nonlinearities and clipping",
+        "calibration and manufacturing guarantees"
+      ]
+    },
+    "technology_status": {
+      "id": "illustrative_intensity",
+      "version": "0.3.0",
+      "calibration_status": "illustrative",
+      "review": {
+        "status": "unreviewed",
+        "reviewer": null,
+        "report_source_id": null,
+        "notes": "No photonics collaborator has reviewed this pack. Software review and tests do not constitute device calibration or expert hardware validation."
+      }
+    }
+  }
+}

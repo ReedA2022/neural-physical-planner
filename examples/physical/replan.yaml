@@ -1,0 +1,22 @@
+# Preserve the selected baseline launch power and choose other implementation details.
+# --baseline must point to a replayable realization.json for fanout4.json and source x.
+# To demonstrate regeneration rescue, first make a passive baseline with 50 uW launch
+# and 10 mm routes; that baseline is allowed to be physically infeasible.
+schema_version: "0.3"
+source_node: x
+grid:
+  recipes: [passive, regenerate]
+  source_powers_mw: [50 uW, 100 uW, 200 uW]
+  regeneration_powers_mw: [100 uW, 200 uW]
+  route_lengths_um: [10 mm]
+locks:
+  source_power_mw: baseline
+  instances:
+    lane0.launch: baseline  # requires this ID and preserves its global source family
+    # lane0.use0.receiver: detector  # applies the detector family to every detector
+    # lane0.use0.modulator: modulator  # would require regeneration's modulator to exist
+forbidden_recipes: []  # [regenerate] would forbid regeneration
+objectives: [energy_pj, latency_ns, area_um2, noise_rms_estimate]
+constraints:
+  min_receiver_margin_mw: 0 uW
+max_evaluations: 128

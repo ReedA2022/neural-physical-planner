@@ -1,0 +1,473 @@
+{
+  "$defs": {
+    "Bounds": {
+      "additionalProperties": false,
+      "properties": {
+        "lower": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Lower",
+          "type": "array"
+        },
+        "upper": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Upper",
+          "type": "array"
+        }
+      },
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "title": "Bounds",
+      "type": "object"
+    },
+    "Connection": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "target": {
+          "$ref": "#/$defs/Endpoint"
+        }
+      },
+      "required": [
+        "source",
+        "target"
+      ],
+      "title": "Connection",
+      "type": "object"
+    },
+    "Endpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "instance": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Instance",
+          "type": "string"
+        },
+        "port": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Port",
+          "type": "string"
+        }
+      },
+      "required": [
+        "instance",
+        "port"
+      ],
+      "title": "Endpoint",
+      "type": "object"
+    },
+    "Instance": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "component": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Component",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/InstanceParameters"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "enum": [
+                "encoded_launch",
+                "constant_carrier"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "source_node": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Node"
+        },
+        "lane": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lane"
+        }
+      },
+      "required": [
+        "id",
+        "component"
+      ],
+      "title": "Instance",
+      "type": "object"
+    },
+    "InstanceParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "power_mw": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Power Mw"
+        },
+        "length_um": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Length Um"
+        }
+      },
+      "title": "InstanceParameters",
+      "type": "object"
+    },
+    "Network": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.1",
+          "default": "0.1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/Node"
+          },
+          "minItems": 1,
+          "title": "Nodes",
+          "type": "array"
+        },
+        "outputs": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Outputs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "nodes",
+        "outputs"
+      ],
+      "title": "Network",
+      "type": "object"
+    },
+    "Node": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "op": {
+          "enum": [
+            "input",
+            "linear",
+            "relu",
+            "add",
+            "identity"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "title": "Inputs",
+          "type": "array"
+        },
+        "size": {
+          "exclusiveMinimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "weights": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Weights"
+        },
+        "bias": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bias"
+        },
+        "input_bounds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Bounds"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "op",
+        "size"
+      ],
+      "title": "Node",
+      "type": "object"
+    },
+    "OperatingPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "wavelength_nm": {
+          "default": 1550.0,
+          "exclusiveMinimum": 0,
+          "title": "Wavelength Nm",
+          "type": "number"
+        },
+        "temperature_c": {
+          "default": 25.0,
+          "title": "Temperature C",
+          "type": "number"
+        },
+        "symbol_duration_ns": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Symbol Duration Ns",
+          "type": "number"
+        }
+      },
+      "title": "OperatingPoint",
+      "type": "object"
+    },
+    "Receiver": {
+      "additionalProperties": false,
+      "properties": {
+        "port": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "source_node": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Source Node",
+          "type": "string"
+        },
+        "lane": {
+          "minimum": 0,
+          "title": "Lane",
+          "type": "integer"
+        },
+        "use_index": {
+          "minimum": 0,
+          "title": "Use Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "port",
+        "source_node",
+        "lane",
+        "use_index"
+      ],
+      "title": "Receiver",
+      "type": "object"
+    },
+    "Termination": {
+      "additionalProperties": false,
+      "properties": {
+        "port": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "model": {
+          "const": "ideal_matched_external_boundary",
+          "default": "ideal_matched_external_boundary",
+          "title": "Model",
+          "type": "string"
+        },
+        "reason": {
+          "const": "unused_splitter_leaf",
+          "default": "unused_splitter_leaf",
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port"
+      ],
+      "title": "Termination",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.3",
+      "default": "0.3",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "intensity_fanout_subcircuit",
+      "default": "intensity_fanout_subcircuit",
+      "title": "Kind",
+      "type": "string"
+    },
+    "network": {
+      "$ref": "#/$defs/Network"
+    },
+    "source_node": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+      "title": "Source Node",
+      "type": "string"
+    },
+    "recipe": {
+      "enum": [
+        "passive",
+        "regenerate"
+      ],
+      "title": "Recipe",
+      "type": "string"
+    },
+    "operating": {
+      "$ref": "#/$defs/OperatingPoint"
+    },
+    "instances": {
+      "items": {
+        "$ref": "#/$defs/Instance"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Instances",
+      "type": "array"
+    },
+    "connections": {
+      "items": {
+        "$ref": "#/$defs/Connection"
+      },
+      "maxItems": 8192,
+      "title": "Connections",
+      "type": "array"
+    },
+    "launch_boundaries": {
+      "items": {
+        "$ref": "#/$defs/Endpoint"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Launch Boundaries",
+      "type": "array"
+    },
+    "receivers": {
+      "items": {
+        "$ref": "#/$defs/Receiver"
+      },
+      "maxItems": 256,
+      "minItems": 2,
+      "title": "Receivers",
+      "type": "array"
+    },
+    "terminations": {
+      "items": {
+        "$ref": "#/$defs/Termination"
+      },
+      "maxItems": 256,
+      "title": "Terminations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "network",
+    "source_node",
+    "recipe",
+    "operating",
+    "instances",
+    "connections",
+    "launch_boundaries",
+    "receivers",
+    "terminations"
+  ],
+  "title": "ImplementationGraph",
+  "type": "object"
+}

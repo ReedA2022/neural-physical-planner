@@ -1,8 +1,14 @@
-# Neural Physical Planner — research prototype v0.2
+# Neural Physical Planner — research prototype v0.3
 
 A runnable compiler for exploring alternative **hardware macro-plans** for a neural computation graph. It takes explicit weights, a physical component and compensation-rule library, and a design request. It returns feasible implementations, a Pareto set, predicted costs and error, an expanded implementation graph, and a schedule.
 
-This release establishes a concrete input/output contract and an end-to-end implementation. The example hardware coefficients are **synthetic**. The backend is an explicitly defined additive Gaussian surrogate for digital/optical computation, **not a fabrication netlist generator or a calibrated photonic simulator**. No novelty or hardware-performance claim follows from these examples.
+Version 0.3 adds an explicit physical layer for one NN node's optical distribution
+circuit, with component evidence, typed connections, SAX power comparisons and
+constrained designer replanning. The macro planner retains its additive Gaussian
+surrogate and schema 0.1. Physical subcircuit metrics use separate boundaries.
+The example hardware values are **illustrative and uncalibrated**. This is not a
+fabrication tool or a whole-NN physical implementation, and the examples establish
+no research novelty or measured hardware-performance claim.
 
 ## Start with a friendly project
 
@@ -54,6 +60,50 @@ search: exhaustive
 ```
 
 See [the input guide](docs/INPUT_GUIDE.md) for full examples, hardware overrides, matrix orientation and troubleshooting. To inspect exactly what will be compiled, run `npp normalize --project my-design/project.yaml --out-dir normalized`. The resulting canonical JSON embeds the resolved weights and is independent of the source weight files.
+
+## Inspect a physical optical distribution circuit
+
+To search alternatives under designer constraints, start with:
+
+```bash
+npp plan-physical --network examples/physical/fanout4.json \
+  --design examples/physical/design.yaml --out-dir runs/physical-design
+npp check-physical-design --result runs/physical-design/design-result.json
+```
+
+The [designer guide](docs/DESIGNER.md) explains readable units, component and
+power locks, forbidden recipes, Pareto alternatives, rejection explanations and
+replanning from an existing realization. The output report distinguishes a
+complete finite search from a truncated one and links to each retained circuit.
+
+The v0.3 physical layer expands one bounded NN node's fanout into explicit sources,
+splitters, waveguides, detectors and optional regeneration components. It supplies
+typed connections, per-instance resource costs, receiver power margins and a
+portable replay-checked record. These physical subcircuit metrics are separate from
+the macro planner's whole-graph estimates.
+
+```bash
+npp realize --network examples/physical/network.json \
+  --spec examples/physical/realization.yaml --out-dir runs/physical
+npp check-realization --realization runs/physical/realization.json
+npp export-optical --realization runs/physical/realization.json --out optical-netlist.json
+```
+
+For an external SAX power-composition comparison, use Python 3.11+ and install the
+optional solver. Export and the core physical planner do not require SAX.
+
+```bash
+python -m pip install '.[photonics]'
+npp simulate-realization --realization runs/physical/realization.json \
+  --wavelengths-nm 1540 1550 1560 --out-dir runs/optical-comparison
+```
+
+Open each output directory's `report.html` to inspect the circuit or comparison.
+The technology values remain illustrative and uncalibrated. SAX checks composition
+of declared full-scale optical transfers; it does not validate the electronics,
+noise, timing, NN task accuracy or fabrication layout. See
+[technology contracts](docs/TECHNOLOGY.md), [physical implementations](docs/IMPLEMENTATION.md)
+and [external simulation](docs/SIMULATION.md) for the supported boundaries.
 
 ## Saved weight formats
 

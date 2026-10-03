@@ -1,0 +1,10 @@
+{
+  "software_version": "0.3.0",
+  "evaluated": 512,
+  "retained_plans": 10,
+  "normalized_input_hashes_identical": true,
+  "all_retained_records_identical": true,
+  "all_replay_checks_passed": true,
+  "samples_per_plan": 10000,
+  "simulation_consistency": true
+}

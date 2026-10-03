@@ -1,0 +1,9 @@
+{
+  "schema_version": "0.1",
+  "name": "Two-lane bounded fanout with repeated operand and output",
+  "nodes": [
+    {"id": "x", "op": "input", "size": 2, "input_bounds": {"lower": [0.0, 0.0], "upper": [1.0, 1.0]}},
+    {"id": "twice", "op": "add", "size": 2, "inputs": ["x", "x"]}
+  ],
+  "outputs": ["twice", "x"]
+}

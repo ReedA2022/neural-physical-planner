@@ -1,5 +1,29 @@
 # Changes
 
+## 0.3.0 — inspectable optical circuits and designer interaction
+
+- Added strict physical technology packs with typed ports, operating envelopes,
+  component equations, parameter evidence and explicit review/calibration status.
+- Added NN-linked optical fanout graphs with paid sources, fixed splitter trees,
+  waveguides, detectors, regenerative carriers/modulators and explicit unused
+  termination boundaries. Costs, complete-symbol timing, receiver margins and
+  shared first-order noise estimates are recorded per physical instance.
+- Added portable physical realization replay and offline circuit reports.
+- Added optional real SAX/KLU composition of exported optical segments, wavelength
+  sweeps, per-boundary power comparisons and reports. Electrical dynamics, noise,
+  timing and calibration are explicitly outside that external check.
+- Added bounded multiobjective design search, readable quantities, recipe/power
+  and component-instance locks, forbidden recipes, hard requirements, baseline
+  replanning, rejection explanations and replay of the complete design result.
+- Added independent critique gates, adversarial regressions and a reproducible
+  physical integration harness. Reviews are preserved in `docs/reviews/`.
+
+The physical schemas use `0.3`; existing neural macro schemas remain `0.1`.
+The two workflows keep separate metric boundaries. This release demonstrates
+one NN node's optical distribution subcircuit, with illustrative device values.
+It does not provide calibrated hardware performance, signed physical NN
+operators, arbitrary topology synthesis, fabrication layout or task accuracy.
+
 ## 0.2.0 — friendly inputs and saved weights
 
 - Added a single YAML or JSON project file connecting the model, hardware and design settings. The original three JSON input options remain supported.

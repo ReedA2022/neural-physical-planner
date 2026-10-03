@@ -1,0 +1,11 @@
+{
+  "software_version": "0.3.0",
+  "module_loaded_from_installed_wheel": true,
+  "working_directory": "outside_source_checkout",
+  "technology_and_schema_export": true,
+  "physical_plan_and_replay": true,
+  "locked_replan_and_replay": true,
+  "real_SAX_comparison": true,
+  "core_only_design_replay": true,
+  "core_only_optical_export": true
+}

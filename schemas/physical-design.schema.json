@@ -1,0 +1,365 @@
+{
+  "$defs": {
+    "ComponentGrid": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Source",
+          "type": "array"
+        },
+        "splitter": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Splitter",
+          "type": "array"
+        },
+        "waveguide": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Waveguide",
+          "type": "array"
+        },
+        "detector": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Detector",
+          "type": "array"
+        },
+        "modulator": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Modulator",
+          "type": "array"
+        }
+      },
+      "title": "ComponentGrid",
+      "type": "object"
+    },
+    "DesignConstraints": {
+      "additionalProperties": false,
+      "properties": {
+        "max_energy_pj": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Energy Pj"
+        },
+        "max_latency_ns": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Latency Ns"
+        },
+        "max_area_um2": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Area Um2"
+        },
+        "max_noise_rms_estimate": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Noise Rms Estimate"
+        },
+        "min_receiver_margin_mw": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Min Receiver Margin Mw",
+          "type": "number"
+        }
+      },
+      "title": "DesignConstraints",
+      "type": "object"
+    },
+    "DesignGrid": {
+      "additionalProperties": false,
+      "properties": {
+        "recipes": {
+          "items": {
+            "enum": [
+              "passive",
+              "regenerate"
+            ],
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "title": "Recipes",
+          "type": "array"
+        },
+        "source_powers_mw": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Source Powers Mw",
+          "type": "array"
+        },
+        "regeneration_powers_mw": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Regeneration Powers Mw",
+          "type": "array"
+        },
+        "route_lengths_um": {
+          "items": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "number"
+              },
+              {
+                "items": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Route Lengths Um",
+          "type": "array"
+        },
+        "components": {
+          "$ref": "#/$defs/ComponentGrid"
+        }
+      },
+      "required": [
+        "source_powers_mw"
+      ],
+      "title": "DesignGrid",
+      "type": "object"
+    },
+    "DesignLocks": {
+      "additionalProperties": false,
+      "properties": {
+        "recipe": {
+          "anyOf": [
+            {
+              "enum": [
+                "passive",
+                "regenerate"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "baseline",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recipe"
+        },
+        "source_power_mw": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "const": "baseline",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Power Mw"
+        },
+        "regeneration_power_mw": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "const": "baseline",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Regeneration Power Mw"
+        },
+        "instances": {
+          "maxProperties": 256,
+          "patternProperties": {
+            "^[A-Za-z][A-Za-z0-9_.:-]*$": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Instances",
+          "type": "object"
+        }
+      },
+      "title": "DesignLocks",
+      "type": "object"
+    },
+    "OperatingPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "wavelength_nm": {
+          "default": 1550.0,
+          "exclusiveMinimum": 0,
+          "title": "Wavelength Nm",
+          "type": "number"
+        },
+        "temperature_c": {
+          "default": 25.0,
+          "title": "Temperature C",
+          "type": "number"
+        },
+        "symbol_duration_ns": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Symbol Duration Ns",
+          "type": "number"
+        }
+      },
+      "title": "OperatingPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.3",
+      "default": "0.3",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_node": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+      "title": "Source Node",
+      "type": "string"
+    },
+    "grid": {
+      "$ref": "#/$defs/DesignGrid"
+    },
+    "operating": {
+      "$ref": "#/$defs/OperatingPoint"
+    },
+    "objectives": {
+      "items": {
+        "enum": [
+          "energy_pj",
+          "latency_ns",
+          "area_um2",
+          "noise_rms_estimate"
+        ],
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Objectives",
+      "type": "array"
+    },
+    "constraints": {
+      "$ref": "#/$defs/DesignConstraints"
+    },
+    "locks": {
+      "$ref": "#/$defs/DesignLocks"
+    },
+    "forbidden_recipes": {
+      "items": {
+        "enum": [
+          "passive",
+          "regenerate"
+        ],
+        "type": "string"
+      },
+      "maxItems": 2,
+      "title": "Forbidden Recipes",
+      "type": "array"
+    },
+    "max_evaluations": {
+      "default": 128,
+      "maximum": 128,
+      "minimum": 1,
+      "title": "Max Evaluations",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "source_node",
+    "grid"
+  ],
+  "title": "DesignSpec",
+  "type": "object"
+}

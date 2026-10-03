@@ -2,6 +2,64 @@
 
 The supplied run bundles were produced using Python 3.12 with NumPy and Pydantic 2. The component coefficients are synthetic. Results below establish behavior of this implementation under its declared model; they do not establish photonic feasibility, fabrication readiness, measured device performance or research novelty.
 
+## Version 0.3 milestone verification
+
+All four parts passed independent critique in the required order. Parts 1, 2
+and 3 each needed a second review after fixes; Part 4 passed its first review.
+The findings, regression tests and final judgments are preserved in
+`docs/reviews/`. Automated review covers software and declared-model consistency;
+the reference technology remains illustrative and unreviewed by a photonics expert.
+
+Final tests on 2026-10-03 used Python 3.12.14:
+
+- With all importers, Keras and SAX installed: **268 tests run, 267 passed,
+  one expected skip**, no failures. The skipped test specifically requires SAX
+  to be absent.
+- Core-only environment: **268 tests run, 227 passed, 41 expected optional
+  dependency skips**, no failures. The missing-SAX diagnostic path passed.
+- The original macro demo still evaluates 512 candidates and retains 10 plans.
+  Normalized input hashes and every retained plan record exactly match the
+  bundled original demo. All plans replay and pass the 10000-sample diagnostic.
+
+The final physical integration harness is reproducible with:
+
+```sh
+python -m pip install '.[photonics]'
+python scripts/validate_physical.py --out-dir runs/new-physical-validation
+```
+
+It exercises passive and regenerative fanout 2/4/8 with unequal route lengths,
+then five designer scenarios. Every retained physical plan is replayed and
+compared with actual SAX/KLU over 1540, 1545, 1550, 1555 and 1560 nm. Across
+**11 circuits and 370 detector/termination power comparisons**, all pass the
+declared tolerances. The largest absolute difference is approximately
+**1.11e-16 mW**. This checks composition of shared illustrative model assumptions,
+not calibration, electronics, noise, timing or complete NN inference.
+
+| Designer case | Submitted | Evaluated | Excluded | Unevaluated | Feasible | Pareto | Complete |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Unlocked | 9 | 9 | 0 | 0 | 8 | 3 | Yes |
+| Launch locked to baseline | 9 | 3 | 6 | 0 | 2 | 2 | Yes |
+| Locked; regeneration forbidden | 9 | 1 | 8 | 0 | 0 | 0 | Yes |
+| One evaluation allowed | 9 | 1 | 0 | 8 | 0 | 0 | No |
+| Zero energy budget | 9 | 9 | 0 | 0 | 0 | 0 | Yes |
+
+Saved evidence is in `runs/validation-v0.3/`: normalized inputs, design records,
+circuit and comparison reports, optical exports, per-boundary solver results,
+environment versions, test counts and legacy compatibility checks. These are
+small functional examples, not scalability benchmarks.
+
+The tested optical stack is SAX 0.18.2, JAX/JAXlib 0.9.2 and klujax 0.5.2;
+`requirements-photonics-tested.txt` records it. Python 3.11+ is required for SAX;
+core planning and export still support Python 3.10+. No external solver is
+silently substituted when the photonics dependencies are missing.
+
+The 0.3.0 wheel was built, installed into a separate target and exercised from
+outside the source checkout. Its technology/schema exports, physical planning,
+baseline replanning, replay and actual SAX comparison all passed. The installed
+package also replayed a design and exported its optical netlist with the core-only
+Python environment. The recorded module location confirms the wheel was used.
+
 ## Version 0.2 input verification
 
 The complete suite passed **110 tests with no skips** using all optional import dependencies and Keras for export verification. A separate core-only environment passed 79 tests and skipped the 31 tests that require optional packages. Importing Keras weights requires only `h5py`; Keras itself is used solely to verify genuine framework exports in the test suite.

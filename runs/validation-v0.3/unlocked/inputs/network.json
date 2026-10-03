@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1",
+  "name": "Illustrative scalar four-way optical distribution",
+  "nodes": [
+    {
+      "id": "x",
+      "op": "input",
+      "inputs": [],
+      "size": 1,
+      "weights": null,
+      "bias": null,
+      "input_bounds": {
+        "lower": [
+          0.0
+        ],
+        "upper": [
+          1.0
+        ]
+      }
+    }
+  ],
+  "outputs": [
+    "x",
+    "x",
+    "x",
+    "x"
+  ]
+}

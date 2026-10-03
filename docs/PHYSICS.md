@@ -1,5 +1,10 @@
 # Physical evaluation model
 
+This is the retained macro model. For the v0.3 intensity fanout component models,
+complete-symbol timing and optical comparisons, see [TECHNOLOGY.md](TECHNOLOGY.md),
+[IMPLEMENTATION.md](IMPLEMENTATION.md) and [SIMULATION.md](SIMULATION.md).
+The two evaluation scopes have separate metrics and must not be summed.
+
 This document describes the implemented `normalized_additive_gaussian_v1`
 backend in `npp/physics.py`. It is an auditable computational model for comparing
 abstract hardware implementation plans. It is not a coherent-wave simulator, a

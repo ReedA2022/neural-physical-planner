@@ -1,0 +1,65 @@
+{
+  "schema_version": "0.3",
+  "source_node": "x",
+  "grid": {
+    "recipes": [
+      "passive",
+      "regenerate"
+    ],
+    "source_powers_mw": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "regeneration_powers_mw": [
+      0.1,
+      0.2
+    ],
+    "route_lengths_um": [
+      10000.0
+    ],
+    "components": {
+      "source": [
+        "source"
+      ],
+      "splitter": [
+        "splitter"
+      ],
+      "waveguide": [
+        "waveguide"
+      ],
+      "detector": [
+        "detector"
+      ],
+      "modulator": [
+        "modulator"
+      ]
+    }
+  },
+  "operating": {
+    "wavelength_nm": 1550.0,
+    "temperature_c": 25.0,
+    "symbol_duration_ns": 1.0
+  },
+  "objectives": [
+    "energy_pj",
+    "latency_ns",
+    "area_um2",
+    "noise_rms_estimate"
+  ],
+  "constraints": {
+    "max_energy_pj": null,
+    "max_latency_ns": null,
+    "max_area_um2": null,
+    "max_noise_rms_estimate": null,
+    "min_receiver_margin_mw": 0.0
+  },
+  "locks": {
+    "recipe": null,
+    "source_power_mw": null,
+    "regeneration_power_mw": null,
+    "instances": {}
+  },
+  "forbidden_recipes": [],
+  "max_evaluations": 128
+}

@@ -1,0 +1,141 @@
+{
+  "$defs": {
+    "ComponentChoices": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "default": "source",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Source",
+          "type": "string"
+        },
+        "splitter": {
+          "default": "splitter",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Splitter",
+          "type": "string"
+        },
+        "waveguide": {
+          "default": "waveguide",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Waveguide",
+          "type": "string"
+        },
+        "detector": {
+          "default": "detector",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Detector",
+          "type": "string"
+        },
+        "modulator": {
+          "default": "modulator",
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Modulator",
+          "type": "string"
+        }
+      },
+      "title": "ComponentChoices",
+      "type": "object"
+    },
+    "OperatingPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "wavelength_nm": {
+          "default": 1550.0,
+          "exclusiveMinimum": 0,
+          "title": "Wavelength Nm",
+          "type": "number"
+        },
+        "temperature_c": {
+          "default": 25.0,
+          "title": "Temperature C",
+          "type": "number"
+        },
+        "symbol_duration_ns": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Symbol Duration Ns",
+          "type": "number"
+        }
+      },
+      "title": "OperatingPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.3",
+      "default": "0.3",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_node": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+      "title": "Source Node",
+      "type": "string"
+    },
+    "recipe": {
+      "default": "passive",
+      "enum": [
+        "passive",
+        "regenerate"
+      ],
+      "title": "Recipe",
+      "type": "string"
+    },
+    "source_power_mw": {
+      "exclusiveMinimum": 0,
+      "title": "Source Power Mw",
+      "type": "number"
+    },
+    "regeneration_power_mw": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Regeneration Power Mw"
+    },
+    "lengths_um": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        }
+      ],
+      "default": 1000.0,
+      "title": "Lengths Um"
+    },
+    "operating": {
+      "$ref": "#/$defs/OperatingPoint"
+    },
+    "components": {
+      "$ref": "#/$defs/ComponentChoices"
+    }
+  },
+  "required": [
+    "source_node",
+    "source_power_mw"
+  ],
+  "title": "RealizationSpec",
+  "type": "object"
+}

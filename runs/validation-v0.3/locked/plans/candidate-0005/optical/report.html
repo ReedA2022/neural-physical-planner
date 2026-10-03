@@ -1,0 +1,3183 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>NPP optical transfer comparison</title><style>
+body{margin:0;background:#f4f7fa;color:#183044;font:15px/1.55 system-ui,sans-serif}
+main{max-width:1240px;margin:auto;padding:30px 24px 60px}h1{font-size:30px;line-height:1.2}h2{font-size:21px;margin-top:0}h3{font-size:17px}p{max-width:100ch}.eyebrow{color:#386e8b;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:12px}.muted{color:#5e7384;font-size:13px}.banner{padding:16px 20px;background:#fff2d8;border-left:4px solid #c88e23}.panel{background:white;border:1px solid #dce4eb;border-radius:10px;padding:21px;margin-top:22px}.scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #dce4eb;padding:10px 9px;overflow-wrap:anywhere}th{font-weight:650;color:#436073}pre{font:12px/1.45 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:360px;overflow:auto;margin:0}details{margin-top:16px}summary{cursor:pointer;font-weight:650}.status{display:inline-block;font-weight:650;padding:5px 10px;border-radius:6px;background:#e9eef4}.warning{background:#fff0db;color:#704e15}.bad{background:#fde9e7;color:#892b25}@media(max-width:650px){main{padding:20px 12px}.panel{padding:14px}h1{font-size:25px}}@media print{body{background:white}.panel{break-inside:avoid}.scroll{overflow:visible}pre{max-height:none}}
+</style></head><body><main><p class="eyebrow">Neural Physical Planner · external optical solver comparison</p><h1>Optical power comparison</h1><p><span class="status status">Recorded optical-power agreement within tolerance</span></p><p class="muted">Stored comparison status: passed. Stored agreement claim: true. Report generation does not execute the external engine or authenticate the source artifacts.</p><div class="banner"><strong>Partial optical composition check.</strong> Agreement concerns full-scale optical powers under the same declared component assumptions. It does not validate physical calibration, noise, timing, energy, whole-network inference or task accuracy. An external circuit solver supplies a composition check, not experimental ground truth.</div><section class="panel"><h2>External engine and recorded versions</h2><div class="scroll"><table><tbody><tr><th scope="row">name</th><td>SAX</td></tr><tr><th scope="row">version</th><td>0.18.2</td></tr><tr><th scope="row">backend</th><td>klu</td></tr><tr><th scope="row">jax_version</th><td>0.9.2</td></tr><tr><th scope="row">adapter_version</th><td>npp_scalar_optics_v1</td></tr></tbody></table></div><p class="muted">Versions are copied from the simulation result. Rendering this document does not install or invoke these packages.</p></section><section class="panel"><h2>Coverage, boundary conditions and exclusions</h2><div class="scroll"><table><tbody><tr><th scope="row">checked</th><td><pre>[
+  &quot;SAX composition of full-scale optical power at every detector input and unused matched optical termination&quot;,
+  &quot;agreement with planner powers at each requested wavelength&quot;
+]</pre></td></tr><tr><th scope="row">unchecked</th><td><pre>[
+  &quot;physical calibration or validity of component parameters&quot;,
+  &quot;NN computation or task accuracy&quot;,
+  &quot;electrical detection and regeneration dynamics&quot;,
+  &quot;noise, clipping and saturation statistics&quot;,
+  &quot;energy, area, acquisition time, latency and throughput&quot;,
+  &quot;optical phase and group delay&quot;,
+  &quot;reflections, coherent recombination, crosstalk and fabrication layout&quot;
+]</pre></td></tr><tr><th scope="row">boundary_conditions</th><td>one external source excitation per disconnected optical segment; all other ports matched and unexcited; sources are full scale and modulators have electrical sample fixed to 1</td></tr><tr><th scope="row">independence</th><td>external SAX circuit solver and independently encoded field models; the same declared technology assumptions are used by both engines, so agreement checks composition, not experimental truth</td></tr><tr><th scope="row">model_limitations</th><td>phenomenological reciprocal matched splitter/guide/attenuator models; absent scattering entries are zero; attenuation and splitting ratios are wavelength independent within their declared envelopes</td></tr><tr><th scope="row">phase</th><td>first-order effective-index dispersion about the recorded wavelength retains distinct neff and ng; phase and group delay are not comparison targets</td></tr><tr><th scope="row">coverage</th><td>partial_optical_only</td></tr></tbody></table></div></section><section class="panel"><h2>Technology, review and model evidence</h2><div class="scroll"><table><tbody><tr><th scope="row">id</th><td>illustrative_intensity</td></tr><tr><th scope="row">version</th><td>0.3.0</td></tr><tr><th scope="row">calibration_status</th><td>illustrative</td></tr><tr><th scope="row">review</th><td><pre>{
+  &quot;status&quot;: &quot;unreviewed&quot;,
+  &quot;reviewer&quot;: null,
+  &quot;report_source_id&quot;: null,
+  &quot;notes&quot;: &quot;No photonics collaborator has reviewed this pack. Software review and tests do not constitute device calibration or expert hardware validation.&quot;
+}</pre></td></tr></tbody></table></div><h3>Exported model definitions</h3><div class="scroll"><table><tbody><tr><th scope="row">npp_splitter_v1</th><td><pre>{
+  &quot;ports&quot;: [
+    &quot;p_in&quot;,
+    &quot;p_out1&quot;,
+    &quot;p_out2&quot;
+  ],
+  &quot;power&quot;: &quot;T=10**(-loss_db/10); P_out1=P_in*ratio*T; P_out2=P_in*(1-ratio)*T&quot;,
+  &quot;field&quot;: &quot;reciprocal amplitudes sqrt(ratio*T) and sqrt((1-ratio)*T); other entries zero&quot;
+}</pre></td></tr><tr><th scope="row">npp_waveguide_v1</th><td><pre>{
+  &quot;ports&quot;: [
+    &quot;p_in&quot;,
+    &quot;p_out&quot;
+  ],
+  &quot;power&quot;: &quot;P_out=P_in*10**(-loss_db_per_um*length_um/10)&quot;,
+  &quot;field&quot;: &quot;reciprocal sqrt(transmission)*exp(2j*pi*neff(wl)*length_um/wl_um)&quot;,
+  &quot;dispersion&quot;: &quot;neff(wl)=neff-(wl_um-reference_wavelength_um)*(ng-neff)/reference_wavelength_um&quot;
+}</pre></td></tr><tr><th scope="row">npp_modulator_full_scale_v1</th><td><pre>{
+  &quot;ports&quot;: [
+    &quot;p_in&quot;,
+    &quot;p_out&quot;
+  ],
+  &quot;power&quot;: &quot;P_out=P_carrier*10**(-loss_db/10), electrical sample clamped to 1&quot;,
+  &quot;field&quot;: &quot;reciprocal attenuation sqrt(transmission); no electrical or transient model&quot;
+}</pre></td></tr></tbody></table></div><h3>Technology parameter evidence</h3><div class="scroll"><table id="technology-evidence"><thead><tr><th scope="col">id</th><th scope="col">kind</th><th scope="col">citation</th><th scope="col">version</th><th scope="col">coverage</th><th scope="col">limitations</th><th scope="col">url</th></tr></thead><tbody><tr><td>illustrative_v1</td><td>illustrative_assumption</td><td>Neural Physical Planner illustrative fixture, v0.3.0</td><td>0.3.0</td><td>Every numeric component parameter, every operating envelope, all per-instance costs, port cardinalities and ideal encoding assumptions in this bundled reference. These are chosen examples, not measured specifications.</td><td>No claimed fabrication process, foundry, commercial part, measured calibration, uncertainty distribution, temperature fit, or usable-device guarantee.</td><td><span class="muted">Not recorded</span></td></tr><tr><td>model_contract_v1</td><td>model_reference</td><td>NPP scalar intensity v1 equations, docs/TECHNOLOGY.md</td><td>scalar_intensity_v1</td><td>Definitions: dB power transmission; two-way power division; uniform-waveguide delay; wall-plug source energy; Poisson photoelectron count and normalized noise; ideal calibrated intensity modulation.</td><td>Equations define this reduced model. They do not validate any numeric parameter or the omitted device behavior.</td><td><span class="muted">Not recorded</span></td></tr><tr><td>nist_si</td><td>standard</td><td>NIST: Definitions of SI Base Units</td><td>2019 SI definitions, retrieved 2026-10-03</td><td>Exact speed of light c=299792458 m/s and Planck constant h=6.62607015e-34 J s only.</td><td>Does not support any component parameter, assumed envelope or noise approximation.</td><td>https://www.nist.gov/si-redefinition/definitions-si-base-units</td></tr><tr><td>sax_workflow</td><td>model_reference</td><td>GDSFactory Plugins: SAX circuit simulator</td><td>documentation retrieved 2026-10-03</td><td>Component netlists, complex scattering models and circuit composition as an independent passive-circuit simulation workflow.</td><td>Workflow reference only. No foundry model or calibrated S parameters are bundled.</td><td>https://gdsfactory.github.io/gplugins/notebooks/sax_01_sax/</td></tr><tr><td>ansys_detector_scope</td><td>model_reference</td><td>Ansys: photodetector_simple CML Compiler Model</td><td>documentation retrieved 2026-10-03</td><td>Reference for separating optical/electrical ports, receiver operating limits, shot noise, thermal noise and power saturation in compact-model workflows.</td><td>This software neither embeds nor reproduces Ansys models. This citation supplies no numerical detector calibration.</td><td>https://optics.ansys.com/hc/en-us/articles/360034710353-photodetector-simple-CML-Compiler-Model</td></tr></tbody></table></div><details><summary>Complete exported technology snapshot</summary><pre>{
+  &quot;schema_version&quot;: &quot;0.3&quot;,
+  &quot;id&quot;: &quot;illustrative_intensity&quot;,
+  &quot;name&quot;: &quot;Illustrative scalar intensity reference technology&quot;,
+  &quot;version&quot;: &quot;0.3.0&quot;,
+  &quot;calibration_status&quot;: &quot;illustrative&quot;,
+  &quot;encoding&quot;: {
+    &quot;id&quot;: &quot;normalized_intensity&quot;,
+    &quot;optical_quantity&quot;: &quot;power_mw&quot;,
+    &quot;electrical_quantity&quot;: &quot;normalized_sample&quot;,
+    &quot;logical_minimum&quot;: 0.0,
+    &quot;logical_maximum&quot;: 1.0,
+    &quot;interpretation&quot;: &quot;P(t)=full_scale_power_mw*x; 0&lt;=x&lt;=1&quot;,
+    &quot;energy_accounting&quot;: &quot;full_scale_per_symbol_upper_bound&quot;
+  },
+  &quot;review&quot;: {
+    &quot;status&quot;: &quot;unreviewed&quot;,
+    &quot;reviewer&quot;: null,
+    &quot;report_source_id&quot;: null,
+    &quot;notes&quot;: &quot;No photonics collaborator has reviewed this pack. Software review and tests do not constitute device calibration or expert hardware validation.&quot;
+  },
+  &quot;sources&quot;: [
+    {
+      &quot;id&quot;: &quot;illustrative_v1&quot;,
+      &quot;kind&quot;: &quot;illustrative_assumption&quot;,
+      &quot;citation&quot;: &quot;Neural Physical Planner illustrative fixture, v0.3.0&quot;,
+      &quot;url&quot;: null,
+      &quot;version&quot;: &quot;0.3.0&quot;,
+      &quot;coverage&quot;: &quot;Every numeric component parameter, every operating envelope, all per-instance costs, port cardinalities and ideal encoding assumptions in this bundled reference. These are chosen examples, not measured specifications.&quot;,
+      &quot;limitations&quot;: &quot;No claimed fabrication process, foundry, commercial part, measured calibration, uncertainty distribution, temperature fit, or usable-device guarantee.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;model_contract_v1&quot;,
+      &quot;kind&quot;: &quot;model_reference&quot;,
+      &quot;citation&quot;: &quot;NPP scalar intensity v1 equations, docs/TECHNOLOGY.md&quot;,
+      &quot;url&quot;: null,
+      &quot;version&quot;: &quot;scalar_intensity_v1&quot;,
+      &quot;coverage&quot;: &quot;Definitions: dB power transmission; two-way power division; uniform-waveguide delay; wall-plug source energy; Poisson photoelectron count and normalized noise; ideal calibrated intensity modulation.&quot;,
+      &quot;limitations&quot;: &quot;Equations define this reduced model. They do not validate any numeric parameter or the omitted device behavior.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;nist_si&quot;,
+      &quot;kind&quot;: &quot;standard&quot;,
+      &quot;citation&quot;: &quot;NIST: Definitions of SI Base Units&quot;,
+      &quot;url&quot;: &quot;https://www.nist.gov/si-redefinition/definitions-si-base-units&quot;,
+      &quot;version&quot;: &quot;2019 SI definitions, retrieved 2026-10-03&quot;,
+      &quot;coverage&quot;: &quot;Exact speed of light c=299792458 m/s and Planck constant h=6.62607015e-34 J s only.&quot;,
+      &quot;limitations&quot;: &quot;Does not support any component parameter, assumed envelope or noise approximation.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;sax_workflow&quot;,
+      &quot;kind&quot;: &quot;model_reference&quot;,
+      &quot;citation&quot;: &quot;GDSFactory Plugins: SAX circuit simulator&quot;,
+      &quot;url&quot;: &quot;https://gdsfactory.github.io/gplugins/notebooks/sax_01_sax/&quot;,
+      &quot;version&quot;: &quot;documentation retrieved 2026-10-03&quot;,
+      &quot;coverage&quot;: &quot;Component netlists, complex scattering models and circuit composition as an independent passive-circuit simulation workflow.&quot;,
+      &quot;limitations&quot;: &quot;Workflow reference only. No foundry model or calibrated S parameters are bundled.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;ansys_detector_scope&quot;,
+      &quot;kind&quot;: &quot;model_reference&quot;,
+      &quot;citation&quot;: &quot;Ansys: photodetector_simple CML Compiler Model&quot;,
+      &quot;url&quot;: &quot;https://optics.ansys.com/hc/en-us/articles/360034710353-photodetector-simple-CML-Compiler-Model&quot;,
+      &quot;version&quot;: &quot;documentation retrieved 2026-10-03&quot;,
+      &quot;coverage&quot;: &quot;Reference for separating optical/electrical ports, receiver operating limits, shot noise, thermal noise and power saturation in compact-model workflows.&quot;,
+      &quot;limitations&quot;: &quot;This software neither embeds nor reproduces Ansys models. This citation supplies no numerical detector calibration.&quot;
+    }
+  ],
+  &quot;components&quot;: [
+    {
+      &quot;id&quot;: &quot;source&quot;,
+      &quot;kind&quot;: &quot;source&quot;,
+      &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+      &quot;ports&quot;: [
+        {
+          &quot;name&quot;: &quot;out&quot;,
+          &quot;direction&quot;: &quot;out&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        }
+      ],
+      &quot;operating_envelope&quot;: {
+        &quot;wavelength_nm&quot;: {
+          &quot;minimum&quot;: 1540.0,
+          &quot;maximum&quot;: 1560.0
+        },
+        &quot;temperature_c&quot;: {
+          &quot;minimum&quot;: 20.0,
+          &quot;maximum&quot;: 30.0
+        },
+        &quot;symbol_duration_ns&quot;: {
+          &quot;minimum&quot;: 0.5,
+          &quot;maximum&quot;: 10.0
+        },
+        &quot;max_input_power_mw&quot;: null
+      },
+      &quot;costs&quot;: {
+        &quot;area_um2&quot;: 1000.0,
+        &quot;fixed_energy_pj&quot;: 0.0,
+        &quot;latency_ns&quot;: 0.1
+      },
+      &quot;evidence&quot;: {
+        &quot;parameters&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;operating_envelope&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;costs&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;model&quot;: [
+          &quot;model_contract_v1&quot;
+        ]
+      },
+      &quot;notes&quot;: &quot;Already encoded, externally driven scalar launch source. Fixed source/encoding overhead is illustrative. The source input interface is outside this distribution subcircuit; this does not implement a neural operation.&quot;,
+      &quot;parameters&quot;: {
+        &quot;minimum_output_power_mw&quot;: 0.01,
+        &quot;maximum_output_power_mw&quot;: 10.0,
+        &quot;wall_plug_efficiency&quot;: 0.2,
+        &quot;relative_intensity_noise_rms&quot;: 0.001
+      }
+    },
+    {
+      &quot;id&quot;: &quot;splitter&quot;,
+      &quot;kind&quot;: &quot;splitter&quot;,
+      &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+      &quot;ports&quot;: [
+        {
+          &quot;name&quot;: &quot;in&quot;,
+          &quot;direction&quot;: &quot;in&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        },
+        {
+          &quot;name&quot;: &quot;out1&quot;,
+          &quot;direction&quot;: &quot;out&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        },
+        {
+          &quot;name&quot;: &quot;out2&quot;,
+          &quot;direction&quot;: &quot;out&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        }
+      ],
+      &quot;operating_envelope&quot;: {
+        &quot;wavelength_nm&quot;: {
+          &quot;minimum&quot;: 1540.0,
+          &quot;maximum&quot;: 1560.0
+        },
+        &quot;temperature_c&quot;: {
+          &quot;minimum&quot;: 20.0,
+          &quot;maximum&quot;: 30.0
+        },
+        &quot;symbol_duration_ns&quot;: {
+          &quot;minimum&quot;: 0.5,
+          &quot;maximum&quot;: 10.0
+        },
+        &quot;max_input_power_mw&quot;: 10.0
+      },
+      &quot;costs&quot;: {
+        &quot;area_um2&quot;: 20.0,
+        &quot;fixed_energy_pj&quot;: 0.0,
+        &quot;latency_ns&quot;: 0.0
+      },
+      &quot;evidence&quot;: {
+        &quot;parameters&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;operating_envelope&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;costs&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;model&quot;: [
+          &quot;model_contract_v1&quot;
+        ]
+      },
+      &quot;notes&quot;: &quot;Fixed 50:50 two-way splitter; 0.2 dB is excess insertion loss in addition to division. No continuously tunable splitting or lossless duplication.&quot;,
+      &quot;parameters&quot;: {
+        &quot;power_ratio&quot;: 0.5,
+        &quot;insertion_loss_db&quot;: 0.2,
+        &quot;ratio_tunability&quot;: &quot;fixed&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;waveguide&quot;,
+      &quot;kind&quot;: &quot;waveguide&quot;,
+      &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+      &quot;ports&quot;: [
+        {
+          &quot;name&quot;: &quot;in&quot;,
+          &quot;direction&quot;: &quot;in&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        },
+        {
+          &quot;name&quot;: &quot;out&quot;,
+          &quot;direction&quot;: &quot;out&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        }
+      ],
+      &quot;operating_envelope&quot;: {
+        &quot;wavelength_nm&quot;: {
+          &quot;minimum&quot;: 1540.0,
+          &quot;maximum&quot;: 1560.0
+        },
+        &quot;temperature_c&quot;: {
+          &quot;minimum&quot;: 20.0,
+          &quot;maximum&quot;: 30.0
+        },
+        &quot;symbol_duration_ns&quot;: {
+          &quot;minimum&quot;: 0.5,
+          &quot;maximum&quot;: 10.0
+        },
+        &quot;max_input_power_mw&quot;: 10.0
+      },
+      &quot;costs&quot;: {
+        &quot;area_um2&quot;: 0.0,
+        &quot;fixed_energy_pj&quot;: 0.0,
+        &quot;latency_ns&quot;: 0.0
+      },
+      &quot;evidence&quot;: {
+        &quot;parameters&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;operating_envelope&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;costs&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;model&quot;: [
+          &quot;model_contract_v1&quot;,
+          &quot;nist_si&quot;
+        ]
+      },
+      &quot;notes&quot;: &quot;Uniform, matched, single-mode waveguide with constant coefficients inside the declared envelope. Width times length estimates occupied core area, excluding spacing and bends.&quot;,
+      &quot;parameters&quot;: {
+        &quot;attenuation_db_per_um&quot;: 0.0002,
+        &quot;group_index&quot;: 4.0,
+        &quot;effective_index&quot;: 2.4,
+        &quot;width_um&quot;: 0.5,
+        &quot;maximum_length_um&quot;: 10000.0
+      }
+    },
+    {
+      &quot;id&quot;: &quot;detector&quot;,
+      &quot;kind&quot;: &quot;detector&quot;,
+      &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+      &quot;ports&quot;: [
+        {
+          &quot;name&quot;: &quot;in&quot;,
+          &quot;direction&quot;: &quot;in&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        },
+        {
+          &quot;name&quot;: &quot;out&quot;,
+          &quot;direction&quot;: &quot;out&quot;,
+          &quot;domain&quot;: &quot;electrical&quot;,
+          &quot;quantity&quot;: &quot;normalized_sample&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        }
+      ],
+      &quot;operating_envelope&quot;: {
+        &quot;wavelength_nm&quot;: {
+          &quot;minimum&quot;: 1540.0,
+          &quot;maximum&quot;: 1560.0
+        },
+        &quot;temperature_c&quot;: {
+          &quot;minimum&quot;: 20.0,
+          &quot;maximum&quot;: 30.0
+        },
+        &quot;symbol_duration_ns&quot;: {
+          &quot;minimum&quot;: 0.5,
+          &quot;maximum&quot;: 10.0
+        },
+        &quot;max_input_power_mw&quot;: 1.0
+      },
+      &quot;costs&quot;: {
+        &quot;area_um2&quot;: 100.0,
+        &quot;fixed_energy_pj&quot;: 0.1,
+        &quot;latency_ns&quot;: 0.2
+      },
+      &quot;evidence&quot;: {
+        &quot;parameters&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;operating_envelope&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;costs&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;model&quot;: [
+          &quot;model_contract_v1&quot;,
+          &quot;nist_si&quot;
+        ]
+      },
+      &quot;notes&quot;: &quot;Ideal calibrated normalized sample output plus shot and input-referred electronic noise. Minimum power is minimum full-scale calibration power, not a requirement that x=0 emit light. One electrical load only; cost assumes receiver and normalization electronics.&quot;,
+      &quot;parameters&quot;: {
+        &quot;minimum_full_scale_power_mw&quot;: 0.01,
+        &quot;quantum_efficiency&quot;: 0.8,
+        &quot;input_referred_noise_mw_rms&quot;: 0.0001
+      }
+    },
+    {
+      &quot;id&quot;: &quot;modulator&quot;,
+      &quot;kind&quot;: &quot;modulator&quot;,
+      &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+      &quot;ports&quot;: [
+        {
+          &quot;name&quot;: &quot;carrier&quot;,
+          &quot;direction&quot;: &quot;in&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        },
+        {
+          &quot;name&quot;: &quot;sample&quot;,
+          &quot;direction&quot;: &quot;in&quot;,
+          &quot;domain&quot;: &quot;electrical&quot;,
+          &quot;quantity&quot;: &quot;normalized_sample&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        },
+        {
+          &quot;name&quot;: &quot;out&quot;,
+          &quot;direction&quot;: &quot;out&quot;,
+          &quot;domain&quot;: &quot;optical&quot;,
+          &quot;quantity&quot;: &quot;power_mw&quot;,
+          &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+          &quot;max_connections&quot;: 1
+        }
+      ],
+      &quot;operating_envelope&quot;: {
+        &quot;wavelength_nm&quot;: {
+          &quot;minimum&quot;: 1540.0,
+          &quot;maximum&quot;: 1560.0
+        },
+        &quot;temperature_c&quot;: {
+          &quot;minimum&quot;: 20.0,
+          &quot;maximum&quot;: 30.0
+        },
+        &quot;symbol_duration_ns&quot;: {
+          &quot;minimum&quot;: 0.5,
+          &quot;maximum&quot;: 10.0
+        },
+        &quot;max_input_power_mw&quot;: 10.0
+      },
+      &quot;costs&quot;: {
+        &quot;area_um2&quot;: 100.0,
+        &quot;fixed_energy_pj&quot;: 0.1,
+        &quot;latency_ns&quot;: 0.2
+      },
+      &quot;evidence&quot;: {
+        &quot;parameters&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;operating_envelope&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;costs&quot;: [
+          &quot;illustrative_v1&quot;
+        ],
+        &quot;model&quot;: [
+          &quot;model_contract_v1&quot;
+        ]
+      },
+      &quot;notes&quot;: &quot;Ideal linear intensity reencoder: output full scale is carrier power times insertion transmission. The carrier and one normalized electrical sample must both be supplied. Drive/normalization overhead is included only as an illustrative fixed cost.&quot;,
+      &quot;parameters&quot;: {
+        &quot;insertion_loss_db&quot;: 1.0,
+        &quot;added_sample_noise_rms&quot;: 0.002
+      }
+    }
+  ],
+  &quot;assumptions&quot;: [
+    &quot;One scalar, nonnegative intensity sample, x in [0,1], per optical lane and rectangular symbol; negative signed NN values need a separately specified encoder.&quot;,
+    &quot;Full-scale power is a calibration/operating-point parameter. Energy is a full-scale-per-symbol upper bound, not workload-averaged energy.&quot;,
+    &quot;Passive components are matched, reflection-free, single-mode and linear; parameters are constant only within the stated envelope.&quot;,
+    &quot;Receiver gain and modulation are ideally calibrated. Detector quantum efficiency thins a Poisson photon count; a separate input-referred RMS term models electronics.&quot;,
+    &quot;Physical ports allow one connection each, including electrical outputs; electrical broadcast needs additional modeled components.&quot;,
+    &quot;Electrical receiver/reencoder fixed costs are illustrative lumped overheads; no free detector or carrier source is implied.&quot;
+  ],
+  &quot;excluded_effects&quot;: [
+    &quot;Fabrication/layout/DRC and foundry qualification&quot;,
+    &quot;Signed, coherent, phase, wavelength-multiplexed or quantum state encoding&quot;,
+    &quot;Back reflections, interference, dispersion, crosstalk, bends and coupling/packaging loss&quot;,
+    &quot;Bandwidth waveform distortion, modulator extinction/nonlinearity and laser start-up dynamics&quot;,
+    &quot;Temperature variation within the envelope, process variation, ageing and calibration drift&quot;,
+    &quot;NN task accuracy, covariance guarantees after regeneration, complete memory/control/IO costs&quot;,
+    &quot;Optical amplification, serialized delivery, switching and storage&quot;
+  ]
+}</pre></details><p class="muted">Technology provenance and parameter evidence are copied from the exported snapshot. Solver agreement does not change the recorded calibration or expert-review status.</p></section><section class="panel"><h2>Comparison tolerances</h2><div class="scroll"><table><tbody><tr><th scope="row">rtol</th><td>1e-05</td></tr><tr><th scope="row">atol_mw</th><td>1e-09</td></tr><tr><th scope="row">rule</th><td>absolute_error_mw &lt;= atol_mw + rtol*abs(expected_power_mw)</td></tr></tbody></table></div><p class="muted">Absolute errors are in mW. The relative tolerance is dimensionless. Each boundary is tested separately at each wavelength.</p></section><section class="panel"><h2>Presentation consistency</h2><p>Recorded boundary coverage, field types and comparison arithmetic are internally consistent. This does not authenticate the record or independently reproduce its optical calculations.</p></section><section class="panel"><h2>Recorded comparison summary</h2><div class="scroll"><table><tbody><tr><th scope="row">segment_count</th><td>5</td></tr><tr><th scope="row">wavelength_count</th><td>5</td></tr><tr><th scope="row">comparison_count</th><td>40</td></tr><tr><th scope="row">max_absolute_error_mw</th><td>4.16333634e-17</td></tr><tr><th scope="row">max_relative_error</th><td>4.15347405e-16</td></tr></tbody></table></div></section><section class="panel"><h2>Power at every optical boundary</h2><p class="muted">Expected powers come from the planner model; SAX powers come from the stored external-solver run. Boundary kinds distinguish receiver inputs, early regeneration-detector inputs and unused matched optical terminations.</p><h3>Wavelength: 1540 nm</h3><p class="muted">Stored sample agreement claim: true.</p><div class="scroll"><table id="comparisons-0"><thead><tr><th scope="col">segment</th><th scope="col">sax_port</th><th scope="col">endpoint</th><th scope="col">kind</th><th scope="col">expected_power_mw</th><th scope="col">sax_power_mw</th><th scope="col">absolute_error_mw</th><th scope="col">allowed_error_mw</th><th scope="col">relative_error</th><th scope="col">passed</th><th scope="col">source</th><th scope="col">binding</th></tr></thead><tbody><tr><td>segment0</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output1</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output2</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output3</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment1</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 0
+}</pre></td></tr><tr><td>segment2</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 1
+}</pre></td></tr><tr><td>segment3</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 2
+}</pre></td></tr><tr><td>segment4</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 3
+}</pre></td></tr></tbody></table></div><h3>Wavelength: 1545 nm</h3><p class="muted">Stored sample agreement claim: true.</p><div class="scroll"><table id="comparisons-1"><thead><tr><th scope="col">segment</th><th scope="col">sax_port</th><th scope="col">endpoint</th><th scope="col">kind</th><th scope="col">expected_power_mw</th><th scope="col">sax_power_mw</th><th scope="col">absolute_error_mw</th><th scope="col">allowed_error_mw</th><th scope="col">relative_error</th><th scope="col">passed</th><th scope="col">source</th><th scope="col">binding</th></tr></thead><tbody><tr><td>segment0</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output1</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output2</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output3</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment1</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 0
+}</pre></td></tr><tr><td>segment2</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 1
+}</pre></td></tr><tr><td>segment3</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 2
+}</pre></td></tr><tr><td>segment4</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>4.16333634e-17</td><td>1.00337447e-06</td><td>4.15347405e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 3
+}</pre></td></tr></tbody></table></div><h3>Wavelength: 1550 nm</h3><p class="muted">Stored sample agreement claim: true.</p><div class="scroll"><table id="comparisons-2"><thead><tr><th scope="col">segment</th><th scope="col">sax_port</th><th scope="col">endpoint</th><th scope="col">kind</th><th scope="col">expected_power_mw</th><th scope="col">sax_power_mw</th><th scope="col">absolute_error_mw</th><th scope="col">allowed_error_mw</th><th scope="col">relative_error</th><th scope="col">passed</th><th scope="col">source</th><th scope="col">binding</th></tr></thead><tbody><tr><td>segment0</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output1</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output2</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output3</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment1</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 0
+}</pre></td></tr><tr><td>segment2</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 1
+}</pre></td></tr><tr><td>segment3</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 2
+}</pre></td></tr><tr><td>segment4</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 3
+}</pre></td></tr></tbody></table></div><h3>Wavelength: 1555 nm</h3><p class="muted">Stored sample agreement claim: true.</p><div class="scroll"><table id="comparisons-3"><thead><tr><th scope="col">segment</th><th scope="col">sax_port</th><th scope="col">endpoint</th><th scope="col">kind</th><th scope="col">expected_power_mw</th><th scope="col">sax_power_mw</th><th scope="col">absolute_error_mw</th><th scope="col">allowed_error_mw</th><th scope="col">relative_error</th><th scope="col">passed</th><th scope="col">source</th><th scope="col">binding</th></tr></thead><tbody><tr><td>segment0</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output1</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output2</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output3</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment1</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 0
+}</pre></td></tr><tr><td>segment2</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 1
+}</pre></td></tr><tr><td>segment3</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 2
+}</pre></td></tr><tr><td>segment4</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 3
+}</pre></td></tr></tbody></table></div><h3>Wavelength: 1560 nm</h3><p class="muted">Stored sample agreement claim: true.</p><div class="scroll"><table id="comparisons-4"><thead><tr><th scope="col">segment</th><th scope="col">sax_port</th><th scope="col">endpoint</th><th scope="col">kind</th><th scope="col">expected_power_mw</th><th scope="col">sax_power_mw</th><th scope="col">absolute_error_mw</th><th scope="col">allowed_error_mw</th><th scope="col">relative_error</th><th scope="col">passed</th><th scope="col">source</th><th scope="col">binding</th></tr></thead><tbody><tr><td>segment0</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output1</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output2</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment0</td><td>output3</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>regeneration_detector_input</td><td>0.0114001355</td><td>0.0114001355</td><td>1.73472348e-18</td><td>1.15001355e-07</td><td>1.52166917e-16</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.launch&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><span class="muted">Not recorded</span></td></tr><tr><td>segment1</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 0
+}</pre></td></tr><tr><td>segment2</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 1
+}</pre></td></tr><tr><td>segment3</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 2
+}</pre></td></tr><tr><td>segment4</td><td>output0</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+  &quot;port&quot;: &quot;in&quot;
+}</pre></td><td>receiver_input</td><td>0.100237447</td><td>0.100237447</td><td>0</td><td>1.00337447e-06</td><td>0</td><td>true</td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;port&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;use_index&quot;: 3
+}</pre></td></tr></tbody></table></div></section><section class="panel"><h2>Recorded diagnostics</h2><p class="muted">No rows recorded.</p></section><section class="panel"><h2>Optical segments and excluded electrical connections</h2><div class="scroll"><table id="segments"><thead><tr><th scope="col">id</th><th scope="col">source</th><th scope="col">outputs</th><th scope="col">instance_mapping</th><th scope="col">netlist</th></tr></thead><tbody><tr><td>segment0</td><td><pre>{
+  &quot;endpoint&quot;: {
+    &quot;instance&quot;: &quot;lane0.launch&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;role&quot;: &quot;encoded_launch&quot;,
+  &quot;source_node&quot;: &quot;x&quot;,
+  &quot;lane&quot;: 0,
+  &quot;power_mw&quot;: 0.05,
+  &quot;sax_port&quot;: &quot;input&quot;
+}</pre></td><td><pre>[
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+    &quot;binding&quot;: null,
+    &quot;sax_port&quot;: &quot;output0&quot;
+  },
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+    &quot;binding&quot;: null,
+    &quot;sax_port&quot;: &quot;output1&quot;
+  },
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+    &quot;binding&quot;: null,
+    &quot;sax_port&quot;: &quot;output2&quot;
+  },
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+    &quot;binding&quot;: null,
+    &quot;sax_port&quot;: &quot;output3&quot;
+  }
+]</pre></td><td><pre>{
+  &quot;i0&quot;: {
+    &quot;instance&quot;: &quot;lane0.split0.0&quot;,
+    &quot;technology_component&quot;: &quot;splitter&quot;
+  },
+  &quot;i1&quot;: {
+    &quot;instance&quot;: &quot;lane0.split1.0&quot;,
+    &quot;technology_component&quot;: &quot;splitter&quot;
+  },
+  &quot;i2&quot;: {
+    &quot;instance&quot;: &quot;lane0.split1.1&quot;,
+    &quot;technology_component&quot;: &quot;splitter&quot;
+  }
+}</pre></td><td><pre>{
+  &quot;instances&quot;: {
+    &quot;i0&quot;: {
+      &quot;component&quot;: &quot;npp_splitter_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;ratio&quot;: 0.5,
+        &quot;loss_db&quot;: 0.2
+      }
+    },
+    &quot;i1&quot;: {
+      &quot;component&quot;: &quot;npp_splitter_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;ratio&quot;: 0.5,
+        &quot;loss_db&quot;: 0.2
+      }
+    },
+    &quot;i2&quot;: {
+      &quot;component&quot;: &quot;npp_splitter_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;ratio&quot;: 0.5,
+        &quot;loss_db&quot;: 0.2
+      }
+    }
+  },
+  &quot;connections&quot;: {
+    &quot;i0,p_out1&quot;: &quot;i1,p_in&quot;,
+    &quot;i0,p_out2&quot;: &quot;i2,p_in&quot;
+  },
+  &quot;ports&quot;: {
+    &quot;input&quot;: &quot;i0,p_in&quot;,
+    &quot;output0&quot;: &quot;i1,p_out1&quot;,
+    &quot;output1&quot;: &quot;i1,p_out2&quot;,
+    &quot;output2&quot;: &quot;i2,p_out1&quot;,
+    &quot;output3&quot;: &quot;i2,p_out2&quot;
+  }
+}</pre></td></tr><tr><td>segment1</td><td><pre>{
+  &quot;endpoint&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;role&quot;: &quot;constant_carrier&quot;,
+  &quot;source_node&quot;: null,
+  &quot;lane&quot;: null,
+  &quot;power_mw&quot;: 0.2,
+  &quot;sax_port&quot;: &quot;input&quot;
+}</pre></td><td><pre>[
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;receiver_input&quot;,
+    &quot;binding&quot;: {
+      &quot;port&quot;: {
+        &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+        &quot;port&quot;: &quot;out&quot;
+      },
+      &quot;source_node&quot;: &quot;x&quot;,
+      &quot;lane&quot;: 0,
+      &quot;use_index&quot;: 0
+    },
+    &quot;sax_port&quot;: &quot;output0&quot;
+  }
+]</pre></td><td><pre>{
+  &quot;i0&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.modulator&quot;,
+    &quot;technology_component&quot;: &quot;modulator&quot;
+  },
+  &quot;i1&quot;: {
+    &quot;instance&quot;: &quot;lane0.use0.route&quot;,
+    &quot;technology_component&quot;: &quot;waveguide&quot;
+  }
+}</pre></td><td><pre>{
+  &quot;instances&quot;: {
+    &quot;i0&quot;: {
+      &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;loss_db&quot;: 1.0
+      }
+    },
+    &quot;i1&quot;: {
+      &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;length_um&quot;: 10000.0,
+        &quot;loss_db_per_um&quot;: 0.0002,
+        &quot;neff&quot;: 2.4,
+        &quot;ng&quot;: 4.0,
+        &quot;reference_wavelength_um&quot;: 1.55
+      }
+    }
+  },
+  &quot;connections&quot;: {
+    &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+  },
+  &quot;ports&quot;: {
+    &quot;input&quot;: &quot;i0,p_in&quot;,
+    &quot;output0&quot;: &quot;i1,p_out&quot;
+  }
+}</pre></td></tr><tr><td>segment2</td><td><pre>{
+  &quot;endpoint&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;role&quot;: &quot;constant_carrier&quot;,
+  &quot;source_node&quot;: null,
+  &quot;lane&quot;: null,
+  &quot;power_mw&quot;: 0.2,
+  &quot;sax_port&quot;: &quot;input&quot;
+}</pre></td><td><pre>[
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;receiver_input&quot;,
+    &quot;binding&quot;: {
+      &quot;port&quot;: {
+        &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+        &quot;port&quot;: &quot;out&quot;
+      },
+      &quot;source_node&quot;: &quot;x&quot;,
+      &quot;lane&quot;: 0,
+      &quot;use_index&quot;: 1
+    },
+    &quot;sax_port&quot;: &quot;output0&quot;
+  }
+]</pre></td><td><pre>{
+  &quot;i0&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.modulator&quot;,
+    &quot;technology_component&quot;: &quot;modulator&quot;
+  },
+  &quot;i1&quot;: {
+    &quot;instance&quot;: &quot;lane0.use1.route&quot;,
+    &quot;technology_component&quot;: &quot;waveguide&quot;
+  }
+}</pre></td><td><pre>{
+  &quot;instances&quot;: {
+    &quot;i0&quot;: {
+      &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;loss_db&quot;: 1.0
+      }
+    },
+    &quot;i1&quot;: {
+      &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;length_um&quot;: 10000.0,
+        &quot;loss_db_per_um&quot;: 0.0002,
+        &quot;neff&quot;: 2.4,
+        &quot;ng&quot;: 4.0,
+        &quot;reference_wavelength_um&quot;: 1.55
+      }
+    }
+  },
+  &quot;connections&quot;: {
+    &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+  },
+  &quot;ports&quot;: {
+    &quot;input&quot;: &quot;i0,p_in&quot;,
+    &quot;output0&quot;: &quot;i1,p_out&quot;
+  }
+}</pre></td></tr><tr><td>segment3</td><td><pre>{
+  &quot;endpoint&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;role&quot;: &quot;constant_carrier&quot;,
+  &quot;source_node&quot;: null,
+  &quot;lane&quot;: null,
+  &quot;power_mw&quot;: 0.2,
+  &quot;sax_port&quot;: &quot;input&quot;
+}</pre></td><td><pre>[
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;receiver_input&quot;,
+    &quot;binding&quot;: {
+      &quot;port&quot;: {
+        &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+        &quot;port&quot;: &quot;out&quot;
+      },
+      &quot;source_node&quot;: &quot;x&quot;,
+      &quot;lane&quot;: 0,
+      &quot;use_index&quot;: 2
+    },
+    &quot;sax_port&quot;: &quot;output0&quot;
+  }
+]</pre></td><td><pre>{
+  &quot;i0&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.modulator&quot;,
+    &quot;technology_component&quot;: &quot;modulator&quot;
+  },
+  &quot;i1&quot;: {
+    &quot;instance&quot;: &quot;lane0.use2.route&quot;,
+    &quot;technology_component&quot;: &quot;waveguide&quot;
+  }
+}</pre></td><td><pre>{
+  &quot;instances&quot;: {
+    &quot;i0&quot;: {
+      &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;loss_db&quot;: 1.0
+      }
+    },
+    &quot;i1&quot;: {
+      &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;length_um&quot;: 10000.0,
+        &quot;loss_db_per_um&quot;: 0.0002,
+        &quot;neff&quot;: 2.4,
+        &quot;ng&quot;: 4.0,
+        &quot;reference_wavelength_um&quot;: 1.55
+      }
+    }
+  },
+  &quot;connections&quot;: {
+    &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+  },
+  &quot;ports&quot;: {
+    &quot;input&quot;: &quot;i0,p_in&quot;,
+    &quot;output0&quot;: &quot;i1,p_out&quot;
+  }
+}</pre></td></tr><tr><td>segment4</td><td><pre>{
+  &quot;endpoint&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+    &quot;port&quot;: &quot;out&quot;
+  },
+  &quot;role&quot;: &quot;constant_carrier&quot;,
+  &quot;source_node&quot;: null,
+  &quot;lane&quot;: null,
+  &quot;power_mw&quot;: 0.2,
+  &quot;sax_port&quot;: &quot;input&quot;
+}</pre></td><td><pre>[
+  {
+    &quot;endpoint&quot;: {
+      &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+      &quot;port&quot;: &quot;in&quot;
+    },
+    &quot;kind&quot;: &quot;receiver_input&quot;,
+    &quot;binding&quot;: {
+      &quot;port&quot;: {
+        &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+        &quot;port&quot;: &quot;out&quot;
+      },
+      &quot;source_node&quot;: &quot;x&quot;,
+      &quot;lane&quot;: 0,
+      &quot;use_index&quot;: 3
+    },
+    &quot;sax_port&quot;: &quot;output0&quot;
+  }
+]</pre></td><td><pre>{
+  &quot;i0&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.modulator&quot;,
+    &quot;technology_component&quot;: &quot;modulator&quot;
+  },
+  &quot;i1&quot;: {
+    &quot;instance&quot;: &quot;lane0.use3.route&quot;,
+    &quot;technology_component&quot;: &quot;waveguide&quot;
+  }
+}</pre></td><td><pre>{
+  &quot;instances&quot;: {
+    &quot;i0&quot;: {
+      &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;loss_db&quot;: 1.0
+      }
+    },
+    &quot;i1&quot;: {
+      &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+      &quot;settings&quot;: {
+        &quot;length_um&quot;: 10000.0,
+        &quot;loss_db_per_um&quot;: 0.0002,
+        &quot;neff&quot;: 2.4,
+        &quot;ng&quot;: 4.0,
+        &quot;reference_wavelength_um&quot;: 1.55
+      }
+    }
+  },
+  &quot;connections&quot;: {
+    &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+  },
+  &quot;ports&quot;: {
+    &quot;input&quot;: &quot;i0,p_in&quot;,
+    &quot;output0&quot;: &quot;i1,p_out&quot;
+  }
+}</pre></td></tr></tbody></table></div><h3>Electrical connections excluded from this optical solve</h3><div class="scroll"><table id="excluded-connections"><thead><tr><th scope="col">source</th><th scope="col">target</th></tr></thead><tbody><tr><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use0.modulator&quot;,
+  &quot;port&quot;: &quot;sample&quot;
+}</pre></td></tr><tr><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use1.modulator&quot;,
+  &quot;port&quot;: &quot;sample&quot;
+}</pre></td></tr><tr><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use2.modulator&quot;,
+  &quot;port&quot;: &quot;sample&quot;
+}</pre></td></tr><tr><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+  &quot;port&quot;: &quot;out&quot;
+}</pre></td><td><pre>{
+  &quot;instance&quot;: &quot;lane0.use3.modulator&quot;,
+  &quot;port&quot;: &quot;sample&quot;
+}</pre></td></tr></tbody></table></div></section><section class="panel"><h2>Source provenance and reproducibility</h2><div class="scroll"><table><tbody><tr><th scope="row">network</th><td>41a188247d5049f969c98e13491873d2edeb1ae9398aa256afee1cf04e20b18c</td></tr><tr><th scope="row">technology</th><td>4b6572c6abe78c85890fb06ecb6d36c3555423f0f70241e790384a470aa80ce1</td></tr><tr><th scope="row">spec</th><td>362054ced80160637123e2d840e0341fee74f452417b9c472bedeeca5bd67aab</td></tr><tr><th scope="row">graph</th><td>a41f1ca7a022d0137b65b52154e66ac6159942228f9ecfaf4730aa5f049ed43c</td></tr></tbody></table></div><p class="muted">The embedded technology snapshot is checked against its recorded SHA-256 value for content consistency. This is not an authorship signature or attestation. Network, specification and graph hashes are displayed without recomputation because their bodies are not included in this export.</p><h3>Recorded operating point</h3><div class="scroll"><table><tbody><tr><th scope="row">wavelength_nm</th><td>1550</td></tr><tr><th scope="row">temperature_c</th><td>25</td></tr><tr><th scope="row">symbol_duration_ns</th><td>1</td></tr></tbody></table></div><details><summary>Complete stored comparison record</summary><pre>{
+  &quot;schema_version&quot;: &quot;0.3&quot;,
+  &quot;kind&quot;: &quot;sax_optical_comparison&quot;,
+  &quot;status&quot;: &quot;passed&quot;,
+  &quot;passed&quot;: true,
+  &quot;engine&quot;: {
+    &quot;name&quot;: &quot;SAX&quot;,
+    &quot;version&quot;: &quot;0.18.2&quot;,
+    &quot;backend&quot;: &quot;klu&quot;,
+    &quot;jax_version&quot;: &quot;0.9.2&quot;,
+    &quot;adapter_version&quot;: &quot;npp_scalar_optics_v1&quot;
+  },
+  &quot;tolerances&quot;: {
+    &quot;rtol&quot;: 1e-05,
+    &quot;atol_mw&quot;: 1e-09,
+    &quot;rule&quot;: &quot;absolute_error_mw &lt;= atol_mw + rtol*abs(expected_power_mw)&quot;
+  },
+  &quot;scope&quot;: {
+    &quot;checked&quot;: [
+      &quot;SAX composition of full-scale optical power at every detector input and unused matched optical termination&quot;,
+      &quot;agreement with planner powers at each requested wavelength&quot;
+    ],
+    &quot;unchecked&quot;: [
+      &quot;physical calibration or validity of component parameters&quot;,
+      &quot;NN computation or task accuracy&quot;,
+      &quot;electrical detection and regeneration dynamics&quot;,
+      &quot;noise, clipping and saturation statistics&quot;,
+      &quot;energy, area, acquisition time, latency and throughput&quot;,
+      &quot;optical phase and group delay&quot;,
+      &quot;reflections, coherent recombination, crosstalk and fabrication layout&quot;
+    ],
+    &quot;boundary_conditions&quot;: &quot;one external source excitation per disconnected optical segment; all other ports matched and unexcited; sources are full scale and modulators have electrical sample fixed to 1&quot;,
+    &quot;independence&quot;: &quot;external SAX circuit solver and independently encoded field models; the same declared technology assumptions are used by both engines, so agreement checks composition, not experimental truth&quot;,
+    &quot;model_limitations&quot;: &quot;phenomenological reciprocal matched splitter/guide/attenuator models; absent scattering entries are zero; attenuation and splitting ratios are wavelength independent within their declared envelopes&quot;,
+    &quot;phase&quot;: &quot;first-order effective-index dispersion about the recorded wavelength retains distinct neff and ng; phase and group delay are not comparison targets&quot;,
+    &quot;coverage&quot;: &quot;partial_optical_only&quot;
+  },
+  &quot;export&quot;: {
+    &quot;schema_version&quot;: &quot;0.3&quot;,
+    &quot;kind&quot;: &quot;sax_optical_export&quot;,
+    &quot;adapter_version&quot;: &quot;npp_scalar_optics_v1&quot;,
+    &quot;realization_hashes&quot;: {
+      &quot;network&quot;: &quot;41a188247d5049f969c98e13491873d2edeb1ae9398aa256afee1cf04e20b18c&quot;,
+      &quot;technology&quot;: &quot;4b6572c6abe78c85890fb06ecb6d36c3555423f0f70241e790384a470aa80ce1&quot;,
+      &quot;spec&quot;: &quot;362054ced80160637123e2d840e0341fee74f452417b9c472bedeeca5bd67aab&quot;,
+      &quot;graph&quot;: &quot;a41f1ca7a022d0137b65b52154e66ac6159942228f9ecfaf4730aa5f049ed43c&quot;
+    },
+    &quot;recipe&quot;: &quot;regenerate&quot;,
+    &quot;operating&quot;: {
+      &quot;wavelength_nm&quot;: 1550.0,
+      &quot;temperature_c&quot;: 25.0,
+      &quot;symbol_duration_ns&quot;: 1.0
+    },
+    &quot;baseline_feasible&quot;: true,
+    &quot;technology_status&quot;: {
+      &quot;id&quot;: &quot;illustrative_intensity&quot;,
+      &quot;version&quot;: &quot;0.3.0&quot;,
+      &quot;calibration_status&quot;: &quot;illustrative&quot;,
+      &quot;review&quot;: {
+        &quot;status&quot;: &quot;unreviewed&quot;,
+        &quot;reviewer&quot;: null,
+        &quot;report_source_id&quot;: null,
+        &quot;notes&quot;: &quot;No photonics collaborator has reviewed this pack. Software review and tests do not constitute device calibration or expert hardware validation.&quot;
+      }
+    },
+    &quot;technology&quot;: {
+      &quot;schema_version&quot;: &quot;0.3&quot;,
+      &quot;id&quot;: &quot;illustrative_intensity&quot;,
+      &quot;name&quot;: &quot;Illustrative scalar intensity reference technology&quot;,
+      &quot;version&quot;: &quot;0.3.0&quot;,
+      &quot;calibration_status&quot;: &quot;illustrative&quot;,
+      &quot;encoding&quot;: {
+        &quot;id&quot;: &quot;normalized_intensity&quot;,
+        &quot;optical_quantity&quot;: &quot;power_mw&quot;,
+        &quot;electrical_quantity&quot;: &quot;normalized_sample&quot;,
+        &quot;logical_minimum&quot;: 0.0,
+        &quot;logical_maximum&quot;: 1.0,
+        &quot;interpretation&quot;: &quot;P(t)=full_scale_power_mw*x; 0&lt;=x&lt;=1&quot;,
+        &quot;energy_accounting&quot;: &quot;full_scale_per_symbol_upper_bound&quot;
+      },
+      &quot;review&quot;: {
+        &quot;status&quot;: &quot;unreviewed&quot;,
+        &quot;reviewer&quot;: null,
+        &quot;report_source_id&quot;: null,
+        &quot;notes&quot;: &quot;No photonics collaborator has reviewed this pack. Software review and tests do not constitute device calibration or expert hardware validation.&quot;
+      },
+      &quot;sources&quot;: [
+        {
+          &quot;id&quot;: &quot;illustrative_v1&quot;,
+          &quot;kind&quot;: &quot;illustrative_assumption&quot;,
+          &quot;citation&quot;: &quot;Neural Physical Planner illustrative fixture, v0.3.0&quot;,
+          &quot;url&quot;: null,
+          &quot;version&quot;: &quot;0.3.0&quot;,
+          &quot;coverage&quot;: &quot;Every numeric component parameter, every operating envelope, all per-instance costs, port cardinalities and ideal encoding assumptions in this bundled reference. These are chosen examples, not measured specifications.&quot;,
+          &quot;limitations&quot;: &quot;No claimed fabrication process, foundry, commercial part, measured calibration, uncertainty distribution, temperature fit, or usable-device guarantee.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;model_contract_v1&quot;,
+          &quot;kind&quot;: &quot;model_reference&quot;,
+          &quot;citation&quot;: &quot;NPP scalar intensity v1 equations, docs/TECHNOLOGY.md&quot;,
+          &quot;url&quot;: null,
+          &quot;version&quot;: &quot;scalar_intensity_v1&quot;,
+          &quot;coverage&quot;: &quot;Definitions: dB power transmission; two-way power division; uniform-waveguide delay; wall-plug source energy; Poisson photoelectron count and normalized noise; ideal calibrated intensity modulation.&quot;,
+          &quot;limitations&quot;: &quot;Equations define this reduced model. They do not validate any numeric parameter or the omitted device behavior.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;nist_si&quot;,
+          &quot;kind&quot;: &quot;standard&quot;,
+          &quot;citation&quot;: &quot;NIST: Definitions of SI Base Units&quot;,
+          &quot;url&quot;: &quot;https://www.nist.gov/si-redefinition/definitions-si-base-units&quot;,
+          &quot;version&quot;: &quot;2019 SI definitions, retrieved 2026-10-03&quot;,
+          &quot;coverage&quot;: &quot;Exact speed of light c=299792458 m/s and Planck constant h=6.62607015e-34 J s only.&quot;,
+          &quot;limitations&quot;: &quot;Does not support any component parameter, assumed envelope or noise approximation.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;sax_workflow&quot;,
+          &quot;kind&quot;: &quot;model_reference&quot;,
+          &quot;citation&quot;: &quot;GDSFactory Plugins: SAX circuit simulator&quot;,
+          &quot;url&quot;: &quot;https://gdsfactory.github.io/gplugins/notebooks/sax_01_sax/&quot;,
+          &quot;version&quot;: &quot;documentation retrieved 2026-10-03&quot;,
+          &quot;coverage&quot;: &quot;Component netlists, complex scattering models and circuit composition as an independent passive-circuit simulation workflow.&quot;,
+          &quot;limitations&quot;: &quot;Workflow reference only. No foundry model or calibrated S parameters are bundled.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;ansys_detector_scope&quot;,
+          &quot;kind&quot;: &quot;model_reference&quot;,
+          &quot;citation&quot;: &quot;Ansys: photodetector_simple CML Compiler Model&quot;,
+          &quot;url&quot;: &quot;https://optics.ansys.com/hc/en-us/articles/360034710353-photodetector-simple-CML-Compiler-Model&quot;,
+          &quot;version&quot;: &quot;documentation retrieved 2026-10-03&quot;,
+          &quot;coverage&quot;: &quot;Reference for separating optical/electrical ports, receiver operating limits, shot noise, thermal noise and power saturation in compact-model workflows.&quot;,
+          &quot;limitations&quot;: &quot;This software neither embeds nor reproduces Ansys models. This citation supplies no numerical detector calibration.&quot;
+        }
+      ],
+      &quot;components&quot;: [
+        {
+          &quot;id&quot;: &quot;source&quot;,
+          &quot;kind&quot;: &quot;source&quot;,
+          &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+          &quot;ports&quot;: [
+            {
+              &quot;name&quot;: &quot;out&quot;,
+              &quot;direction&quot;: &quot;out&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            }
+          ],
+          &quot;operating_envelope&quot;: {
+            &quot;wavelength_nm&quot;: {
+              &quot;minimum&quot;: 1540.0,
+              &quot;maximum&quot;: 1560.0
+            },
+            &quot;temperature_c&quot;: {
+              &quot;minimum&quot;: 20.0,
+              &quot;maximum&quot;: 30.0
+            },
+            &quot;symbol_duration_ns&quot;: {
+              &quot;minimum&quot;: 0.5,
+              &quot;maximum&quot;: 10.0
+            },
+            &quot;max_input_power_mw&quot;: null
+          },
+          &quot;costs&quot;: {
+            &quot;area_um2&quot;: 1000.0,
+            &quot;fixed_energy_pj&quot;: 0.0,
+            &quot;latency_ns&quot;: 0.1
+          },
+          &quot;evidence&quot;: {
+            &quot;parameters&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;operating_envelope&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;costs&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;model&quot;: [
+              &quot;model_contract_v1&quot;
+            ]
+          },
+          &quot;notes&quot;: &quot;Already encoded, externally driven scalar launch source. Fixed source/encoding overhead is illustrative. The source input interface is outside this distribution subcircuit; this does not implement a neural operation.&quot;,
+          &quot;parameters&quot;: {
+            &quot;minimum_output_power_mw&quot;: 0.01,
+            &quot;maximum_output_power_mw&quot;: 10.0,
+            &quot;wall_plug_efficiency&quot;: 0.2,
+            &quot;relative_intensity_noise_rms&quot;: 0.001
+          }
+        },
+        {
+          &quot;id&quot;: &quot;splitter&quot;,
+          &quot;kind&quot;: &quot;splitter&quot;,
+          &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+          &quot;ports&quot;: [
+            {
+              &quot;name&quot;: &quot;in&quot;,
+              &quot;direction&quot;: &quot;in&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            },
+            {
+              &quot;name&quot;: &quot;out1&quot;,
+              &quot;direction&quot;: &quot;out&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            },
+            {
+              &quot;name&quot;: &quot;out2&quot;,
+              &quot;direction&quot;: &quot;out&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            }
+          ],
+          &quot;operating_envelope&quot;: {
+            &quot;wavelength_nm&quot;: {
+              &quot;minimum&quot;: 1540.0,
+              &quot;maximum&quot;: 1560.0
+            },
+            &quot;temperature_c&quot;: {
+              &quot;minimum&quot;: 20.0,
+              &quot;maximum&quot;: 30.0
+            },
+            &quot;symbol_duration_ns&quot;: {
+              &quot;minimum&quot;: 0.5,
+              &quot;maximum&quot;: 10.0
+            },
+            &quot;max_input_power_mw&quot;: 10.0
+          },
+          &quot;costs&quot;: {
+            &quot;area_um2&quot;: 20.0,
+            &quot;fixed_energy_pj&quot;: 0.0,
+            &quot;latency_ns&quot;: 0.0
+          },
+          &quot;evidence&quot;: {
+            &quot;parameters&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;operating_envelope&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;costs&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;model&quot;: [
+              &quot;model_contract_v1&quot;
+            ]
+          },
+          &quot;notes&quot;: &quot;Fixed 50:50 two-way splitter; 0.2 dB is excess insertion loss in addition to division. No continuously tunable splitting or lossless duplication.&quot;,
+          &quot;parameters&quot;: {
+            &quot;power_ratio&quot;: 0.5,
+            &quot;insertion_loss_db&quot;: 0.2,
+            &quot;ratio_tunability&quot;: &quot;fixed&quot;
+          }
+        },
+        {
+          &quot;id&quot;: &quot;waveguide&quot;,
+          &quot;kind&quot;: &quot;waveguide&quot;,
+          &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+          &quot;ports&quot;: [
+            {
+              &quot;name&quot;: &quot;in&quot;,
+              &quot;direction&quot;: &quot;in&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            },
+            {
+              &quot;name&quot;: &quot;out&quot;,
+              &quot;direction&quot;: &quot;out&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            }
+          ],
+          &quot;operating_envelope&quot;: {
+            &quot;wavelength_nm&quot;: {
+              &quot;minimum&quot;: 1540.0,
+              &quot;maximum&quot;: 1560.0
+            },
+            &quot;temperature_c&quot;: {
+              &quot;minimum&quot;: 20.0,
+              &quot;maximum&quot;: 30.0
+            },
+            &quot;symbol_duration_ns&quot;: {
+              &quot;minimum&quot;: 0.5,
+              &quot;maximum&quot;: 10.0
+            },
+            &quot;max_input_power_mw&quot;: 10.0
+          },
+          &quot;costs&quot;: {
+            &quot;area_um2&quot;: 0.0,
+            &quot;fixed_energy_pj&quot;: 0.0,
+            &quot;latency_ns&quot;: 0.0
+          },
+          &quot;evidence&quot;: {
+            &quot;parameters&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;operating_envelope&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;costs&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;model&quot;: [
+              &quot;model_contract_v1&quot;,
+              &quot;nist_si&quot;
+            ]
+          },
+          &quot;notes&quot;: &quot;Uniform, matched, single-mode waveguide with constant coefficients inside the declared envelope. Width times length estimates occupied core area, excluding spacing and bends.&quot;,
+          &quot;parameters&quot;: {
+            &quot;attenuation_db_per_um&quot;: 0.0002,
+            &quot;group_index&quot;: 4.0,
+            &quot;effective_index&quot;: 2.4,
+            &quot;width_um&quot;: 0.5,
+            &quot;maximum_length_um&quot;: 10000.0
+          }
+        },
+        {
+          &quot;id&quot;: &quot;detector&quot;,
+          &quot;kind&quot;: &quot;detector&quot;,
+          &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+          &quot;ports&quot;: [
+            {
+              &quot;name&quot;: &quot;in&quot;,
+              &quot;direction&quot;: &quot;in&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            },
+            {
+              &quot;name&quot;: &quot;out&quot;,
+              &quot;direction&quot;: &quot;out&quot;,
+              &quot;domain&quot;: &quot;electrical&quot;,
+              &quot;quantity&quot;: &quot;normalized_sample&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            }
+          ],
+          &quot;operating_envelope&quot;: {
+            &quot;wavelength_nm&quot;: {
+              &quot;minimum&quot;: 1540.0,
+              &quot;maximum&quot;: 1560.0
+            },
+            &quot;temperature_c&quot;: {
+              &quot;minimum&quot;: 20.0,
+              &quot;maximum&quot;: 30.0
+            },
+            &quot;symbol_duration_ns&quot;: {
+              &quot;minimum&quot;: 0.5,
+              &quot;maximum&quot;: 10.0
+            },
+            &quot;max_input_power_mw&quot;: 1.0
+          },
+          &quot;costs&quot;: {
+            &quot;area_um2&quot;: 100.0,
+            &quot;fixed_energy_pj&quot;: 0.1,
+            &quot;latency_ns&quot;: 0.2
+          },
+          &quot;evidence&quot;: {
+            &quot;parameters&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;operating_envelope&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;costs&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;model&quot;: [
+              &quot;model_contract_v1&quot;,
+              &quot;nist_si&quot;
+            ]
+          },
+          &quot;notes&quot;: &quot;Ideal calibrated normalized sample output plus shot and input-referred electronic noise. Minimum power is minimum full-scale calibration power, not a requirement that x=0 emit light. One electrical load only; cost assumes receiver and normalization electronics.&quot;,
+          &quot;parameters&quot;: {
+            &quot;minimum_full_scale_power_mw&quot;: 0.01,
+            &quot;quantum_efficiency&quot;: 0.8,
+            &quot;input_referred_noise_mw_rms&quot;: 0.0001
+          }
+        },
+        {
+          &quot;id&quot;: &quot;modulator&quot;,
+          &quot;kind&quot;: &quot;modulator&quot;,
+          &quot;model_version&quot;: &quot;scalar_intensity_v1&quot;,
+          &quot;ports&quot;: [
+            {
+              &quot;name&quot;: &quot;carrier&quot;,
+              &quot;direction&quot;: &quot;in&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            },
+            {
+              &quot;name&quot;: &quot;sample&quot;,
+              &quot;direction&quot;: &quot;in&quot;,
+              &quot;domain&quot;: &quot;electrical&quot;,
+              &quot;quantity&quot;: &quot;normalized_sample&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            },
+            {
+              &quot;name&quot;: &quot;out&quot;,
+              &quot;direction&quot;: &quot;out&quot;,
+              &quot;domain&quot;: &quot;optical&quot;,
+              &quot;quantity&quot;: &quot;power_mw&quot;,
+              &quot;encoding&quot;: &quot;normalized_intensity&quot;,
+              &quot;max_connections&quot;: 1
+            }
+          ],
+          &quot;operating_envelope&quot;: {
+            &quot;wavelength_nm&quot;: {
+              &quot;minimum&quot;: 1540.0,
+              &quot;maximum&quot;: 1560.0
+            },
+            &quot;temperature_c&quot;: {
+              &quot;minimum&quot;: 20.0,
+              &quot;maximum&quot;: 30.0
+            },
+            &quot;symbol_duration_ns&quot;: {
+              &quot;minimum&quot;: 0.5,
+              &quot;maximum&quot;: 10.0
+            },
+            &quot;max_input_power_mw&quot;: 10.0
+          },
+          &quot;costs&quot;: {
+            &quot;area_um2&quot;: 100.0,
+            &quot;fixed_energy_pj&quot;: 0.1,
+            &quot;latency_ns&quot;: 0.2
+          },
+          &quot;evidence&quot;: {
+            &quot;parameters&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;operating_envelope&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;costs&quot;: [
+              &quot;illustrative_v1&quot;
+            ],
+            &quot;model&quot;: [
+              &quot;model_contract_v1&quot;
+            ]
+          },
+          &quot;notes&quot;: &quot;Ideal linear intensity reencoder: output full scale is carrier power times insertion transmission. The carrier and one normalized electrical sample must both be supplied. Drive/normalization overhead is included only as an illustrative fixed cost.&quot;,
+          &quot;parameters&quot;: {
+            &quot;insertion_loss_db&quot;: 1.0,
+            &quot;added_sample_noise_rms&quot;: 0.002
+          }
+        }
+      ],
+      &quot;assumptions&quot;: [
+        &quot;One scalar, nonnegative intensity sample, x in [0,1], per optical lane and rectangular symbol; negative signed NN values need a separately specified encoder.&quot;,
+        &quot;Full-scale power is a calibration/operating-point parameter. Energy is a full-scale-per-symbol upper bound, not workload-averaged energy.&quot;,
+        &quot;Passive components are matched, reflection-free, single-mode and linear; parameters are constant only within the stated envelope.&quot;,
+        &quot;Receiver gain and modulation are ideally calibrated. Detector quantum efficiency thins a Poisson photon count; a separate input-referred RMS term models electronics.&quot;,
+        &quot;Physical ports allow one connection each, including electrical outputs; electrical broadcast needs additional modeled components.&quot;,
+        &quot;Electrical receiver/reencoder fixed costs are illustrative lumped overheads; no free detector or carrier source is implied.&quot;
+      ],
+      &quot;excluded_effects&quot;: [
+        &quot;Fabrication/layout/DRC and foundry qualification&quot;,
+        &quot;Signed, coherent, phase, wavelength-multiplexed or quantum state encoding&quot;,
+        &quot;Back reflections, interference, dispersion, crosstalk, bends and coupling/packaging loss&quot;,
+        &quot;Bandwidth waveform distortion, modulator extinction/nonlinearity and laser start-up dynamics&quot;,
+        &quot;Temperature variation within the envelope, process variation, ageing and calibration drift&quot;,
+        &quot;NN task accuracy, covariance guarantees after regeneration, complete memory/control/IO costs&quot;,
+        &quot;Optical amplification, serialized delivery, switching and storage&quot;
+      ]
+    },
+    &quot;scope&quot;: {
+      &quot;checked&quot;: [
+        &quot;SAX composition of full-scale optical power at every detector input and unused matched optical termination&quot;,
+        &quot;agreement with planner powers at each requested wavelength&quot;
+      ],
+      &quot;unchecked&quot;: [
+        &quot;physical calibration or validity of component parameters&quot;,
+        &quot;NN computation or task accuracy&quot;,
+        &quot;electrical detection and regeneration dynamics&quot;,
+        &quot;noise, clipping and saturation statistics&quot;,
+        &quot;energy, area, acquisition time, latency and throughput&quot;,
+        &quot;optical phase and group delay&quot;,
+        &quot;reflections, coherent recombination, crosstalk and fabrication layout&quot;
+      ],
+      &quot;boundary_conditions&quot;: &quot;one external source excitation per disconnected optical segment; all other ports matched and unexcited; sources are full scale and modulators have electrical sample fixed to 1&quot;,
+      &quot;independence&quot;: &quot;external SAX circuit solver and independently encoded field models; the same declared technology assumptions are used by both engines, so agreement checks composition, not experimental truth&quot;,
+      &quot;model_limitations&quot;: &quot;phenomenological reciprocal matched splitter/guide/attenuator models; absent scattering entries are zero; attenuation and splitting ratios are wavelength independent within their declared envelopes&quot;,
+      &quot;phase&quot;: &quot;first-order effective-index dispersion about the recorded wavelength retains distinct neff and ng; phase and group delay are not comparison targets&quot;,
+      &quot;coverage&quot;: &quot;partial_optical_only&quot;
+    },
+    &quot;model_definitions&quot;: {
+      &quot;npp_splitter_v1&quot;: {
+        &quot;ports&quot;: [
+          &quot;p_in&quot;,
+          &quot;p_out1&quot;,
+          &quot;p_out2&quot;
+        ],
+        &quot;power&quot;: &quot;T=10**(-loss_db/10); P_out1=P_in*ratio*T; P_out2=P_in*(1-ratio)*T&quot;,
+        &quot;field&quot;: &quot;reciprocal amplitudes sqrt(ratio*T) and sqrt((1-ratio)*T); other entries zero&quot;
+      },
+      &quot;npp_waveguide_v1&quot;: {
+        &quot;ports&quot;: [
+          &quot;p_in&quot;,
+          &quot;p_out&quot;
+        ],
+        &quot;power&quot;: &quot;P_out=P_in*10**(-loss_db_per_um*length_um/10)&quot;,
+        &quot;field&quot;: &quot;reciprocal sqrt(transmission)*exp(2j*pi*neff(wl)*length_um/wl_um)&quot;,
+        &quot;dispersion&quot;: &quot;neff(wl)=neff-(wl_um-reference_wavelength_um)*(ng-neff)/reference_wavelength_um&quot;
+      },
+      &quot;npp_modulator_full_scale_v1&quot;: {
+        &quot;ports&quot;: [
+          &quot;p_in&quot;,
+          &quot;p_out&quot;
+        ],
+        &quot;power&quot;: &quot;P_out=P_carrier*10**(-loss_db/10), electrical sample clamped to 1&quot;,
+        &quot;field&quot;: &quot;reciprocal attenuation sqrt(transmission); no electrical or transient model&quot;
+      }
+    },
+    &quot;segments&quot;: [
+      {
+        &quot;id&quot;: &quot;segment0&quot;,
+        &quot;source&quot;: {
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;role&quot;: &quot;encoded_launch&quot;,
+          &quot;source_node&quot;: &quot;x&quot;,
+          &quot;lane&quot;: 0,
+          &quot;power_mw&quot;: 0.05,
+          &quot;sax_port&quot;: &quot;input&quot;
+        },
+        &quot;netlist&quot;: {
+          &quot;instances&quot;: {
+            &quot;i0&quot;: {
+              &quot;component&quot;: &quot;npp_splitter_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;ratio&quot;: 0.5,
+                &quot;loss_db&quot;: 0.2
+              }
+            },
+            &quot;i1&quot;: {
+              &quot;component&quot;: &quot;npp_splitter_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;ratio&quot;: 0.5,
+                &quot;loss_db&quot;: 0.2
+              }
+            },
+            &quot;i2&quot;: {
+              &quot;component&quot;: &quot;npp_splitter_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;ratio&quot;: 0.5,
+                &quot;loss_db&quot;: 0.2
+              }
+            }
+          },
+          &quot;connections&quot;: {
+            &quot;i0,p_out1&quot;: &quot;i1,p_in&quot;,
+            &quot;i0,p_out2&quot;: &quot;i2,p_in&quot;
+          },
+          &quot;ports&quot;: {
+            &quot;input&quot;: &quot;i0,p_in&quot;,
+            &quot;output0&quot;: &quot;i1,p_out1&quot;,
+            &quot;output1&quot;: &quot;i1,p_out2&quot;,
+            &quot;output2&quot;: &quot;i2,p_out1&quot;,
+            &quot;output3&quot;: &quot;i2,p_out2&quot;
+          }
+        },
+        &quot;instance_mapping&quot;: {
+          &quot;i0&quot;: {
+            &quot;instance&quot;: &quot;lane0.split0.0&quot;,
+            &quot;technology_component&quot;: &quot;splitter&quot;
+          },
+          &quot;i1&quot;: {
+            &quot;instance&quot;: &quot;lane0.split1.0&quot;,
+            &quot;technology_component&quot;: &quot;splitter&quot;
+          },
+          &quot;i2&quot;: {
+            &quot;instance&quot;: &quot;lane0.split1.1&quot;,
+            &quot;technology_component&quot;: &quot;splitter&quot;
+          }
+        },
+        &quot;outputs&quot;: [
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+            &quot;binding&quot;: null,
+            &quot;sax_port&quot;: &quot;output0&quot;
+          },
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+            &quot;binding&quot;: null,
+            &quot;sax_port&quot;: &quot;output1&quot;
+          },
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+            &quot;binding&quot;: null,
+            &quot;sax_port&quot;: &quot;output2&quot;
+          },
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+            &quot;binding&quot;: null,
+            &quot;sax_port&quot;: &quot;output3&quot;
+          }
+        ]
+      },
+      {
+        &quot;id&quot;: &quot;segment1&quot;,
+        &quot;source&quot;: {
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;role&quot;: &quot;constant_carrier&quot;,
+          &quot;source_node&quot;: null,
+          &quot;lane&quot;: null,
+          &quot;power_mw&quot;: 0.2,
+          &quot;sax_port&quot;: &quot;input&quot;
+        },
+        &quot;netlist&quot;: {
+          &quot;instances&quot;: {
+            &quot;i0&quot;: {
+              &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;loss_db&quot;: 1.0
+              }
+            },
+            &quot;i1&quot;: {
+              &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;length_um&quot;: 10000.0,
+                &quot;loss_db_per_um&quot;: 0.0002,
+                &quot;neff&quot;: 2.4,
+                &quot;ng&quot;: 4.0,
+                &quot;reference_wavelength_um&quot;: 1.55
+              }
+            }
+          },
+          &quot;connections&quot;: {
+            &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+          },
+          &quot;ports&quot;: {
+            &quot;input&quot;: &quot;i0,p_in&quot;,
+            &quot;output0&quot;: &quot;i1,p_out&quot;
+          }
+        },
+        &quot;instance_mapping&quot;: {
+          &quot;i0&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.modulator&quot;,
+            &quot;technology_component&quot;: &quot;modulator&quot;
+          },
+          &quot;i1&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.route&quot;,
+            &quot;technology_component&quot;: &quot;waveguide&quot;
+          }
+        },
+        &quot;outputs&quot;: [
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;receiver_input&quot;,
+            &quot;binding&quot;: {
+              &quot;port&quot;: {
+                &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+                &quot;port&quot;: &quot;out&quot;
+              },
+              &quot;source_node&quot;: &quot;x&quot;,
+              &quot;lane&quot;: 0,
+              &quot;use_index&quot;: 0
+            },
+            &quot;sax_port&quot;: &quot;output0&quot;
+          }
+        ]
+      },
+      {
+        &quot;id&quot;: &quot;segment2&quot;,
+        &quot;source&quot;: {
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;role&quot;: &quot;constant_carrier&quot;,
+          &quot;source_node&quot;: null,
+          &quot;lane&quot;: null,
+          &quot;power_mw&quot;: 0.2,
+          &quot;sax_port&quot;: &quot;input&quot;
+        },
+        &quot;netlist&quot;: {
+          &quot;instances&quot;: {
+            &quot;i0&quot;: {
+              &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;loss_db&quot;: 1.0
+              }
+            },
+            &quot;i1&quot;: {
+              &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;length_um&quot;: 10000.0,
+                &quot;loss_db_per_um&quot;: 0.0002,
+                &quot;neff&quot;: 2.4,
+                &quot;ng&quot;: 4.0,
+                &quot;reference_wavelength_um&quot;: 1.55
+              }
+            }
+          },
+          &quot;connections&quot;: {
+            &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+          },
+          &quot;ports&quot;: {
+            &quot;input&quot;: &quot;i0,p_in&quot;,
+            &quot;output0&quot;: &quot;i1,p_out&quot;
+          }
+        },
+        &quot;instance_mapping&quot;: {
+          &quot;i0&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.modulator&quot;,
+            &quot;technology_component&quot;: &quot;modulator&quot;
+          },
+          &quot;i1&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.route&quot;,
+            &quot;technology_component&quot;: &quot;waveguide&quot;
+          }
+        },
+        &quot;outputs&quot;: [
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;receiver_input&quot;,
+            &quot;binding&quot;: {
+              &quot;port&quot;: {
+                &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+                &quot;port&quot;: &quot;out&quot;
+              },
+              &quot;source_node&quot;: &quot;x&quot;,
+              &quot;lane&quot;: 0,
+              &quot;use_index&quot;: 1
+            },
+            &quot;sax_port&quot;: &quot;output0&quot;
+          }
+        ]
+      },
+      {
+        &quot;id&quot;: &quot;segment3&quot;,
+        &quot;source&quot;: {
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;role&quot;: &quot;constant_carrier&quot;,
+          &quot;source_node&quot;: null,
+          &quot;lane&quot;: null,
+          &quot;power_mw&quot;: 0.2,
+          &quot;sax_port&quot;: &quot;input&quot;
+        },
+        &quot;netlist&quot;: {
+          &quot;instances&quot;: {
+            &quot;i0&quot;: {
+              &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;loss_db&quot;: 1.0
+              }
+            },
+            &quot;i1&quot;: {
+              &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;length_um&quot;: 10000.0,
+                &quot;loss_db_per_um&quot;: 0.0002,
+                &quot;neff&quot;: 2.4,
+                &quot;ng&quot;: 4.0,
+                &quot;reference_wavelength_um&quot;: 1.55
+              }
+            }
+          },
+          &quot;connections&quot;: {
+            &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+          },
+          &quot;ports&quot;: {
+            &quot;input&quot;: &quot;i0,p_in&quot;,
+            &quot;output0&quot;: &quot;i1,p_out&quot;
+          }
+        },
+        &quot;instance_mapping&quot;: {
+          &quot;i0&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.modulator&quot;,
+            &quot;technology_component&quot;: &quot;modulator&quot;
+          },
+          &quot;i1&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.route&quot;,
+            &quot;technology_component&quot;: &quot;waveguide&quot;
+          }
+        },
+        &quot;outputs&quot;: [
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;receiver_input&quot;,
+            &quot;binding&quot;: {
+              &quot;port&quot;: {
+                &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+                &quot;port&quot;: &quot;out&quot;
+              },
+              &quot;source_node&quot;: &quot;x&quot;,
+              &quot;lane&quot;: 0,
+              &quot;use_index&quot;: 2
+            },
+            &quot;sax_port&quot;: &quot;output0&quot;
+          }
+        ]
+      },
+      {
+        &quot;id&quot;: &quot;segment4&quot;,
+        &quot;source&quot;: {
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;role&quot;: &quot;constant_carrier&quot;,
+          &quot;source_node&quot;: null,
+          &quot;lane&quot;: null,
+          &quot;power_mw&quot;: 0.2,
+          &quot;sax_port&quot;: &quot;input&quot;
+        },
+        &quot;netlist&quot;: {
+          &quot;instances&quot;: {
+            &quot;i0&quot;: {
+              &quot;component&quot;: &quot;npp_modulator_full_scale_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;loss_db&quot;: 1.0
+              }
+            },
+            &quot;i1&quot;: {
+              &quot;component&quot;: &quot;npp_waveguide_v1&quot;,
+              &quot;settings&quot;: {
+                &quot;length_um&quot;: 10000.0,
+                &quot;loss_db_per_um&quot;: 0.0002,
+                &quot;neff&quot;: 2.4,
+                &quot;ng&quot;: 4.0,
+                &quot;reference_wavelength_um&quot;: 1.55
+              }
+            }
+          },
+          &quot;connections&quot;: {
+            &quot;i0,p_out&quot;: &quot;i1,p_in&quot;
+          },
+          &quot;ports&quot;: {
+            &quot;input&quot;: &quot;i0,p_in&quot;,
+            &quot;output0&quot;: &quot;i1,p_out&quot;
+          }
+        },
+        &quot;instance_mapping&quot;: {
+          &quot;i0&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.modulator&quot;,
+            &quot;technology_component&quot;: &quot;modulator&quot;
+          },
+          &quot;i1&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.route&quot;,
+            &quot;technology_component&quot;: &quot;waveguide&quot;
+          }
+        },
+        &quot;outputs&quot;: [
+          {
+            &quot;endpoint&quot;: {
+              &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+              &quot;port&quot;: &quot;in&quot;
+            },
+            &quot;kind&quot;: &quot;receiver_input&quot;,
+            &quot;binding&quot;: {
+              &quot;port&quot;: {
+                &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+                &quot;port&quot;: &quot;out&quot;
+              },
+              &quot;source_node&quot;: &quot;x&quot;,
+              &quot;lane&quot;: 0,
+              &quot;use_index&quot;: 3
+            },
+            &quot;sax_port&quot;: &quot;output0&quot;
+          }
+        ]
+      }
+    ],
+    &quot;excluded_electrical_connections&quot;: [
+      {
+        &quot;source&quot;: {
+          &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+          &quot;port&quot;: &quot;out&quot;
+        },
+        &quot;target&quot;: {
+          &quot;instance&quot;: &quot;lane0.use0.modulator&quot;,
+          &quot;port&quot;: &quot;sample&quot;
+        }
+      },
+      {
+        &quot;source&quot;: {
+          &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+          &quot;port&quot;: &quot;out&quot;
+        },
+        &quot;target&quot;: {
+          &quot;instance&quot;: &quot;lane0.use1.modulator&quot;,
+          &quot;port&quot;: &quot;sample&quot;
+        }
+      },
+      {
+        &quot;source&quot;: {
+          &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+          &quot;port&quot;: &quot;out&quot;
+        },
+        &quot;target&quot;: {
+          &quot;instance&quot;: &quot;lane0.use2.modulator&quot;,
+          &quot;port&quot;: &quot;sample&quot;
+        }
+      },
+      {
+        &quot;source&quot;: {
+          &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+          &quot;port&quot;: &quot;out&quot;
+        },
+        &quot;target&quot;: {
+          &quot;instance&quot;: &quot;lane0.use3.modulator&quot;,
+          &quot;port&quot;: &quot;sample&quot;
+        }
+      }
+    ]
+  },
+  &quot;samples&quot;: [
+    {
+      &quot;wavelength_nm&quot;: 1540.0,
+      &quot;comparisons&quot;: [
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output1&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output2&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output3&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment1&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 0
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment2&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 1
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment3&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 2
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment4&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 3
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        }
+      ],
+      &quot;passed&quot;: true
+    },
+    {
+      &quot;wavelength_nm&quot;: 1545.0,
+      &quot;comparisons&quot;: [
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output1&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output2&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output3&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment1&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 0
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment2&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 1
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment3&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 2
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment4&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 3
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.1002374467254545,
+          &quot;absolute_error_mw&quot;: 4.163336342344337e-17,
+          &quot;relative_error&quot;: 4.153474054210015e-16,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        }
+      ],
+      &quot;passed&quot;: true
+    },
+    {
+      &quot;wavelength_nm&quot;: 1550.0,
+      &quot;comparisons&quot;: [
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output1&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output2&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output3&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment1&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 0
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment2&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 1
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment3&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 2
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment4&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 3
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        }
+      ],
+      &quot;passed&quot;: true
+    },
+    {
+      &quot;wavelength_nm&quot;: 1555.0,
+      &quot;comparisons&quot;: [
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output1&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output2&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output3&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment1&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 0
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment2&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 1
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment3&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 2
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment4&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 3
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        }
+      ],
+      &quot;passed&quot;: true
+    },
+    {
+      &quot;wavelength_nm&quot;: 1560.0,
+      &quot;comparisons&quot;: [
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output1&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output2&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment0&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.launch&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output3&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.early_detector&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;regeneration_detector_input&quot;,
+          &quot;binding&quot;: null,
+          &quot;expected_power_mw&quot;: 0.011400135491948873,
+          &quot;sax_power_mw&quot;: 0.011400135491948874,
+          &quot;absolute_error_mw&quot;: 1.734723475976807e-18,
+          &quot;relative_error&quot;: 1.5216691741970281e-16,
+          &quot;allowed_error_mw&quot;: 1.1500135491948873e-07,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment1&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use0.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 0
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment2&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use1.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 1
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment3&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use2.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 2
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        },
+        {
+          &quot;segment&quot;: &quot;segment4&quot;,
+          &quot;source&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.carrier&quot;,
+            &quot;port&quot;: &quot;out&quot;
+          },
+          &quot;sax_port&quot;: &quot;output0&quot;,
+          &quot;endpoint&quot;: {
+            &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+            &quot;port&quot;: &quot;in&quot;
+          },
+          &quot;kind&quot;: &quot;receiver_input&quot;,
+          &quot;binding&quot;: {
+            &quot;port&quot;: {
+              &quot;instance&quot;: &quot;lane0.use3.receiver&quot;,
+              &quot;port&quot;: &quot;out&quot;
+            },
+            &quot;source_node&quot;: &quot;x&quot;,
+            &quot;lane&quot;: 0,
+            &quot;use_index&quot;: 3
+          },
+          &quot;expected_power_mw&quot;: 0.10023744672545445,
+          &quot;sax_power_mw&quot;: 0.10023744672545445,
+          &quot;absolute_error_mw&quot;: 0.0,
+          &quot;relative_error&quot;: 0.0,
+          &quot;allowed_error_mw&quot;: 1.0033744672545446e-06,
+          &quot;passed&quot;: true
+        }
+      ],
+      &quot;passed&quot;: true
+    }
+  ],
+  &quot;summary&quot;: {
+    &quot;segment_count&quot;: 5,
+    &quot;wavelength_count&quot;: 5,
+    &quot;comparison_count&quot;: 40,
+    &quot;max_absolute_error_mw&quot;: 4.163336342344337e-17,
+    &quot;max_relative_error&quot;: 4.153474054210015e-16
+  },
+  &quot;diagnostics&quot;: []
+}</pre></details></section><p class="muted">Self-contained document with no scripts, remote assets or network dependencies. The JSON artifacts and simulation adapter provide the reproducible workflow.</p></main></body></html>

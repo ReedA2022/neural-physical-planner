@@ -18,6 +18,40 @@ A budget violation is not permission to change the user's budget. An agent may p
 
 ## Command-line interface
 
+### Physical designer workflow (schema 0.3)
+
+The v0.3 physical layer is separate from neural macro planning. Its inputs are
+a canonical NN (or a friendly project), a physical technology pack and a physical
+design specification. It implements only the selected NN node's fanout circuit.
+Use the [designer guide](DESIGNER.md) and exported `physical-design.schema.json`.
+
+```bash
+npp technology --out technology.json
+npp plan-physical --network examples/physical/fanout4.json \
+  --design examples/physical/design.yaml --out-dir physical-design
+npp check-physical-design --result physical-design/design-result.json
+```
+
+Read `search.complete`, every rejection and the declared scope. A retained plan
+is nondominated only on the requested objective axes and within the evaluated
+subset; a successful command does not imply an exhaustive search. The field
+`noise_rms_estimate` is a full-scale normalized estimate, not task accuracy.
+The result embeds all inputs, baseline and candidate summaries. A retained
+`plans/<id>/realization.json` can be independently replayed or passed to
+`export-optical` and `simulate-realization`; planning itself does not run SAX.
+
+To modify requirements, use `replan-physical --baseline REALIZATION --design YAML
+--out-dir DIRECTORY`. Keep the original record. The new result resolves explicit
+`baseline` locks, identifies changed instances and flags changed technology or
+operating assumptions. The planner does not silently relax locks or requirements.
+Single-constraint suggestions reference evaluated candidates and their exact
+failed numeric requirement; an agent must label any proposed relaxation.
+
+Exit 0 means at least one plan; 3 means no feasible plan in a complete submitted
+grid; 4 means no plan yet in a truncated search; 2 means invalid input. Replay
+commands return 0 for matching saved claims and 2 otherwise. These checks verify
+declared computation and contents, not authorship or physical calibration.
+
 Invoke the installed `npp` entry point or `python -m npp`. The project root contains working examples. These commands perform local computation and write local artifacts; no API keys or remote services are required.
 
 ### Friendly project workflow

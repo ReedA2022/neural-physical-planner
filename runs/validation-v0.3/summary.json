@@ -1,0 +1,353 @@
+{
+  "software_version": "0.3.0",
+  "scope": "illustrative full-scale optical subcircuits; no physical calibration or NN accuracy claim",
+  "wavelengths_nm": [
+    1540.0,
+    1545.0,
+    1550.0,
+    1555.0,
+    1560.0
+  ],
+  "circuits": [
+    {
+      "case": "fanout-2-passive",
+      "metrics": {
+        "energy_pj": 5.2,
+        "area_um2": 1845.0,
+        "latency_ns": 1.3133425638079261,
+        "noise_rms_estimate": 0.0011829607572614678,
+        "stacked_noise_rms_estimate": 0.0016684291869069618,
+        "terminated_power_mw": 0.0,
+        "instance_count": 6,
+        "receiver_count": 2
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 1,
+      "wavelength_count": 5,
+      "comparison_count": 10,
+      "max_absolute_error_mw": 1.1102230246251565e-16,
+      "max_relative_error": 2.4346706787152447e-16
+    },
+    {
+      "case": "fanout-2-regenerate",
+      "metrics": {
+        "energy_pj": 7.6,
+        "area_um2": 4245.0,
+        "latency_ns": 2.713342563807926,
+        "noise_rms_estimate": 0.0028053001718461776,
+        "stacked_noise_rms_estimate": 0.003959112698815167,
+        "terminated_power_mw": 0.0,
+        "instance_count": 12,
+        "receiver_count": 2
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 3,
+      "wavelength_count": 5,
+      "comparison_count": 20,
+      "max_absolute_error_mw": 2.7755575615628914e-17,
+      "max_relative_error": 1.8294487293907355e-16
+    },
+    {
+      "case": "fanout-4-passive",
+      "metrics": {
+        "energy_pj": 5.4,
+        "area_um2": 4210.0,
+        "latency_ns": 1.3333564095198152,
+        "noise_rms_estimate": 0.001424960518093036,
+        "stacked_noise_rms_estimate": 0.002805767792353965,
+        "terminated_power_mw": 0.0,
+        "instance_count": 12,
+        "receiver_count": 4
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 1,
+      "wavelength_count": 5,
+      "comparison_count": 20,
+      "max_absolute_error_mw": 1.1102230246251565e-16,
+      "max_relative_error": 5.098826345570385e-16
+    },
+    {
+      "case": "fanout-4-regenerate",
+      "metrics": {
+        "energy_pj": 10.2,
+        "area_um2": 9010.0,
+        "latency_ns": 2.7333564095198155,
+        "noise_rms_estimate": 0.0029197965967508246,
+        "stacked_noise_rms_estimate": 0.005803837808341325,
+        "terminated_power_mw": 0.0,
+        "instance_count": 24,
+        "receiver_count": 4
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 5,
+      "wavelength_count": 5,
+      "comparison_count": 40,
+      "max_absolute_error_mw": 5.551115123125783e-17,
+      "max_relative_error": 3.7874790431405973e-16
+    },
+    {
+      "case": "fanout-8-passive",
+      "metrics": {
+        "energy_pj": 5.8,
+        "area_um2": 13440.0,
+        "latency_ns": 1.3733841009435934,
+        "noise_rms_estimate": 0.0020726215690106903,
+        "stacked_noise_rms_estimate": 0.005512386072187949,
+        "terminated_power_mw": 0.0,
+        "instance_count": 24,
+        "receiver_count": 8
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 1,
+      "wavelength_count": 5,
+      "comparison_count": 40,
+      "max_absolute_error_mw": 6.938893903907228e-17,
+      "max_relative_error": 7.151221568763763e-16
+    },
+    {
+      "case": "fanout-8-regenerate",
+      "metrics": {
+        "energy_pj": 15.4,
+        "area_um2": 23040.0,
+        "latency_ns": 2.7733841009435936,
+        "noise_rms_estimate": 0.003204956670676213,
+        "stacked_noise_rms_estimate": 0.008941010672867001,
+        "terminated_power_mw": 0.0,
+        "instance_count": 48,
+        "receiver_count": 8
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 9,
+      "wavelength_count": 5,
+      "comparison_count": 80,
+      "max_absolute_error_mw": 5.551115123125783e-17,
+      "max_relative_error": 4.348607779725425e-16
+    },
+    {
+      "case": "unlocked/candidate-0002",
+      "metrics": {
+        "energy_pj": 0.9,
+        "area_um2": 21460.0,
+        "latency_ns": 1.433425638079261,
+        "noise_rms_estimate": 0.007775272589353518,
+        "stacked_noise_rms_estimate": 0.015550545178707036,
+        "terminated_power_mw": 0.0,
+        "instance_count": 12,
+        "receiver_count": 4
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 1,
+      "wavelength_count": 5,
+      "comparison_count": 20,
+      "max_absolute_error_mw": 3.469446951953614e-18,
+      "max_relative_error": 2.411683115362794e-16
+    },
+    {
+      "case": "unlocked/candidate-0003",
+      "metrics": {
+        "energy_pj": 1.4,
+        "area_um2": 21460.0,
+        "latency_ns": 1.433425638079261,
+        "noise_rms_estimate": 0.0043182895963295494,
+        "stacked_noise_rms_estimate": 0.008636579192659099,
+        "terminated_power_mw": 0.0,
+        "instance_count": 12,
+        "receiver_count": 4
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 1,
+      "wavelength_count": 5,
+      "comparison_count": 20,
+      "max_absolute_error_mw": 6.938893903907228e-18,
+      "max_relative_error": 2.411683115362794e-16
+    },
+    {
+      "case": "unlocked/candidate-0009",
+      "metrics": {
+        "energy_pj": 6.2,
+        "area_um2": 26260.0,
+        "latency_ns": 2.833425638079261,
+        "noise_rms_estimate": 0.004112852911078935,
+        "stacked_noise_rms_estimate": 0.00822570582215787,
+        "terminated_power_mw": 0.0,
+        "instance_count": 24,
+        "receiver_count": 4
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 5,
+      "wavelength_count": 5,
+      "comparison_count": 40,
+      "max_absolute_error_mw": 4.163336342344337e-17,
+      "max_relative_error": 4.153474054210015e-16
+    },
+    {
+      "case": "locked/candidate-0004",
+      "metrics": {
+        "energy_pj": 3.45,
+        "area_um2": 26260.0,
+        "latency_ns": 2.833425638079261,
+        "noise_rms_estimate": 0.010206594625260775,
+        "stacked_noise_rms_estimate": 0.02041318925052155,
+        "terminated_power_mw": 0.0,
+        "instance_count": 24,
+        "receiver_count": 4
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 5,
+      "wavelength_count": 5,
+      "comparison_count": 40,
+      "max_absolute_error_mw": 2.0816681711721685e-17,
+      "max_relative_error": 4.153474054210015e-16
+    },
+    {
+      "case": "locked/candidate-0005",
+      "metrics": {
+        "energy_pj": 5.45,
+        "area_um2": 26260.0,
+        "latency_ns": 2.833425638079261,
+        "noise_rms_estimate": 0.009979508626194634,
+        "stacked_noise_rms_estimate": 0.019959017252389268,
+        "terminated_power_mw": 0.0,
+        "instance_count": 24,
+        "receiver_count": 4
+      },
+      "engine": {
+        "name": "SAX",
+        "version": "0.18.2",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "adapter_version": "npp_scalar_optics_v1"
+      },
+      "segment_count": 5,
+      "wavelength_count": 5,
+      "comparison_count": 40,
+      "max_absolute_error_mw": 4.163336342344337e-17,
+      "max_relative_error": 4.153474054210015e-16
+    }
+  ],
+  "designs": [
+    {
+      "case": "unlocked",
+      "submitted_grid_size": 9,
+      "evaluated_count": 9,
+      "excluded_count": 0,
+      "not_evaluated_count": 0,
+      "feasible_count": 8,
+      "pareto_count": 3,
+      "complete": true,
+      "max_evaluations": 128,
+      "optimality_scope": "complete submitted grid after hard choice exclusions"
+    },
+    {
+      "case": "locked",
+      "submitted_grid_size": 9,
+      "evaluated_count": 3,
+      "excluded_count": 6,
+      "not_evaluated_count": 0,
+      "feasible_count": 2,
+      "pareto_count": 2,
+      "complete": true,
+      "max_evaluations": 128,
+      "optimality_scope": "complete submitted grid after hard choice exclusions"
+    },
+    {
+      "case": "forbidden",
+      "submitted_grid_size": 9,
+      "evaluated_count": 1,
+      "excluded_count": 8,
+      "not_evaluated_count": 0,
+      "feasible_count": 0,
+      "pareto_count": 0,
+      "complete": true,
+      "max_evaluations": 128,
+      "optimality_scope": "complete submitted grid after hard choice exclusions"
+    },
+    {
+      "case": "truncated",
+      "submitted_grid_size": 9,
+      "evaluated_count": 1,
+      "excluded_count": 0,
+      "not_evaluated_count": 8,
+      "feasible_count": 0,
+      "pareto_count": 0,
+      "complete": false,
+      "max_evaluations": 1,
+      "optimality_scope": "evaluated subset only; unevaluated candidates may dominate retained plans"
+    },
+    {
+      "case": "energy-limit",
+      "submitted_grid_size": 9,
+      "evaluated_count": 9,
+      "excluded_count": 0,
+      "not_evaluated_count": 0,
+      "feasible_count": 0,
+      "pareto_count": 0,
+      "complete": true,
+      "max_evaluations": 128,
+      "optimality_scope": "complete submitted grid after hard choice exclusions"
+    }
+  ],
+  "all_checks_passed": true,
+  "optical_comparisons": 370,
+  "maximum_absolute_power_error_mw": 1.1102230246251565e-16
+}

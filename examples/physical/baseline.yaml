@@ -1,0 +1,7 @@
+# Deliberately infeasible passive baseline for the replanning demonstration.
+# The low-level realization spec uses numbers in the units named by each field.
+schema_version: "0.3"
+source_node: x
+recipe: passive
+source_power_mw: 0.05
+lengths_um: 10000.0

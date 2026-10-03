@@ -1,0 +1,31 @@
+# A finite design space, not arbitrary circuit synthesis.
+# Use with --network examples/physical/fanout4.json.
+schema_version: "0.3"
+source_node: x
+grid:
+  recipes: [passive, regenerate]
+  source_powers_mw: [50 uW, 100 uW, 200 uW]
+  regeneration_powers_mw: [100 uW, 200 uW]  # used only by regenerate
+  route_lengths_um:
+    - 10 mm  # one option: the same length for each ordered NN use
+    # Another option could be: [1 mm, 2 mm, 3 mm, 10 mm]
+  components:
+    source: [source]
+    splitter: [splitter]
+    waveguide: [waveguide]
+    detector: [detector]
+    modulator: [modulator]  # used only by regenerate
+operating:
+  wavelength_nm: 1550 nm
+  temperature_c: 25 C
+  symbol_duration_ns: 1 ns
+objectives: [energy_pj, latency_ns, area_um2, noise_rms_estimate]
+constraints:
+  min_receiver_margin_mw: 0 uW  # final receivers; all detectors also obey technology guards
+  # max_energy_pj: 5 pJ
+  # max_latency_ns: 3 ns
+  # max_area_um2: 0.03 mm2
+  # max_noise_rms_estimate: 0.01  # normalized RMS estimate, not an NN error bound
+locks: {}
+forbidden_recipes: []
+max_evaluations: 128  # nine candidate evaluations for this grid

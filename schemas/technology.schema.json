@@ -1,0 +1,934 @@
+{
+  "$defs": {
+    "Costs": {
+      "additionalProperties": false,
+      "properties": {
+        "area_um2": {
+          "minimum": 0,
+          "title": "Area Um2",
+          "type": "number"
+        },
+        "fixed_energy_pj": {
+          "minimum": 0,
+          "title": "Fixed Energy Pj",
+          "type": "number"
+        },
+        "latency_ns": {
+          "minimum": 0,
+          "title": "Latency Ns",
+          "type": "number"
+        }
+      },
+      "required": [
+        "area_um2",
+        "fixed_energy_pj",
+        "latency_ns"
+      ],
+      "title": "Costs",
+      "type": "object"
+    },
+    "Detector": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "const": "detector",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_version": {
+          "const": "scalar_intensity_v1",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "minItems": 1,
+          "title": "Ports",
+          "type": "array"
+        },
+        "operating_envelope": {
+          "$ref": "#/$defs/OperatingEnvelope"
+        },
+        "costs": {
+          "$ref": "#/$defs/Costs"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceBindings"
+        },
+        "notes": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Notes",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/DetectorParameters"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "model_version",
+        "ports",
+        "operating_envelope",
+        "costs",
+        "evidence",
+        "notes",
+        "parameters"
+      ],
+      "title": "Detector",
+      "type": "object"
+    },
+    "DetectorParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "minimum_full_scale_power_mw": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Full Scale Power Mw",
+          "type": "number"
+        },
+        "quantum_efficiency": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Quantum Efficiency",
+          "type": "number"
+        },
+        "input_referred_noise_mw_rms": {
+          "minimum": 0,
+          "title": "Input Referred Noise Mw Rms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "minimum_full_scale_power_mw",
+        "quantum_efficiency",
+        "input_referred_noise_mw_rms"
+      ],
+      "title": "DetectorParameters",
+      "type": "object"
+    },
+    "Encoding": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "normalized_intensity",
+          "default": "normalized_intensity",
+          "title": "Id",
+          "type": "string"
+        },
+        "optical_quantity": {
+          "const": "power_mw",
+          "default": "power_mw",
+          "title": "Optical Quantity",
+          "type": "string"
+        },
+        "electrical_quantity": {
+          "const": "normalized_sample",
+          "default": "normalized_sample",
+          "title": "Electrical Quantity",
+          "type": "string"
+        },
+        "logical_minimum": {
+          "default": 0.0,
+          "maximum": 0,
+          "minimum": 0,
+          "title": "Logical Minimum",
+          "type": "number"
+        },
+        "logical_maximum": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 1,
+          "title": "Logical Maximum",
+          "type": "number"
+        },
+        "interpretation": {
+          "const": "P(t)=full_scale_power_mw*x; 0<=x<=1",
+          "default": "P(t)=full_scale_power_mw*x; 0<=x<=1",
+          "title": "Interpretation",
+          "type": "string"
+        },
+        "energy_accounting": {
+          "const": "full_scale_per_symbol_upper_bound",
+          "default": "full_scale_per_symbol_upper_bound",
+          "title": "Energy Accounting",
+          "type": "string"
+        }
+      },
+      "title": "Encoding",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "illustrative_assumption",
+            "model_reference",
+            "measurement",
+            "simulation",
+            "standard",
+            "review_report"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "citation": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Citation",
+          "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "version": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Version",
+          "type": "string"
+        },
+        "coverage": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Coverage",
+          "type": "string"
+        },
+        "limitations": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Limitations",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "citation",
+        "version",
+        "coverage",
+        "limitations"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "EvidenceBindings": {
+      "additionalProperties": false,
+      "description": "Each key covers every leaf of that group; references do not calibrate values.",
+      "properties": {
+        "parameters": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Parameters",
+          "type": "array"
+        },
+        "operating_envelope": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Operating Envelope",
+          "type": "array"
+        },
+        "costs": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Costs",
+          "type": "array"
+        },
+        "model": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Model",
+          "type": "array"
+        }
+      },
+      "required": [
+        "parameters",
+        "operating_envelope",
+        "costs",
+        "model"
+      ],
+      "title": "EvidenceBindings",
+      "type": "object"
+    },
+    "Interval": {
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "title": "Minimum",
+          "type": "number"
+        },
+        "maximum": {
+          "title": "Maximum",
+          "type": "number"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ],
+      "title": "Interval",
+      "type": "object"
+    },
+    "Modulator": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "const": "modulator",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_version": {
+          "const": "scalar_intensity_v1",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "minItems": 1,
+          "title": "Ports",
+          "type": "array"
+        },
+        "operating_envelope": {
+          "$ref": "#/$defs/OperatingEnvelope"
+        },
+        "costs": {
+          "$ref": "#/$defs/Costs"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceBindings"
+        },
+        "notes": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Notes",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/ModulatorParameters"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "model_version",
+        "ports",
+        "operating_envelope",
+        "costs",
+        "evidence",
+        "notes",
+        "parameters"
+      ],
+      "title": "Modulator",
+      "type": "object"
+    },
+    "ModulatorParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "insertion_loss_db": {
+          "minimum": 0,
+          "title": "Insertion Loss Db",
+          "type": "number"
+        },
+        "added_sample_noise_rms": {
+          "minimum": 0,
+          "title": "Added Sample Noise Rms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "insertion_loss_db",
+        "added_sample_noise_rms"
+      ],
+      "title": "ModulatorParameters",
+      "type": "object"
+    },
+    "OperatingEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "wavelength_nm": {
+          "$ref": "#/$defs/Interval"
+        },
+        "temperature_c": {
+          "$ref": "#/$defs/Interval"
+        },
+        "symbol_duration_ns": {
+          "$ref": "#/$defs/Interval"
+        },
+        "max_input_power_mw": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Input Power Mw"
+        }
+      },
+      "required": [
+        "wavelength_nm",
+        "temperature_c",
+        "symbol_duration_ns"
+      ],
+      "title": "OperatingEnvelope",
+      "type": "object"
+    },
+    "Port": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Name",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "in",
+            "out"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "domain": {
+          "enum": [
+            "optical",
+            "electrical"
+          ],
+          "title": "Domain",
+          "type": "string"
+        },
+        "quantity": {
+          "enum": [
+            "power_mw",
+            "normalized_sample"
+          ],
+          "title": "Quantity",
+          "type": "string"
+        },
+        "encoding": {
+          "const": "normalized_intensity",
+          "default": "normalized_intensity",
+          "title": "Encoding",
+          "type": "string"
+        },
+        "max_connections": {
+          "default": 1,
+          "maximum": 1,
+          "minimum": 1,
+          "title": "Max Connections",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "direction",
+        "domain",
+        "quantity"
+      ],
+      "title": "Port",
+      "type": "object"
+    },
+    "Review": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "unreviewed",
+            "reviewed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "reviewer": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewer"
+        },
+        "report_source_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Report Source Id"
+        },
+        "notes": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "notes"
+      ],
+      "title": "Review",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "const": "source",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_version": {
+          "const": "scalar_intensity_v1",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "minItems": 1,
+          "title": "Ports",
+          "type": "array"
+        },
+        "operating_envelope": {
+          "$ref": "#/$defs/OperatingEnvelope"
+        },
+        "costs": {
+          "$ref": "#/$defs/Costs"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceBindings"
+        },
+        "notes": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Notes",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/SourceParameters"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "model_version",
+        "ports",
+        "operating_envelope",
+        "costs",
+        "evidence",
+        "notes",
+        "parameters"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "SourceParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "minimum_output_power_mw": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Output Power Mw",
+          "type": "number"
+        },
+        "maximum_output_power_mw": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Output Power Mw",
+          "type": "number"
+        },
+        "wall_plug_efficiency": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Wall Plug Efficiency",
+          "type": "number"
+        },
+        "relative_intensity_noise_rms": {
+          "minimum": 0,
+          "title": "Relative Intensity Noise Rms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "minimum_output_power_mw",
+        "maximum_output_power_mw",
+        "wall_plug_efficiency",
+        "relative_intensity_noise_rms"
+      ],
+      "title": "SourceParameters",
+      "type": "object"
+    },
+    "Splitter": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "const": "splitter",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_version": {
+          "const": "scalar_intensity_v1",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "minItems": 1,
+          "title": "Ports",
+          "type": "array"
+        },
+        "operating_envelope": {
+          "$ref": "#/$defs/OperatingEnvelope"
+        },
+        "costs": {
+          "$ref": "#/$defs/Costs"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceBindings"
+        },
+        "notes": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Notes",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/SplitterParameters"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "model_version",
+        "ports",
+        "operating_envelope",
+        "costs",
+        "evidence",
+        "notes",
+        "parameters"
+      ],
+      "title": "Splitter",
+      "type": "object"
+    },
+    "SplitterParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "power_ratio": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Power Ratio",
+          "type": "number"
+        },
+        "insertion_loss_db": {
+          "minimum": 0,
+          "title": "Insertion Loss Db",
+          "type": "number"
+        },
+        "ratio_tunability": {
+          "const": "fixed",
+          "default": "fixed",
+          "title": "Ratio Tunability",
+          "type": "string"
+        }
+      },
+      "required": [
+        "power_ratio",
+        "insertion_loss_db"
+      ],
+      "title": "SplitterParameters",
+      "type": "object"
+    },
+    "Waveguide": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "const": "waveguide",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_version": {
+          "const": "scalar_intensity_v1",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "minItems": 1,
+          "title": "Ports",
+          "type": "array"
+        },
+        "operating_envelope": {
+          "$ref": "#/$defs/OperatingEnvelope"
+        },
+        "costs": {
+          "$ref": "#/$defs/Costs"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceBindings"
+        },
+        "notes": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Notes",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/WaveguideParameters"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "model_version",
+        "ports",
+        "operating_envelope",
+        "costs",
+        "evidence",
+        "notes",
+        "parameters"
+      ],
+      "title": "Waveguide",
+      "type": "object"
+    },
+    "WaveguideParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "attenuation_db_per_um": {
+          "minimum": 0,
+          "title": "Attenuation Db Per Um",
+          "type": "number"
+        },
+        "group_index": {
+          "exclusiveMinimum": 0,
+          "title": "Group Index",
+          "type": "number"
+        },
+        "effective_index": {
+          "exclusiveMinimum": 0,
+          "title": "Effective Index",
+          "type": "number"
+        },
+        "width_um": {
+          "exclusiveMinimum": 0,
+          "title": "Width Um",
+          "type": "number"
+        },
+        "maximum_length_um": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Length Um",
+          "type": "number"
+        }
+      },
+      "required": [
+        "attenuation_db_per_um",
+        "group_index",
+        "effective_index",
+        "width_um",
+        "maximum_length_um"
+      ],
+      "title": "WaveguideParameters",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.3",
+      "default": "0.3",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Name",
+      "type": "string"
+    },
+    "version": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Version",
+      "type": "string"
+    },
+    "calibration_status": {
+      "enum": [
+        "illustrative",
+        "externally_supplied"
+      ],
+      "title": "Calibration Status",
+      "type": "string"
+    },
+    "encoding": {
+      "$ref": "#/$defs/Encoding"
+    },
+    "review": {
+      "$ref": "#/$defs/Review"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "components": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "detector": "#/$defs/Detector",
+            "modulator": "#/$defs/Modulator",
+            "source": "#/$defs/Source",
+            "splitter": "#/$defs/Splitter",
+            "waveguide": "#/$defs/Waveguide"
+          },
+          "propertyName": "kind"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/Source"
+          },
+          {
+            "$ref": "#/$defs/Splitter"
+          },
+          {
+            "$ref": "#/$defs/Waveguide"
+          },
+          {
+            "$ref": "#/$defs/Detector"
+          },
+          {
+            "$ref": "#/$defs/Modulator"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Components",
+      "type": "array"
+    },
+    "assumptions": {
+      "items": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "excluded_effects": {
+      "items": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Excluded Effects",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "version",
+    "calibration_status",
+    "encoding",
+    "review",
+    "sources",
+    "components",
+    "assumptions",
+    "excluded_effects"
+  ],
+  "title": "TechnologyPack",
+  "type": "object"
+}

@@ -1,5 +1,10 @@
 # Neural Physical Planner v0.2 — front end and canonical schema 0.1
 
+This document retains the compatible macro-planner contract. The v0.3 physical
+contracts are specified separately in [TECHNOLOGY.md](TECHNOLOGY.md),
+[IMPLEMENTATION.md](IMPLEMENTATION.md), [SIMULATION.md](SIMULATION.md) and
+[DESIGNER.md](DESIGNER.md). Their subcircuit costs are not added to macro costs.
+
 ## Versioned contracts and the friendly front end
 
 Software version **0.2** adds project files, commented YAML specifications, external saved-weight loading, human-readable physical units and a restricted ONNX importer. The normalized network/library/request and saved-plan **schema versions remain `"0.1"`**: existing canonical JSON inputs and the physical evaluator retain their established meanings.

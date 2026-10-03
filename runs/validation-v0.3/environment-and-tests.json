@@ -1,0 +1,29 @@
+{
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.3.5",
+    "pydantic": "2.13.5",
+    "PyYAML": "6.0.3",
+    "torch": "2.14.1+cpu",
+    "safetensors": "0.8.0",
+    "h5py": "3.16.0",
+    "onnx": "1.23.1",
+    "keras": "3.15.1",
+    "sax": "0.18.2",
+    "jax": "0.9.2",
+    "jaxlib": "0.9.2",
+    "klujax": "0.5.2"
+  },
+  "full_suite": {
+    "run": 268,
+    "passed": 267,
+    "skipped": 1,
+    "failed": 0
+  },
+  "core_suite": {
+    "run": 268,
+    "passed": 227,
+    "skipped": 41,
+    "failed": 0
+  }
+}

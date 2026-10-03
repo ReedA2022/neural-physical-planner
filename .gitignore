@@ -24,6 +24,7 @@ Thumbs.db
 !/runs/demo/
 !/runs/experiments/
 !/runs/friendly-v0.2/
+!/runs/validation-v0.3/
 
 # Initial implementation coordination; public specifications live in docs/.
 /IMPLEMENTATION_CONTRACT.md

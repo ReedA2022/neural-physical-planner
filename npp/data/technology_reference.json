@@ -1,0 +1,415 @@
+{
+  "schema_version": "0.3",
+  "id": "illustrative_intensity",
+  "name": "Illustrative scalar intensity reference technology",
+  "version": "0.3.0",
+  "calibration_status": "illustrative",
+  "encoding": {
+    "id": "normalized_intensity",
+    "optical_quantity": "power_mw",
+    "electrical_quantity": "normalized_sample",
+    "logical_minimum": 0.0,
+    "logical_maximum": 1.0,
+    "interpretation": "P(t)=full_scale_power_mw*x; 0<=x<=1",
+    "energy_accounting": "full_scale_per_symbol_upper_bound"
+  },
+  "review": {
+    "status": "unreviewed",
+    "reviewer": null,
+    "report_source_id": null,
+    "notes": "No photonics collaborator has reviewed this pack. Software review and tests do not constitute device calibration or expert hardware validation."
+  },
+  "sources": [
+    {
+      "id": "illustrative_v1",
+      "kind": "illustrative_assumption",
+      "citation": "Neural Physical Planner illustrative fixture, v0.3.0",
+      "url": null,
+      "version": "0.3.0",
+      "coverage": "Every numeric component parameter, every operating envelope, all per-instance costs, port cardinalities and ideal encoding assumptions in this bundled reference. These are chosen examples, not measured specifications.",
+      "limitations": "No claimed fabrication process, foundry, commercial part, measured calibration, uncertainty distribution, temperature fit, or usable-device guarantee."
+    },
+    {
+      "id": "model_contract_v1",
+      "kind": "model_reference",
+      "citation": "NPP scalar intensity v1 equations, docs/TECHNOLOGY.md",
+      "url": null,
+      "version": "scalar_intensity_v1",
+      "coverage": "Definitions: dB power transmission; two-way power division; uniform-waveguide delay; wall-plug source energy; Poisson photoelectron count and normalized noise; ideal calibrated intensity modulation.",
+      "limitations": "Equations define this reduced model. They do not validate any numeric parameter or the omitted device behavior."
+    },
+    {
+      "id": "nist_si",
+      "kind": "standard",
+      "citation": "NIST: Definitions of SI Base Units",
+      "url": "https://www.nist.gov/si-redefinition/definitions-si-base-units",
+      "version": "2019 SI definitions, retrieved 2026-10-03",
+      "coverage": "Exact speed of light c=299792458 m/s and Planck constant h=6.62607015e-34 J s only.",
+      "limitations": "Does not support any component parameter, assumed envelope or noise approximation."
+    },
+    {
+      "id": "sax_workflow",
+      "kind": "model_reference",
+      "citation": "GDSFactory Plugins: SAX circuit simulator",
+      "url": "https://gdsfactory.github.io/gplugins/notebooks/sax_01_sax/",
+      "version": "documentation retrieved 2026-10-03",
+      "coverage": "Component netlists, complex scattering models and circuit composition as an independent passive-circuit simulation workflow.",
+      "limitations": "Workflow reference only. No foundry model or calibrated S parameters are bundled."
+    },
+    {
+      "id": "ansys_detector_scope",
+      "kind": "model_reference",
+      "citation": "Ansys: photodetector_simple CML Compiler Model",
+      "url": "https://optics.ansys.com/hc/en-us/articles/360034710353-photodetector-simple-CML-Compiler-Model",
+      "version": "documentation retrieved 2026-10-03",
+      "coverage": "Reference for separating optical/electrical ports, receiver operating limits, shot noise, thermal noise and power saturation in compact-model workflows.",
+      "limitations": "This software neither embeds nor reproduces Ansys models. This citation supplies no numerical detector calibration."
+    }
+  ],
+  "components": [
+    {
+      "id": "source",
+      "kind": "source",
+      "model_version": "scalar_intensity_v1",
+      "ports": [
+        {
+          "name": "out",
+          "direction": "out",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        }
+      ],
+      "parameters": {
+        "minimum_output_power_mw": 0.01,
+        "maximum_output_power_mw": 10.0,
+        "wall_plug_efficiency": 0.2,
+        "relative_intensity_noise_rms": 0.001
+      },
+      "operating_envelope": {
+        "wavelength_nm": {
+          "minimum": 1540.0,
+          "maximum": 1560.0
+        },
+        "temperature_c": {
+          "minimum": 20.0,
+          "maximum": 30.0
+        },
+        "symbol_duration_ns": {
+          "minimum": 0.5,
+          "maximum": 10.0
+        },
+        "max_input_power_mw": null
+      },
+      "costs": {
+        "area_um2": 1000.0,
+        "fixed_energy_pj": 0.0,
+        "latency_ns": 0.1
+      },
+      "evidence": {
+        "parameters": [
+          "illustrative_v1"
+        ],
+        "operating_envelope": [
+          "illustrative_v1"
+        ],
+        "costs": [
+          "illustrative_v1"
+        ],
+        "model": [
+          "model_contract_v1"
+        ]
+      },
+      "notes": "Already encoded, externally driven scalar launch source. Fixed source/encoding overhead is illustrative. The source input interface is outside this distribution subcircuit; this does not implement a neural operation."
+    },
+    {
+      "id": "splitter",
+      "kind": "splitter",
+      "model_version": "scalar_intensity_v1",
+      "ports": [
+        {
+          "name": "in",
+          "direction": "in",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        },
+        {
+          "name": "out1",
+          "direction": "out",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        },
+        {
+          "name": "out2",
+          "direction": "out",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        }
+      ],
+      "parameters": {
+        "power_ratio": 0.5,
+        "insertion_loss_db": 0.2,
+        "ratio_tunability": "fixed"
+      },
+      "operating_envelope": {
+        "wavelength_nm": {
+          "minimum": 1540.0,
+          "maximum": 1560.0
+        },
+        "temperature_c": {
+          "minimum": 20.0,
+          "maximum": 30.0
+        },
+        "symbol_duration_ns": {
+          "minimum": 0.5,
+          "maximum": 10.0
+        },
+        "max_input_power_mw": 10.0
+      },
+      "costs": {
+        "area_um2": 20.0,
+        "fixed_energy_pj": 0.0,
+        "latency_ns": 0.0
+      },
+      "evidence": {
+        "parameters": [
+          "illustrative_v1"
+        ],
+        "operating_envelope": [
+          "illustrative_v1"
+        ],
+        "costs": [
+          "illustrative_v1"
+        ],
+        "model": [
+          "model_contract_v1"
+        ]
+      },
+      "notes": "Fixed 50:50 two-way splitter; 0.2 dB is excess insertion loss in addition to division. No continuously tunable splitting or lossless duplication."
+    },
+    {
+      "id": "waveguide",
+      "kind": "waveguide",
+      "model_version": "scalar_intensity_v1",
+      "ports": [
+        {
+          "name": "in",
+          "direction": "in",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        },
+        {
+          "name": "out",
+          "direction": "out",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        }
+      ],
+      "parameters": {
+        "attenuation_db_per_um": 0.0002,
+        "group_index": 4.0,
+        "effective_index": 2.4,
+        "width_um": 0.5,
+        "maximum_length_um": 10000.0
+      },
+      "operating_envelope": {
+        "wavelength_nm": {
+          "minimum": 1540.0,
+          "maximum": 1560.0
+        },
+        "temperature_c": {
+          "minimum": 20.0,
+          "maximum": 30.0
+        },
+        "symbol_duration_ns": {
+          "minimum": 0.5,
+          "maximum": 10.0
+        },
+        "max_input_power_mw": 10.0
+      },
+      "costs": {
+        "area_um2": 0.0,
+        "fixed_energy_pj": 0.0,
+        "latency_ns": 0.0
+      },
+      "evidence": {
+        "parameters": [
+          "illustrative_v1"
+        ],
+        "operating_envelope": [
+          "illustrative_v1"
+        ],
+        "costs": [
+          "illustrative_v1"
+        ],
+        "model": [
+          "model_contract_v1",
+          "nist_si"
+        ]
+      },
+      "notes": "Uniform, matched, single-mode waveguide with constant coefficients inside the declared envelope. Width times length estimates occupied core area, excluding spacing and bends."
+    },
+    {
+      "id": "detector",
+      "kind": "detector",
+      "model_version": "scalar_intensity_v1",
+      "ports": [
+        {
+          "name": "in",
+          "direction": "in",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        },
+        {
+          "name": "out",
+          "direction": "out",
+          "domain": "electrical",
+          "quantity": "normalized_sample",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        }
+      ],
+      "parameters": {
+        "minimum_full_scale_power_mw": 0.01,
+        "quantum_efficiency": 0.8,
+        "input_referred_noise_mw_rms": 0.0001
+      },
+      "operating_envelope": {
+        "wavelength_nm": {
+          "minimum": 1540.0,
+          "maximum": 1560.0
+        },
+        "temperature_c": {
+          "minimum": 20.0,
+          "maximum": 30.0
+        },
+        "symbol_duration_ns": {
+          "minimum": 0.5,
+          "maximum": 10.0
+        },
+        "max_input_power_mw": 1.0
+      },
+      "costs": {
+        "area_um2": 100.0,
+        "fixed_energy_pj": 0.1,
+        "latency_ns": 0.2
+      },
+      "evidence": {
+        "parameters": [
+          "illustrative_v1"
+        ],
+        "operating_envelope": [
+          "illustrative_v1"
+        ],
+        "costs": [
+          "illustrative_v1"
+        ],
+        "model": [
+          "model_contract_v1",
+          "nist_si"
+        ]
+      },
+      "notes": "Ideal calibrated normalized sample output plus shot and input-referred electronic noise. Minimum power is minimum full-scale calibration power, not a requirement that x=0 emit light. One electrical load only; cost assumes receiver and normalization electronics."
+    },
+    {
+      "id": "modulator",
+      "kind": "modulator",
+      "model_version": "scalar_intensity_v1",
+      "ports": [
+        {
+          "name": "carrier",
+          "direction": "in",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        },
+        {
+          "name": "sample",
+          "direction": "in",
+          "domain": "electrical",
+          "quantity": "normalized_sample",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        },
+        {
+          "name": "out",
+          "direction": "out",
+          "domain": "optical",
+          "quantity": "power_mw",
+          "encoding": "normalized_intensity",
+          "max_connections": 1
+        }
+      ],
+      "parameters": {
+        "insertion_loss_db": 1.0,
+        "added_sample_noise_rms": 0.002
+      },
+      "operating_envelope": {
+        "wavelength_nm": {
+          "minimum": 1540.0,
+          "maximum": 1560.0
+        },
+        "temperature_c": {
+          "minimum": 20.0,
+          "maximum": 30.0
+        },
+        "symbol_duration_ns": {
+          "minimum": 0.5,
+          "maximum": 10.0
+        },
+        "max_input_power_mw": 10.0
+      },
+      "costs": {
+        "area_um2": 100.0,
+        "fixed_energy_pj": 0.1,
+        "latency_ns": 0.2
+      },
+      "evidence": {
+        "parameters": [
+          "illustrative_v1"
+        ],
+        "operating_envelope": [
+          "illustrative_v1"
+        ],
+        "costs": [
+          "illustrative_v1"
+        ],
+        "model": [
+          "model_contract_v1"
+        ]
+      },
+      "notes": "Ideal linear intensity reencoder: output full scale is carrier power times insertion transmission. The carrier and one normalized electrical sample must both be supplied. Drive/normalization overhead is included only as an illustrative fixed cost."
+    }
+  ],
+  "assumptions": [
+    "One scalar, nonnegative intensity sample, x in [0,1], per optical lane and rectangular symbol; negative signed NN values need a separately specified encoder.",
+    "Full-scale power is a calibration/operating-point parameter. Energy is a full-scale-per-symbol upper bound, not workload-averaged energy.",
+    "Passive components are matched, reflection-free, single-mode and linear; parameters are constant only within the stated envelope.",
+    "Receiver gain and modulation are ideally calibrated. Detector quantum efficiency thins a Poisson photon count; a separate input-referred RMS term models electronics.",
+    "Physical ports allow one connection each, including electrical outputs; electrical broadcast needs additional modeled components.",
+    "Electrical receiver/reencoder fixed costs are illustrative lumped overheads; no free detector or carrier source is implied."
+  ],
+  "excluded_effects": [
+    "Fabrication/layout/DRC and foundry qualification",
+    "Signed, coherent, phase, wavelength-multiplexed or quantum state encoding",
+    "Back reflections, interference, dispersion, crosstalk, bends and coupling/packaging loss",
+    "Bandwidth waveform distortion, modulator extinction/nonlinearity and laser start-up dynamics",
+    "Temperature variation within the envelope, process variation, ageing and calibration drift",
+    "NN task accuracy, covariance guarantees after regeneration, complete memory/control/IO costs",
+    "Optical amplification, serialized delivery, switching and storage"
+  ]
+}

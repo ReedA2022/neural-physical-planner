@@ -1,0 +1,18 @@
+# Realize the three uses of x, independently for each of its two scalar lanes.
+# x is assumed already encoded: this does not implement the add operation.
+schema_version: "0.3"
+source_node: x
+recipe: passive # or regenerate, with regeneration_power_mw: 0.5
+source_power_mw: 1.0
+# NN order: twice input 0, twice input 1, network output x.
+lengths_um: [1000.0, 2000.0, 3000.0]
+operating:
+  wavelength_nm: 1550.0
+  temperature_c: 25.0
+  symbol_duration_ns: 1.0
+components:
+  source: source
+  splitter: splitter
+  waveguide: waveguide
+  detector: detector
+  modulator: modulator
