@@ -1,0 +1,312 @@
+{
+  "baseline_commit": "3ac1f30337753b1930fc538dc9ac58cbc1ac4c70",
+  "baseline_software_version": "0.3.0",
+  "external_evidence": {
+    "boundary_power_comparisons": 370,
+    "circuits": 11,
+    "execution": "historical v0.3 run, not re-executed by this gate",
+    "scope": "SAX/KLU full-scale optical power under shared illustrative assumptions; not physical calibration, NN inference, noise, latency or energy validation",
+    "summary": "runs/validation-v0.3/summary.json"
+  },
+  "files": {
+    "docs/multiphysics/baseline/physical_example.json": {
+      "provenance": "generated from unchanged production Python sources at 3ac1f30337753b1930fc538dc9ac58cbc1ac4c70 using examples/physical/network.json and examples/physical/realization.yaml; core dependencies Python 3.12.14, NumPy 2.3.5, Pydantic 2.13.5, PyYAML 6.0.3",
+      "role": "compatibility_fixture",
+      "sha256": "8c156c0f3e4cfeedbf9e7da16c68581a06c9628afb5d025faaab040e037a4d32"
+    },
+    "examples/components.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/components.json",
+      "role": "compatibility_fixture",
+      "sha256": "3b5c57fd4e5eb18fba5f9eb3acd66a45bcd153cdc071ceefb063a939e0d78b80"
+    },
+    "examples/friendly/design.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/friendly/design.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "47152b867f6e5d9786809f863947feedcda51693d89208ee2891853ed9cc289d"
+    },
+    "examples/friendly/hardware.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/friendly/hardware.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "587af1b5cd7c62c156c250718d2f5b155624cbeb6f663fa4d68c1d1b5dfd6e78"
+    },
+    "examples/friendly/model.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/friendly/model.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "07f263e86afe0bc46472f36ef890e0ce53d4dd883e2cb86aab55849ca8751101"
+    },
+    "examples/friendly/project.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/friendly/project.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "603f427bdc0d00d8af33a39f924d7b0650928681722c7ddc94c7595d9e2032fa"
+    },
+    "examples/friendly/weights.npz": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/friendly/weights.npz",
+      "role": "compatibility_fixture",
+      "sha256": "59cd5439af29b87fe04f0ad2461fe81fa2a8263512c6faa9e7717d03e9d89c0e"
+    },
+    "examples/physical/baseline.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/physical/baseline.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "87e99646f54208c48293671a899104417aac90206d9f5557128347c5436c53db"
+    },
+    "examples/physical/design.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/physical/design.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "0a40745edcba72336bf3263404b6f3b8fd58893caf96b79a5da946ae2aba9a08"
+    },
+    "examples/physical/fanout4.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/physical/fanout4.json",
+      "role": "compatibility_fixture",
+      "sha256": "707235831e6e5ee34b93ce128e5bf28434a001e791d6b6dacb2cca6c67a6278c"
+    },
+    "examples/physical/network.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/physical/network.json",
+      "role": "compatibility_fixture",
+      "sha256": "6664fac217ec2edf7a35dc11bb5df1511264286584d743cb01f8f7562a8c417a"
+    },
+    "examples/physical/realization.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/physical/realization.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "bfcaddb3fc94accc455bc4d0c66084ea22c2f26a07536a4bad8ab74a459e0fe4"
+    },
+    "examples/physical/replan.yaml": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/physical/replan.yaml",
+      "role": "compatibility_fixture",
+      "sha256": "1e5a6050f657fad0777aa314a5d87e8c25845db84e29332e10c2c4ee505b454c"
+    },
+    "examples/request_default.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/request_default.json",
+      "role": "compatibility_fixture",
+      "sha256": "53fe3d4ff198e2a08b924363d76f9982dda76d4a41ca176f2b7ca455115a9060"
+    },
+    "examples/split_recombine.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:examples/split_recombine.json",
+      "role": "compatibility_fixture",
+      "sha256": "8d1ed9bc955cd0f14af1855c80aa747193fffa161d343bd0afdb896c241aa8e4"
+    },
+    "npp/data/technology_reference.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:npp/data/technology_reference.json",
+      "role": "compatibility_fixture",
+      "sha256": "646b50c4ed46220c032646e33eea07766c6c03f67f718d2ad3b6d62099f2f531"
+    },
+    "runs/demo/inputs/library.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/demo/inputs/library.json",
+      "role": "compatibility_fixture",
+      "sha256": "3b5c57fd4e5eb18fba5f9eb3acd66a45bcd153cdc071ceefb063a939e0d78b80"
+    },
+    "runs/demo/inputs/network.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/demo/inputs/network.json",
+      "role": "compatibility_fixture",
+      "sha256": "8d1ed9bc955cd0f14af1855c80aa747193fffa161d343bd0afdb896c241aa8e4"
+    },
+    "runs/demo/inputs/request.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/demo/inputs/request.json",
+      "role": "compatibility_fixture",
+      "sha256": "53fe3d4ff198e2a08b924363d76f9982dda76d4a41ca176f2b7ca455115a9060"
+    },
+    "runs/demo/report.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/demo/report.json",
+      "role": "compatibility_fixture",
+      "sha256": "163f459955b963a71b338a82f9c7bc23e736ffd37687aa360373ed3f331d96bb"
+    },
+    "runs/friendly-v0.2/inputs/library.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/friendly-v0.2/inputs/library.json",
+      "role": "compatibility_fixture",
+      "sha256": "4d75714b4d5c865e66ef5128cbdc2a5c76632748346c4ace7bc4c10eba9bcb09"
+    },
+    "runs/friendly-v0.2/inputs/network.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/friendly-v0.2/inputs/network.json",
+      "role": "compatibility_fixture",
+      "sha256": "5ea0b15224176af51b759e2f71c6bbcfbe29a3951e3024741de9f4e1a3a1a990"
+    },
+    "runs/friendly-v0.2/inputs/request.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/friendly-v0.2/inputs/request.json",
+      "role": "compatibility_fixture",
+      "sha256": "38acc34ac4987502708b0ecc84fa469eb80e31490f79ba262f9599922eeea616"
+    },
+    "runs/friendly-v0.2/report.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/friendly-v0.2/report.json",
+      "role": "compatibility_fixture",
+      "sha256": "e655890d60d8458acbd9c7624d5c86bf04a2d2ce195f242cccb593253d19d89b"
+    },
+    "runs/validation-v0.3/baseline/realization.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/baseline/realization.json",
+      "role": "compatibility_fixture",
+      "sha256": "3d344ae9f0524ed063dd5adeef0e8bef7b3aa1d9c17a8ef0bd547ee76c450193"
+    },
+    "runs/validation-v0.3/energy-limit/design-result.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/energy-limit/design-result.json",
+      "role": "compatibility_fixture",
+      "sha256": "25adbc080f4b220d5e4608df6d1b42e4a455816f1dbbe0af8093ea6162a76238"
+    },
+    "runs/validation-v0.3/fanout-2-passive/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-2-passive/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "4f67a32d13fa15521399663a6d9e5982e7509f6d47078a91f998ac10d0ab3afc"
+    },
+    "runs/validation-v0.3/fanout-2-passive/realization.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-2-passive/realization.json",
+      "role": "compatibility_fixture",
+      "sha256": "e72c0d5e2cbde80d5d6f1dfb91d5b2a64027091d5f61a9e694dd155ba74de526"
+    },
+    "runs/validation-v0.3/fanout-2-regenerate/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-2-regenerate/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "acac0f924aed75bdf6f5e6001391d3805d620e5e4991f10b25136e92e34267e6"
+    },
+    "runs/validation-v0.3/fanout-2-regenerate/realization.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-2-regenerate/realization.json",
+      "role": "compatibility_fixture",
+      "sha256": "562505195c3fe5559eaf7a633e734075554a1d071e3a88d01597b23a96ed44a9"
+    },
+    "runs/validation-v0.3/fanout-4-passive/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-4-passive/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "e7ae562692f27c006296a35f8d3d22fcec02f1c9eb530e8cd746e2ea3fb65b25"
+    },
+    "runs/validation-v0.3/fanout-4-passive/realization.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-4-passive/realization.json",
+      "role": "compatibility_fixture",
+      "sha256": "008c5dcb2707713fb9b02eac06fbda5490348ccd67a3eec46935e5304abace7c"
+    },
+    "runs/validation-v0.3/fanout-4-regenerate/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-4-regenerate/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "f3c59e2eb8718550b8d8c503dd2e1733913877039ca57199943e8e077e414e50"
+    },
+    "runs/validation-v0.3/fanout-4-regenerate/realization.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-4-regenerate/realization.json",
+      "role": "compatibility_fixture",
+      "sha256": "47e779d33a636ab604de18ad5baab2c1253dbe91c0ddb97ba921ffc5a5b768f7"
+    },
+    "runs/validation-v0.3/fanout-8-passive/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-8-passive/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "1412be193236826c9d22ffcc0ec252245d457737e50d66cd80903c68734ed665"
+    },
+    "runs/validation-v0.3/fanout-8-passive/realization.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-8-passive/realization.json",
+      "role": "compatibility_fixture",
+      "sha256": "5f2f15ef521b6a37c8bf4d9a8d541b45e4afac7a498eb2800c399b3a042690e1"
+    },
+    "runs/validation-v0.3/fanout-8-regenerate/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-8-regenerate/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "f7bd01811c6c8ca2541ce0073ab8c401d08ee06fbe5fb309d21815881b403ccd"
+    },
+    "runs/validation-v0.3/fanout-8-regenerate/realization.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/fanout-8-regenerate/realization.json",
+      "role": "compatibility_fixture",
+      "sha256": "c4a30c82b2c650a65d26df2fc5840d1ea68a24393e9e543125709e2fc625b77b"
+    },
+    "runs/validation-v0.3/forbidden/design-result.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/forbidden/design-result.json",
+      "role": "compatibility_fixture",
+      "sha256": "03a3ee61e2b120b52d8f76cedb95ac78b1f459e45d206d7ee2c79005365c7b2a"
+    },
+    "runs/validation-v0.3/locked/design-result.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/locked/design-result.json",
+      "role": "compatibility_fixture",
+      "sha256": "67e58b100988e7164d28e1f820e600984a46082424869fd9f30b20ac1d8909fb"
+    },
+    "runs/validation-v0.3/locked/plans/candidate-0004/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/locked/plans/candidate-0004/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "f7a0d77195d39fecdc895aa56b0da1552c773a552ee372dad45aaee5f951750c"
+    },
+    "runs/validation-v0.3/locked/plans/candidate-0005/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/locked/plans/candidate-0005/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "de250dcc86c0407b47f19b42c3582c5f443e3bd29cd9da56d2c25e44fbe5dd42"
+    },
+    "runs/validation-v0.3/summary.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/summary.json",
+      "role": "archived_external_evidence",
+      "sha256": "f91b81700d991bb79ec45b583f942c1656e6b4bfc8a49a698bc4d366d07ad78a"
+    },
+    "runs/validation-v0.3/truncated/design-result.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/truncated/design-result.json",
+      "role": "compatibility_fixture",
+      "sha256": "92dafda75a3e670ea1e9067df8fb44799999c5c9276f5ec0e301c7d0aa4239f0"
+    },
+    "runs/validation-v0.3/unlocked/design-result.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/unlocked/design-result.json",
+      "role": "compatibility_fixture",
+      "sha256": "e47f2d1cbb3f6783a35e05d448a7ed8bd7d163334d45bcfc9cf8cd15b7700945"
+    },
+    "runs/validation-v0.3/unlocked/plans/candidate-0002/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/unlocked/plans/candidate-0002/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "16a53a81fb2073aa38b7e89bd2d2a04bc9681c6f191f40fd608308a3aa098965"
+    },
+    "runs/validation-v0.3/unlocked/plans/candidate-0003/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/unlocked/plans/candidate-0003/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "d09a71e53d1f9aac3e5938bddd2ed1f6b44d866290f745babd0cd79bb8f420e4"
+    },
+    "runs/validation-v0.3/unlocked/plans/candidate-0009/optical/simulation.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:runs/validation-v0.3/unlocked/plans/candidate-0009/optical/simulation.json",
+      "role": "archived_external_evidence",
+      "sha256": "aa072e2cc2802e8ea57ea1965ddbf5f89fe32414b908633b2b6918d6e83451b1"
+    },
+    "schemas/implementation.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/implementation.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "ee4875487c2486b668e106eb03fcbc82ad61974c8ae79ddad21630cf422c564d"
+    },
+    "schemas/library.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/library.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "a6212d58a158ef56235f690b611fe8a8ccb3885b326501914e7c7c8dc904df15"
+    },
+    "schemas/network.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/network.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "2da38c431292debb6e9eaf47199a3a1885b2a81d2bb52d4ef41b9c50a2191961"
+    },
+    "schemas/physical-design.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/physical-design.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "7639f7398c0a9dd4b91dd9b49fb35c219a6f455ca3fcd259d2c48fc0e83911e4"
+    },
+    "schemas/plan.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/plan.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "6522be9cf118b46f2ce80420d98488771823312e4dbedec5163d5723d3c6553c"
+    },
+    "schemas/realization.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/realization.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "900fd93828e82412349a25698792a00a3bd816840a96ca32de8b6eba2fb2a2f9"
+    },
+    "schemas/report.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/report.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "c77b82ad1639c004bc390d24d193bea74fad795755fb5d3682212ecb31d6c50f"
+    },
+    "schemas/request.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/request.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "060e49f73aaf754ee0cd11b35224d8882b2eb617657e38307e60d2a45abb9c85"
+    },
+    "schemas/technology.schema.json": {
+      "provenance": "git:3ac1f30337753b1930fc538dc9ac58cbc1ac4c70:schemas/technology.schema.json",
+      "role": "compatibility_fixture",
+      "sha256": "d50ac351fdd8c8059b1ed1164fd876f2ec51f9981cbecf521d8626115acdc15c"
+    }
+  },
+  "fixture_policy": "Pinned byte digests guard existing golden artifacts; runtime complete outputs use exact structure/types/discrete fields and finite floating point rtol=1e-12, atol=1e-15. Only legacy search.elapsed_seconds is excluded after type and finiteness checks. No refresh mode.",
+  "schema_version": "npp-multiphysics-baseline/1",
+  "schemas": [
+    "implementation",
+    "library",
+    "network",
+    "physical-design",
+    "plan",
+    "realization",
+    "report",
+    "request",
+    "technology"
+  ],
+  "scope": "Frozen complete deterministic software outputs and input meanings. No new physics validation or calibration."
+}

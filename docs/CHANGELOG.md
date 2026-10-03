@@ -1,5 +1,20 @@
 # Changes
 
+## Unreleased — multiphysics specification and M0 reconciliation
+
+- Preserved the supplied specification, including equations and its original
+  DOCX, with a full REQ-01–37 inventory against the actual v0.3 implementation.
+- Added a versioned migration roadmap and H1–H6 experiment definitions with
+  explicit baselines, negative controls, unresolved assumptions and dependencies.
+- Added an immutable v0.3 baseline manifest and executable compatibility checks
+  for legacy planning, physical realizations, designer cases and schema meaning.
+- Recorded M0 tests and independent critique in
+  [the gate record](multiphysics/M0_GATE.md).
+
+Runtime version remains 0.3.0. M1–M6 are planned work; the proposed multiphysics
+configuration and experiment registry are not current CLI inputs. This integration
+does not add mixed neural operators, acoustic/quantum models or decoder execution.
+
 ## 0.3.0 — inspectable optical circuits and designer interaction
 
 - Added strict physical technology packs with typed ports, operating envelopes,

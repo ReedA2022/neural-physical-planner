@@ -10,6 +10,12 @@ The example hardware values are **illustrative and uncalibrated**. This is not a
 fabrication tool or a whole-NN physical implementation, and the examples establish
 no research novelty or measured hardware-performance claim.
 
+The [multiphysics extension specification](docs/multiphysics/README.md) now defines
+the next stages: separate device backends, explicit interfaces, state and resource
+scheduling, and six controlled research experiments. Its M0 reconciliation adds
+a v0.3 capability inventory and reproducible baseline checks. The broader runtime
+stages M1–M6 are planned; the current CLI retains its documented v0.3 scope.
+
 ## Start with a friendly project
 
 Version 0.2 adds commented YAML specifications, external saved weights, physical units and a single project file. Existing v0.1 JSON inputs and saved-plan replay remain supported; the physical model is unchanged.

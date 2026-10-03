@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-03",
+  "baseline_commit": "3ac1f30337753b1930fc538dc9ac58cbc1ac4c70",
+  "gate": "M0",
+  "scope": "specification integration and v0.3 software compatibility; no M1-M6 runtime implementation",
+  "tests": {
+    "core": {
+      "run": 285,
+      "passed": 244,
+      "skipped": 41,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_seconds": 15.875,
+      "log": "core-tests.txt"
+    },
+    "full": {
+      "run": 285,
+      "passed": 284,
+      "skipped": 1,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_seconds": 37.38,
+      "log": "full-tests.txt"
+    }
+  },
+  "new_tests": {
+    "baseline_gate": 11,
+    "independent_review": 6
+  },
+  "environments": {
+    "core": {
+      "python": "3.12.14",
+      "packages": {
+        "numpy": "2.3.5",
+        "pydantic": "2.13.5",
+        "PyYAML": "6.0.3"
+      }
+    },
+    "full": {
+      "python": "3.12.14",
+      "packages": {
+        "numpy": "2.3.5",
+        "pydantic": "2.13.5",
+        "PyYAML": "6.0.3",
+        "sax": "0.18.2",
+        "jax": "0.9.2",
+        "jaxlib": "0.9.2",
+        "klujax": "0.5.2",
+        "torch": "2.14.1+cpu",
+        "safetensors": "0.8.0",
+        "h5py": "3.16.0",
+        "onnx": "1.23.1",
+        "keras": "3.15.1"
+      }
+    }
+  },
+  "unchanged_runtime_inputs_schemas": {
+    "status": "passed",
+    "files_checked": 56,
+    "compared_to": "3ac1f30337753b1930fc538dc9ac58cbc1ac4c70"
+  },
+  "baseline_check": {
+    "status": "passed",
+    "checks": 30,
+    "pinned_files": 57,
+    "report": "baseline-check.json"
+  },
+  "source_integrity": {
+    "original_byte_identity": "verified",
+    "transcribed_requirements": 37,
+    "equations": 7,
+    "tables": 10,
+    "external_links": 15,
+    "non_equation_paragraphs_and_table_cells": 480,
+    "metadata": "../source/metadata.json"
+  },
+  "external_validation": {
+    "new_device_or_coupling_validation": false,
+    "historical_SAX_evidence": "integrity checked by baseline gate; 11 circuits / 370 power comparisons from v0.3 retained as historical",
+    "full_suite": "Existing optional SAX integration tests were executed as regression; no new mechanism or wider physical claim."
+  },
+  "review": {
+    "role": "independent automated critique agent",
+    "agent": "/root/critique_multiphysics_m0",
+    "judgment": "PASS",
+    "report": "../../reviews/multiphysics_m0_round1.md",
+    "issues_fixed": [
+      "Restored original title/subtitle in Markdown and corrected conversion provenance."
+    ],
+    "eligible_next_stage": "M1; not implemented in M0"
+  }
+}

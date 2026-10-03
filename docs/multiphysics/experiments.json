@@ -1,0 +1,1415 @@
+{
+  "schema_version": "proposed/npp-experiment-registry-1",
+  "kind": "proposed_experiment_registry",
+  "status": "proposed",
+  "execution_status": "not_executable",
+  "planner_input_format": false,
+  "source": {
+    "filename": "Neural_Physical_Planner_Multiphysics_Specification_v1.docx",
+    "title": "Neural Physical Planner — Multiphysics Specification",
+    "version": "1.0",
+    "date": "2026-10-03",
+    "primary_sections": [
+      "20",
+      "21"
+    ],
+    "context_sections": [
+      "01",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "22",
+      "23"
+    ]
+  },
+  "baseline_implementation": {
+    "version": "0.3.0",
+    "commit": "3ac1f30337753b1930fc538dc9ac58cbc1ac4c70",
+    "claim_boundary": "Optical fanout, replay and SAX checks do not execute these neural-block or stateful multiphysics experiments."
+  },
+  "results": [],
+  "shared_protocol": {
+    "registration_rule": "Pin workload, semantic track, resource envelope, quality criteria and evidence policy before search or selecting winners.",
+    "unknown_policy": "Null is an unmet obligation, never zero, an unlimited envelope or a favorable inferred estimate. No numerical sweep ranges or thresholds have been invented.",
+    "unresolved_scenario_obligations": [
+      {
+        "id": "workload_identity",
+        "required": [
+          "Checkpoint/model hash",
+          "Architecture and operator semantics",
+          "Input ranges and tensor shapes",
+          "Batch/reuse",
+          "Numeric formats",
+          "Weights residency",
+          "State policy and request arrivals when applicable"
+        ],
+        "value": null
+      },
+      {
+        "id": "resource_envelope",
+        "required": [
+          "Compute/memory/link/converter/source/control capacities",
+          "Power and environmental bounds",
+          "Amortization horizon",
+          "Matched baseline resource boundary"
+        ],
+        "value": null
+      },
+      {
+        "id": "quality_and_validation",
+        "required": [
+          "Output and held-out task-quality budgets",
+          "Datasets and held-out split",
+          "Tolerance/confidence convention",
+          "Independent oracle",
+          "Seeds and separated random streams",
+          "Convergence plan"
+        ],
+        "value": null
+      },
+      {
+        "id": "parameter_domains",
+        "required": [
+          "Finite sweep domains and units",
+          "Sources or labeled assumptions",
+          "Validity envelopes",
+          "Correlations/dependencies",
+          "Uncertainty type and justified distribution or bounds"
+        ],
+        "value": null
+      },
+      {
+        "id": "evidence_policy",
+        "required": [
+          "Parameter-level evidence labels",
+          "Model fidelity labels",
+          "Accepted evidence cohorts",
+          "Missing-cost handling",
+          "Hardware model/algorithm versions"
+        ],
+        "value": null
+      }
+    ],
+    "semantic_tracks": {
+      "E": "Unchanged ideal function; finite precision and physical errors are evaluated separately.",
+      "A": "Declared approximation or quality budget, never labeled exact.",
+      "R": "New adapted model identity with adaptation/training cost, held-out evaluation and matched adapted digital comparator."
+    },
+    "accounting": {
+      "categories": [
+        "compute",
+        "movement",
+        "conversion",
+        "storage",
+        "programming",
+        "calibration",
+        "control",
+        "support"
+      ],
+      "rules": [
+        "Own each effect once, including composite coupling and shared source/pump service.",
+        "Report cold-start and steady-state separately with declared reuse horizon.",
+        "Compute time from a resource-constrained schedule including waiting, startup, reset and storage expiry.",
+        "Missing quantities make totals incomplete, symbolic or bounded; they never become zero."
+      ]
+    },
+    "evidence_and_uncertainty": [
+      "Separate parameter evidence from model fidelity.",
+      "Separate evidence cohorts; hypothetical and measured coefficients are not interchangeable.",
+      "Propagate shared uncertainties jointly.",
+      "Distinguish exists-a-winning-setting from wins-for-all-settings.",
+      "Overlapping intervals alone do not establish an ordering."
+    ],
+    "validation": [
+      "Calibration/search data are separate from held-out task evaluation.",
+      "Independent semantic/device references must not call the production evaluator.",
+      "Replay is not independent validation.",
+      "Keep negative outcomes, rejected candidates and counterexample fixtures.",
+      "Small search spaces use exhaustive oracles; larger spaces disclose budget, seed, coverage and termination.",
+      "Separate executed measurements, simulated research, synthetic software fixtures and proposed scenarios."
+    ],
+    "metrics": {
+      "block": [
+        {
+          "name": "latency",
+          "unit": "s",
+          "definition": "Complete resource-scheduled block latency."
+        },
+        {
+          "name": "energy",
+          "unit": "J",
+          "definition": "Complete system-boundary energy, with unknown totals labeled incomplete."
+        },
+        {
+          "name": "physical_resources",
+          "unit": null,
+          "definition": "Compute, memory, conversion, source/control and link capacity/occupancy."
+        },
+        {
+          "name": "output_error",
+          "unit": null,
+          "definition": "Declared numerical and physical error categories versus independent oracle."
+        },
+        {
+          "name": "task_quality",
+          "unit": null,
+          "definition": "Held-out task metric with declared thresholds and confidence."
+        }
+      ],
+      "stateful": [
+        {
+          "name": "time_to_first_token",
+          "unit": "s",
+          "definition": "Declared cold-start/prefill boundary."
+        },
+        {
+          "name": "inter_token_latency",
+          "unit": "s",
+          "definition": "Latency between committed tokens."
+        },
+        {
+          "name": "request_latency",
+          "unit": "s",
+          "definition": "Complete request, including prefill and decode."
+        },
+        {
+          "name": "committed_token_throughput",
+          "unit": "token/s",
+          "definition": "Throughput under a declared latency limit and arrival workload."
+        },
+        {
+          "name": "energy_per_committed_token",
+          "unit": "J/token",
+          "definition": "Full system energy per committed output token."
+        },
+        {
+          "name": "peak_average_power",
+          "unit": "W",
+          "definition": "Peak and average power at the matched system boundary."
+        },
+        {
+          "name": "memory_and_interconnect",
+          "unit": null,
+          "definition": "Capacity, traffic, resource counts and occupancy."
+        }
+      ]
+    },
+    "quantile_policy": "Require a declared workload distribution and enough traces; a deterministic pass does not establish quantiles.",
+    "required_artifacts": [
+      "normalized_inputs",
+      "semantic_plan",
+      "physical_plan",
+      "schedule",
+      "cost_quality_ledger",
+      "assumption_ledger",
+      "matched_comparison",
+      "verification_results"
+    ],
+    "reproducibility": [
+      "Stable input/model hashes",
+      "Pinned evaluator/backend versions",
+      "Seed and separate random-stream identities",
+      "Retained failures and rejections",
+      "Published tolerances, confidence and convergence checks"
+    ]
+  },
+  "experiments": [
+    {
+      "id": "H1",
+      "title": "Heterogeneous partitions inside a linear/FFN block",
+      "question": "Can partitions matched to physical capabilities beat single-technology execution and whole-operator mapping?",
+      "status": "proposed",
+      "execution_status": "not_executable",
+      "results": [],
+      "source_sections": [
+        "12",
+        "20"
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-23",
+        "REQ-27",
+        "REQ-30",
+        "REQ-36"
+      ],
+      "target_research_gate": "M4",
+      "protocol_ref": "#/shared_protocol",
+      "scenario_obligations_ref": "#/shared_protocol/unresolved_scenario_obligations",
+      "quality_criteria": {
+        "status": "unresolved",
+        "thresholds": null,
+        "obligation": "Pin output error and held-out task-quality criteria, comparison tolerances and confidence conventions before search."
+      },
+      "workload": {
+        "kind": "linear_then_complete_ffn",
+        "definition": "Small linear and complete FFN fixtures; pin shapes, operators/nonlinearities, bias, output ordering, input ranges, precision and reuse.",
+        "model_identity": null
+      },
+      "semantic_tracks": {
+        "primary": "E",
+        "optional": [
+          "A"
+        ],
+        "conditions": [
+          "Input partitions accumulate, output partitions concatenate in order, two-dimensional tiling does both; bias is applied once.",
+          "Approximation or residual truncation requires a separate A scenario and declared budget; adaptation is not an implicit repair."
+        ]
+      },
+      "semantic_identities": [
+        {
+          "latex": "Wx=\\sum_j W_{:,I_j}x_{I_j}",
+          "preconditions": [
+            "The input index sets are disjoint and cover the input.",
+            "All partial results and required residuals are retained."
+          ]
+        }
+      ],
+      "baselines": [
+        {
+          "id": "digital",
+          "description": "Fixed digital complete block.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "eligible_single_backend",
+          "description": "Each eligible single compute backend with all support circuitry and data movement.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "operator_hybrid",
+          "description": "Conventional whole-operator hybrid mapping.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "intralayer_hybrid",
+          "description": "Intra-layer hybrid with complete interfaces, distribution and merge.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "exact_search_oracle",
+          "description": "Exhaustive small-instance oracle over the identical declared choice space, resources and metrics.",
+          "execution_status": "not_executed"
+        }
+      ],
+      "resource_normalization": [
+        "Match compute, memory, converter and link capacities plus power and quality limits.",
+        "Charge padding, lane utilization, input distribution, partial-sum precision, conversion and merge; expose all resource differences."
+      ],
+      "parameter_sweeps": [
+        {
+          "parameter": "dimensions",
+          "meaning": "Input, output and hidden dimensions.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "batch_reuse",
+          "meaning": "Batch size, residency and reuse horizon.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "dynamic_range",
+          "meaning": "Input and weight ranges.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "converter_precision",
+          "meaning": "Converter formats and effective precision.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "resource_allocation",
+          "meaning": "Compute, memory, converter and link allocation within matched caps.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        }
+      ],
+      "metrics_refs": [
+        "#/shared_protocol/metrics/block"
+      ],
+      "ablations": [
+        "Disable partitioning.",
+        "Disable representation transformations.",
+        "Fix merge placement."
+      ],
+      "mandatory_controls": [
+        "Reject missing/overlapping partitions, wrong output order, repeated bias and illegal nonlinear commutations.",
+        "Exercise conversion/distribution/merge-dominated and low-utilization cases.",
+        "Reject approximations labeled as exact.",
+        "Match bounded search frontiers against the exhaustive oracle."
+      ],
+      "success_criteria": [
+        "A reproducible region improves complete block cost at matched resources and task quality."
+      ],
+      "failure_conditions": [
+        "A gain disappears after distribution, conversions, utilization and merging are charged.",
+        "A gain exceeds the permitted resources or changes unbudgeted semantics/quality."
+      ],
+      "blocked_by": [
+        {
+          "milestones": [
+            "M1",
+            "M2",
+            "M3",
+            "M4"
+          ],
+          "description": "Complete digital path, typed mixed operator execution, reviewed rewrites, explicit converters, resource scheduler, owned accounting, independent block oracle and bounded crossover runner.",
+          "status": "unmet"
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "title": "Interface-fused gating with optional acoustic alignment",
+      "question": "Can a legal gating interface replace intermediate readout, multiplication and re-encoding?",
+      "status": "proposed",
+      "execution_status": "not_executable",
+      "results": [],
+      "source_sections": [
+        "12",
+        "13",
+        "20",
+        "24"
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-20",
+        "REQ-23",
+        "REQ-24",
+        "REQ-27",
+        "REQ-36"
+      ],
+      "target_research_gate": "M4",
+      "protocol_ref": "#/shared_protocol",
+      "scenario_obligations_ref": "#/shared_protocol/unresolved_scenario_obligations",
+      "quality_criteria": {
+        "status": "unresolved",
+        "thresholds": null,
+        "obligation": "Pin output error and held-out task-quality criteria, comparison tolerances and confidence conventions before search."
+      },
+      "workload": {
+        "kind": "swiglu_ffn",
+        "definition": "Complete bias-free SwiGLU first; the ungated branch remains optically encoded, electronic gate drives a specified interface, and output feeds down-projection. Biasful variants need separate proven rules.",
+        "model_identity": null
+      },
+      "semantic_tracks": {
+        "primary": "E",
+        "optional": [
+          "A"
+        ],
+        "conditions": [
+          "Declare signed encoding, gate range, transfer law, scale and synchronization.",
+          "Approximate transfer laws require separately budgeted A scenarios.",
+          "The v0.3 nonnegative intensity modulator is not evidence of a signed multiplication contract."
+        ]
+      },
+      "semantic_identities": [
+        {
+          "latex": "z=\\operatorname{SiLU}(W_gx)\\odot(W_ux),\\quad y=W_dz",
+          "preconditions": [
+            "Complete ideal SwiGLU function, with compatible physical encoding at each boundary."
+          ]
+        }
+      ],
+      "baselines": [
+        {
+          "id": "digital",
+          "description": "Complete digital block.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "unfused_hybrid",
+          "description": "Read out intermediates, multiply electronically and re-encode.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "fused_no_storage",
+          "description": "Fused gating with no added storage; delay branch launch where legal.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "optical_delay",
+          "description": "Fused gating with specified optical delay.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "electronic_buffer",
+          "description": "Electronic buffering and re-encoding.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "recomputation",
+          "description": "Recompute the branch with complete timing and energy.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "acoustic_buffer",
+          "description": "Optional specified acoustic write/storage/read path, blocked until M5 models exist.",
+          "execution_status": "not_executed"
+        }
+      ],
+      "resource_normalization": [
+        "Hold semantic track, output requirements and quality target fixed.",
+        "Match compute, storage, source/driver, control, conversion, link and power envelopes.",
+        "Charge all pumps/sources, writing, retention loss, reading, reset and synchronization exactly once; joint coupling belongs to one composite owner."
+      ],
+      "parameter_sweeps": [
+        {
+          "parameter": "branch_skew",
+          "meaning": "Arrival difference between gate and ungated branch.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "gate_range",
+          "meaning": "Signed gate amplitude and range.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "interface_error",
+          "meaning": "Transfer nonlinearity and noise/error.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "insertion_loss",
+          "meaning": "Interface and alignment loss.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "control_cost",
+          "meaning": "Drivers, pumps, sources and control.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "storage_retention",
+          "meaning": "Fidelity versus retention time, capacity and retrieval behavior.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        }
+      ],
+      "metrics_refs": [
+        "#/shared_protocol/metrics/block"
+      ],
+      "additional_metrics": [
+        {
+          "name": "crossover_conditions",
+          "unit": null,
+          "definition": "Region of interface overhead, branch skew and precision where the complete plan wins; preserve unresolved parameters."
+        },
+        {
+          "name": "required_buffer_fidelity",
+          "unit": null,
+          "definition": "Minimum storage/retrieval quality at the scheduled retention time; conditional until parameterized."
+        }
+      ],
+      "ablations": [
+        "Remove fusion.",
+        "Remove added storage.",
+        "Compare each legal alignment mechanism under the same arrival requirements."
+      ],
+      "mandatory_controls": [
+        "Attenuation-only nonnegative intensity modulation must reject arbitrary signed multiplication.",
+        "Reject incompatible encodings/scales, absent required gain, late/expired data, write/read conflicts and illegal second retrieval.",
+        "Include cases where control, conversion, loss, synchronization or retrieval makes fusion lose.",
+        "Moving readout to another circuit must preserve its cost."
+      ],
+      "success_criteria": [
+        "A reproducible complete-plan crossover at matched quality, with explicit minimum interface and buffer requirements."
+      ],
+      "failure_conditions": [
+        "The required signed transfer law or operating envelope is absent.",
+        "Timing, conversion or retrieval negates the saved work.",
+        "An acoustic win depends on hypothetical retention and is reported as demonstrated instead of conditional."
+      ],
+      "blocked_by": [
+        {
+          "milestones": [
+            "M1",
+            "M2",
+            "M3",
+            "M4"
+          ],
+          "description": "Signed operators/interfaces, gate oracle, scheduler, complete baseline and crossover runner.",
+          "status": "unmet"
+        },
+        {
+          "milestones": [
+            "M5"
+          ],
+          "description": "Acoustic variant only: joint coupling model, storage/state semantics, control accounting and independent reference.",
+          "status": "unmet"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "title": "Representation-aware correlated-error placement",
+      "question": "Can exact channel transformations and placement improve a physical operating point beyond sensitivity-aware assignment?",
+      "status": "proposed",
+      "execution_status": "not_executable",
+      "results": [],
+      "source_sections": [
+        "12",
+        "16",
+        "20"
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-23",
+        "REQ-25",
+        "REQ-28",
+        "REQ-29",
+        "REQ-36"
+      ],
+      "target_research_gate": "M6",
+      "protocol_ref": "#/shared_protocol",
+      "scenario_obligations_ref": "#/shared_protocol/unresolved_scenario_obligations",
+      "quality_criteria": {
+        "status": "unresolved",
+        "thresholds": null,
+        "obligation": "Pin output error and held-out task-quality criteria, comparison tolerances and confidence conventions before search."
+      },
+      "workload": {
+        "kind": "ffn_with_shared_noise_and_geometry",
+        "definition": "Complete FFN with held-out inputs, signed hidden-channel permutations and physical operating-point evaluation.",
+        "model_identity": null
+      },
+      "semantic_tracks": {
+        "primary": "E",
+        "optional": [],
+        "conditions": [
+          "Apply signs on the ungated SwiGLU branch, not through SiLU.",
+          "Transform biases consistently when present.",
+          "Re-evaluate encoding range, programmability and covariance after each transformation."
+        ]
+      },
+      "semantic_identities": [
+        {
+          "latex": "W'_g=PW_g,\\quad W'_u=DPW_u,\\quad W'_d=W_dP^{\\mathsf T}D^{-1}",
+          "preconditions": [
+            "P is a hidden-channel permutation; D is a diagonal sign matrix.",
+            "Bias-free SwiGLU, or corresponding bias transformations are explicitly included."
+          ]
+        },
+        {
+          "latex": "\\mathbb E\\|\\delta y\\|_2^2\\approx\\|Jb\\|_2^2+\\operatorname{tr}(J\\Sigma J^{\\mathsf T})",
+          "preconditions": [
+            "Local linearization with declared sensitivity, bias and zero-mean covariance; not a general nonlinear quality guarantee."
+          ]
+        },
+        {
+          "latex": "\\operatorname{tr}(JS^{-1}\\Sigma_{\\pi,S}S^{-\\mathsf T}J^{\\mathsf T})",
+          "preconditions": [
+            "S is a signed permutation and covariance is recomputed for the actual encoding and placement."
+          ]
+        }
+      ],
+      "baselines": [
+        {
+          "id": "fixed",
+          "description": "Fixed representation and placement.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "sensitivity_mapping",
+          "description": "Sensitivity-aware assignment.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "transforms_only",
+          "description": "Representation transformations alone.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "geometry_only",
+          "description": "Geometry optimization alone.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "joint",
+          "description": "Joint representation and geometry optimization.",
+          "execution_status": "not_executed"
+        }
+      ],
+      "resource_normalization": [
+        "Match physical resources and held-out task quality.",
+        "Charge changed encoding, integration, calibration, routing and control; retain complete schedule and cost boundary."
+      ],
+      "parameter_sweeps": [
+        {
+          "parameter": "noise_models",
+          "meaning": "Isotropic additive, physically shared additive, signal-following multiplicative, and device-specific model cohorts.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "correlations",
+          "meaning": "Physically admissible shared modes and temporal/spatial couplings.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "representation_placement",
+          "meaning": "Reviewed signed transforms and legal placements.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "operating_point",
+          "meaning": "Integration time, concurrency, calibration policy and energy within envelopes.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        }
+      ],
+      "metrics_refs": [
+        "#/shared_protocol/metrics/block"
+      ],
+      "additional_metrics": [
+        {
+          "name": "linearized_error_proxy",
+          "unit": null,
+          "definition": "Declared squared error proxy, reported separately from task quality and performance."
+        },
+        {
+          "name": "independently_sampled_error",
+          "unit": null,
+          "definition": "Noise propagation checked with independent random streams and implementation."
+        }
+      ],
+      "ablations": [
+        "Transformations alone.",
+        "Geometry alone.",
+        "Joint model with covariance held physically consistent."
+      ],
+      "mandatory_controls": [
+        {
+          "id": "isotropic_additive",
+          "invariant": "Signed permutations create no spurious benefit under specified isotropic additive noise and unchanged physical resources."
+        },
+        {
+          "id": "signal_following_multiplicative",
+          "latex": "e=\\xi Sz\\;\\Rightarrow\\;S^{-1}e=\\xi z",
+          "invariant": "This mechanism alone yields no benefit after inverse representation."
+        },
+        {
+          "id": "shared_additive",
+          "invariant": "Persistent disturbance identities survive reconvergence; cancellation does not erase unrelated local noise."
+        },
+        {
+          "id": "device_specific",
+          "invariant": "Use an explicit device model and re-evaluate covariance after transformations."
+        },
+        {
+          "id": "covariance_validity",
+          "invariant": "Reject non-positive-semidefinite covariance; check clipping and range changes separately."
+        }
+      ],
+      "success_criteria": [
+        "Lower harmful error enables improved modeled integration time, concurrency, calibration or energy at the same held-out task quality."
+      ],
+      "failure_conditions": [
+        "Only the proxy improves; report this as a proxy result.",
+        "Benefit disappears when covariance is re-evaluated.",
+        "Robustness alone is presented as inference acceleration."
+      ],
+      "blocked_by": [
+        {
+          "milestones": [
+            "M1",
+            "M2",
+            "M3",
+            "M4",
+            "M6"
+          ],
+          "description": "Reviewed signed rewrites, geometry-dependent shared-error models, independent sampling, held-out quality evaluation and complete operating-point/schedule comparison.",
+          "status": "unmet"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "title": "State-local attention and reduction placement",
+      "question": "Can geometry and conversion boundaries outperform an existing locality-aware architecture?",
+      "status": "proposed",
+      "execution_status": "not_executable",
+      "results": [],
+      "source_sections": [
+        "14",
+        "15",
+        "21"
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-25",
+        "REQ-26",
+        "REQ-27",
+        "REQ-36"
+      ],
+      "target_research_gate": "M6",
+      "protocol_ref": "#/shared_protocol",
+      "scenario_obligations_ref": "#/shared_protocol/unresolved_scenario_obligations",
+      "quality_criteria": {
+        "status": "unresolved",
+        "thresholds": null,
+        "obligation": "Pin output error and held-out task-quality criteria, comparison tolerances and confidence conventions before search."
+      },
+      "workload": {
+        "kind": "stateful_attention",
+        "definition": "Declared prefill and decode with masks/scaling, positional encoding, numeric formats, cache append/read/versioning, context, batch and arrival assumptions.",
+        "model_identity": null
+      },
+      "semantic_tracks": {
+        "primary": "E",
+        "optional": [],
+        "conditions": [
+          "Region summaries are query-dependent; they do not replace arbitrary persistent cache with constant storage.",
+          "Empty/fully masked partitions have explicit valid-state handling.",
+          "Finite-precision differences are evaluated separately from ideal algebra."
+        ]
+      },
+      "semantic_identities": [
+        {
+          "latex": "M=\\max_jm_j,\\quad L=\\sum_j e^{m_j-M}l_j,\\quad Z=\\sum_j e^{m_j-M}z_j,\\quad y=Z/L",
+          "preconditions": [
+            "Each regional (m,l,z) state follows the same attention/mask contract.",
+            "Empty and fully masked states are handled without invalid exponentials or undefined division."
+          ]
+        }
+      ],
+      "baselines": [
+        {
+          "id": "centralized",
+          "description": "Centralized complete attention execution.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "locality_aware",
+          "description": "Strong fixed near-memory/local-reduction architecture.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "placement_only",
+          "description": "Placement optimization with other choices fixed.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "joint",
+          "description": "Joint cache, merge and interface placement.",
+          "execution_status": "not_executed"
+        }
+      ],
+      "resource_normalization": [
+        "Hold memory capacity, available compute, local bandwidth, link capacity and power fixed or expose differences.",
+        "Charge local cache scans, query distribution, cache updates/writes, partial-result traffic, merge and conversions.",
+        "Keep persistent cache distinct from short-lived acoustic alignment storage."
+      ],
+      "parameter_sweeps": [
+        {
+          "parameter": "context_length",
+          "meaning": "Prompt/cache and decode sequence lengths.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "cache_partitioning",
+          "meaning": "Bank/region partitioning and versioned residency.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "batch_size",
+          "meaning": "Concurrent workload batch.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "head_dimensions",
+          "meaning": "Head count and head dimensions.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "local_bandwidth",
+          "meaning": "Cache port and scan bandwidth.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "inter_region_links",
+          "meaning": "Link capacities, delay, energy and interface costs.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        }
+      ],
+      "metrics_refs": [
+        "#/shared_protocol/metrics/block",
+        "#/shared_protocol/metrics/stateful"
+      ],
+      "additional_metrics": [
+        {
+          "name": "boundary_traffic",
+          "unit": "byte",
+          "definition": "Traffic crossing region/interface boundaries."
+        },
+        {
+          "name": "local_bandwidth",
+          "unit": "byte/s",
+          "definition": "Local cache scans and updates, not only exported traffic."
+        }
+      ],
+      "ablations": [
+        "Placement only.",
+        "Fixed cache placement.",
+        "Fixed merge and interface placement."
+      ],
+      "mandatory_controls": [
+        "Independent attention oracle includes masked and empty partitions and numerically difficult scores.",
+        "Test cache versions, read/write hazards, capacity contention and expired state.",
+        "Reject substitution of acoustic delay for persistent cache without a separately valid model.",
+        "Include a traffic reduction that is dominated by local scan or merge costs."
+      ],
+      "success_criteria": [
+        "Improved complete latency/energy relative to the strong locality-aware baseline under matched resources and quality."
+      ],
+      "failure_conditions": [
+        "Reduced exported traffic does not improve total latency/energy.",
+        "The candidate wins by adding uncharged memory or compute."
+      ],
+      "blocked_by": [
+        {
+          "milestones": [
+            "M6"
+          ],
+          "description": "Complete decoder semantics, persistent storage/versioning, strong locality-aware digital baseline, resource/geometry scheduler, independent attention oracle and whole-cycle accounting.",
+          "status": "unmet"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "title": "Approximate physical draft, digital verifier",
+      "question": "Does a low-fidelity physical proposer improve committed-token throughput when verification is fully charged?",
+      "status": "proposed",
+      "execution_status": "not_executable",
+      "results": [],
+      "source_sections": [
+        "15",
+        "21"
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-26",
+        "REQ-27",
+        "REQ-29",
+        "REQ-36"
+      ],
+      "target_research_gate": "M6",
+      "protocol_ref": "#/shared_protocol",
+      "scenario_obligations_ref": "#/shared_protocol/unresolved_scenario_obligations",
+      "quality_criteria": {
+        "status": "unresolved",
+        "thresholds": null,
+        "obligation": "Pin output error and held-out task-quality criteria, comparison tolerances and confidence conventions before search."
+      },
+      "workload": {
+        "kind": "greedy_speculative_decode",
+        "definition": "Authoritative digital target with pinned model and deterministic tie-breaking; digital or physical draft proposes tokens for a specified verifier.",
+        "model_identity": null
+      },
+      "semantic_tracks": {
+        "target_output": "E",
+        "draft": "A",
+        "optional": [
+          "R"
+        ],
+        "conditions": [
+          "Committed greedy tokens must match authoritative target-only decoding under the specified algorithm.",
+          "Draft approximation has a declared fidelity/quality budget.",
+          "Adapted/distilled drafts require R model identity, adaptation cost and matched digital adaptation baseline."
+        ]
+      },
+      "baselines": [
+        {
+          "id": "target_only",
+          "description": "Digital authoritative target without speculation.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "digital_draft",
+          "description": "Digital draft plus the same digital verifier.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "physical_draft",
+          "description": "Analog/photonic draft plus the same digital verifier.",
+          "execution_status": "not_executed"
+        }
+      ],
+      "resource_normalization": [
+        "Match memory, power, quality conventions and capacity of proposer/verifier/link resources; expose parallel hardware differences.",
+        "Charge proposals, rejected work, digital verification, interfaces, synchronization, cache updates/rollback and state reuse."
+      ],
+      "parameter_sweeps": [
+        {
+          "parameter": "draft_fidelity",
+          "meaning": "Physical draft fidelity and valid operating point.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "proposal_length",
+          "meaning": "Tokens proposed per verification cycle.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "acceptance",
+          "meaning": "Observed acceptance under the pinned workload.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Measure acceptance for each fidelity/workload; any freely swept symbolic acceptance is labeled conditional and separate from executed results."
+        },
+        {
+          "parameter": "interfaces",
+          "meaning": "Movement/conversion/control overhead.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "state_reuse",
+          "meaning": "Draft/target residency and correct versioned reuse policies.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        }
+      ],
+      "metrics_refs": [
+        "#/shared_protocol/metrics/stateful"
+      ],
+      "additional_metrics": [
+        {
+          "name": "accepted_tokens_per_cycle",
+          "unit": "token/cycle",
+          "definition": "Accepted proposals per complete proposal/verification cycle."
+        },
+        {
+          "name": "committed_tokens_per_cycle",
+          "unit": "token/cycle",
+          "definition": "Actually committed output tokens per complete cycle, including verifier/rejection work."
+        },
+        {
+          "name": "target_token_equivalence",
+          "unit": null,
+          "definition": "Comparison of committed greedy sequence with independent target-only execution."
+        }
+      ],
+      "ablations": [
+        "No speculation.",
+        "Digital versus physical draft at matched roles and resources.",
+        "Disable permitted state reuse and retain its costs."
+      ],
+      "mandatory_controls": [
+        "Low/zero acceptance and expensive interface cases retain all rejected work.",
+        "Test draft-target disagreement, rejection/rollback and cache consistency.",
+        "Validate committed greedy tokens with an independent target-only oracle.",
+        "Reject any inference of distribution preservation from greedy correctness or noisy hardware samples."
+      ],
+      "stochastic_extension": {
+        "status": "proposed",
+        "execution_status": "not_executable",
+        "requirements": [
+          "A valid distribution-preserving verification algorithm.",
+          "Actual proposal probabilities.",
+          "Independent distributional validation with declared confidence."
+        ],
+        "claim_boundary": "Neither greedy correctness nor noisy hardware sampling supplies this contract."
+      },
+      "success_criteria": [
+        "Higher committed-token throughput within the latency, resource and target-output contract."
+      ],
+      "failure_conditions": [
+        "Acceptance or communication overhead erases the full-cycle gain.",
+        "Draft tokens/s substitutes for committed tokens/s.",
+        "The target sequence changes without a declared different semantic contract."
+      ],
+      "blocked_by": [
+        {
+          "milestones": [
+            "M6"
+          ],
+          "description": "Decoder/cache semantics, specified proposer-verifier algorithm, draft physical model, resource scheduler, independent sequence oracle and held-out task suite.",
+          "status": "unmet"
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "title": "Quantum-classical crossover with output-aware costs",
+      "question": "Under what explicit data-access, precision and output requirements could a quantum subroutine help a classical neural workload?",
+      "status": "proposed",
+      "execution_status": "not_executable",
+      "results": [],
+      "source_sections": [
+        "11",
+        "21"
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-21",
+        "REQ-22",
+        "REQ-27",
+        "REQ-36"
+      ],
+      "target_research_gate": "M6",
+      "protocol_ref": "#/shared_protocol",
+      "scenario_obligations_ref": "#/shared_protocol/unresolved_scenario_obligations",
+      "quality_criteria": {
+        "status": "unresolved",
+        "thresholds": null,
+        "obligation": "Pin output error and held-out task-quality criteria, comparison tolerances and confidence conventions before search."
+      },
+      "workload": {
+        "kind": "small_declared_quantum_classical_subproblem",
+        "definition": "A specified small subproblem with a classical reference and explicit mathematical relationship to the surrounding neural graph.",
+        "model_identity": null,
+        "algorithm": null,
+        "data_access_contract": null
+      },
+      "semantic_tracks": {
+        "ideal_contract": "E",
+        "estimator_approximation": "A_when_applicable",
+        "conditions": [
+          "Select the semantic track and estimator error/confidence budget separately for each output case.",
+          "Quantum states, samples, expectation estimates and complete classical vectors remain different outputs."
+        ]
+      },
+      "output_cases": [
+        {
+          "id": "selected_estimates",
+          "definition": "A declared set of selected linear-algebra quantities/observables returned as classical estimates.",
+          "status": "proposed",
+          "results": []
+        },
+        {
+          "id": "complete_vector",
+          "definition": "The complete required classical vector, including reconstruction/readout cost.",
+          "status": "proposed",
+          "results": []
+        }
+      ],
+      "model_levels": [
+        {
+          "id": "logical_resource",
+          "outputs": [
+            "Circuit structure",
+            "Logical qubits",
+            "Depth",
+            "Gate families",
+            "Queries",
+            "Success probability",
+            "Output specification"
+          ],
+          "physical_time_energy_status": "unavailable_without_hardware_mapping"
+        },
+        {
+          "id": "hardware_mapped",
+          "required_inputs": [
+            "Named platform",
+            "Physical qubits/modes",
+            "Connectivity",
+            "Operation timing/noise",
+            "Controls",
+            "Error correction when applicable",
+            "Measurement/reset",
+            "System support"
+          ],
+          "physical_time_energy_status": "conditional_on_complete_model"
+        }
+      ],
+      "baselines": [
+        {
+          "id": "classical_dense",
+          "description": "Dense classical method for each identical output case and comparable data access.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "classical_randomized",
+          "description": "Relevant randomized classical alternatives at matched precision/confidence and access assumptions.",
+          "execution_status": "not_executed"
+        },
+        {
+          "id": "quantum_subroutine",
+          "description": "Specified quantum method including preparation, boundaries and surrounding classical work.",
+          "execution_status": "not_executed"
+        }
+      ],
+      "resource_normalization": [
+        "Compare identical outputs, precision/confidence and data-access assumptions.",
+        "Charge preparation/data encoding, ancillas, uncomputation, repeated preparations, measurement, failed postselection, resets and classical postprocessing.",
+        "QRAM/oracles require declared implementations/resource assumptions; logical query counts are not physical latency/energy."
+      ],
+      "parameter_sweeps": [
+        {
+          "parameter": "preparation",
+          "meaning": "State and matrix/data encoding, including repeated loads.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "queries",
+          "meaning": "Oracle/data accesses under explicit assumptions.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "depth",
+          "meaning": "Admissible circuit depth/gates.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "success_probability",
+          "meaning": "Success/failure and postselection probability.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "estimator_precision",
+          "meaning": "Error and confidence target.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "shots",
+          "meaning": "Measurement repetitions.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Derive shots from the declared estimator and confidence target; do not choose independently favorable shot counts."
+        },
+        {
+          "parameter": "readout",
+          "meaning": "Selected-estimate versus full-vector reconstruction cost.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        },
+        {
+          "parameter": "hardware_mapping",
+          "meaning": "Platform/control/noise/error-correction/support assumptions, if physical estimates are claimed.",
+          "domain": null,
+          "unit": null,
+          "status": "unresolved",
+          "unresolved_obligation": "Choose and justify a finite scenario domain, units and validity envelope before execution."
+        }
+      ],
+      "metrics_refs": [
+        "#/shared_protocol/metrics/block"
+      ],
+      "additional_metrics": [
+        {
+          "name": "logical_resources",
+          "unit": null,
+          "definition": "Logical qubits, gate counts/depth and queries; separate from physical estimates."
+        },
+        {
+          "name": "estimator_error_confidence",
+          "unit": null,
+          "definition": "Precision, estimator confidence, shots and success/failure statistics."
+        },
+        {
+          "name": "physical_time_energy",
+          "unit": null,
+          "definition": "Only with complete hardware mapping and support costs; otherwise incomplete."
+        },
+        {
+          "name": "output_case_cost",
+          "unit": null,
+          "definition": "Preparation and readout/reconstruction charged separately for selected estimates and complete vector."
+        }
+      ],
+      "ablations": [
+        "Selected estimates versus full classical vector, reported as distinct tasks.",
+        "Include preparation and repeated preparation costs.",
+        "Compare success/failure and postselection overhead."
+      ],
+      "mandatory_controls": [
+        "Reject free preparation, unsupported oracles/QRAM and free complete-vector output.",
+        "Reject cloning and simulator-only access to hidden state amplitudes as physical readout.",
+        "Verify positive normalized states and valid channel/instrument probabilities with an independent small reference.",
+        "Account for failed postselection and required repetitions.",
+        "Never report simulator execution time as target-device latency."
+      ],
+      "success_criteria": [
+        "A conditional crossover with explicit complete access/output assumptions, or a principled rejection of the placement."
+      ],
+      "failure_conditions": [
+        "The claimed advantage requires free preparation, free full-vector output, unsupported data access or simulator-only readout.",
+        "Logical resources are converted to seconds/joules without the needed physical mapping."
+      ],
+      "blocked_by": [
+        {
+          "milestones": [
+            "M5"
+          ],
+          "description": "Separate quantum logical/reference backend, typed preparation/measurement boundaries and independent small oracle.",
+          "status": "unmet"
+        },
+        {
+          "milestones": [
+            "M6"
+          ],
+          "description": "Concrete subproblem/algorithm/access contract, estimator, hardware mapping where claimed and complete surrounding-workload accounting.",
+          "status": "unmet"
+        }
+      ]
+    }
+  ],
+  "release_scope": {
+    "M0": "Registration only; none of H1–H6 has been executed.",
+    "minimum_coherent_research_release": {
+      "requirements": [
+        "Common contracts",
+        "Complete digital path",
+        "At least one genuinely mixed implementation",
+        "Explicit storage and timing",
+        "Evidence-aware accounting",
+        "Replay",
+        "Independent semantic checks",
+        "Reproducible crossover study"
+      ],
+      "focused_studies": [
+        "H1",
+        "H2_without_acoustic_variant"
+      ],
+      "target_gate": "M4"
+    },
+    "broader_families": {
+      "target_gate": "M5",
+      "requirements": [
+        "Acoustic delay/coupling",
+        "Quantum logical/reference semantics",
+        "Separate interface costs, negative tests and conditional resource estimates"
+      ]
+    },
+    "stateful_research": {
+      "target_gate": "M6",
+      "studies": [
+        "H3",
+        "H4",
+        "H5",
+        "H6"
+      ]
+    },
+    "full_initial_scope": {
+      "families": [
+        "digital_electronics",
+        "analog_electronics",
+        "classical_photonics",
+        "acoustics_phononics",
+        "quantum"
+      ],
+      "requirements": [
+        "All five families expressible without core changes",
+        "Legal mixed subgraphs evaluable at their declared model level",
+        "Illegal and unsupported mixtures diagnosed",
+        "H1–H6 representable and executable when chosen models are supplied",
+        "Missing evidence visible in every output"
+      ],
+      "performance_improvement_required_for_software_acceptance": false
+    }
+  },
+  "optional_extensions": [
+    {
+      "id": "acoustic_recurrent_or_filtering_adaptation",
+      "status": "proposed",
+      "execution_status": "not_executable",
+      "semantic_track": "R",
+      "requirements": [
+        "New adapted model identity",
+        "Declared training/adaptation budget",
+        "Held-out task evaluation",
+        "Adapted digital baseline with matched task and training budget"
+      ],
+      "claim_boundary": "Never describe as compilation of an unchanged Transformer.",
+      "results": []
+    }
+  ]
+}
