@@ -1,0 +1,174 @@
+{
+  "baseline_commit": "3ac1f30337753b1930fc538dc9ac58cbc1ac4c70",
+  "checks": [
+    {
+      "case": "frozen-artifact-integrity",
+      "differences": [],
+      "files_checked": 57,
+      "status": "passed"
+    },
+    {
+      "case": "demo-input-meanings",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "demo-macro-output",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "friendly-v0.2-input-meanings",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "friendly-v0.2-macro-output",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "realization-fanout-2-passive",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "realization-fanout-2-regenerate",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "realization-fanout-4-passive",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "realization-fanout-4-regenerate",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "realization-fanout-8-passive",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "realization-fanout-8-regenerate",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "realization-baseline",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "reference-technology",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "baseline-input-meanings",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "physical-example-input-meanings",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "designer-unlocked",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "designer-locked",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "designer-forbidden",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "designer-truncated",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "designer-energy-limit",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-inventory",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-implementation",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-library",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-network",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-physical-design",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-plan",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-realization",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-report",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-request",
+      "differences": [],
+      "status": "passed"
+    },
+    {
+      "case": "schema-technology",
+      "differences": [],
+      "status": "passed"
+    }
+  ],
+  "comparison": {
+    "float_absolute_tolerance": 1e-15,
+    "float_relative_tolerance": 1e-12,
+    "ignored_paths": [
+      "legacy_macro.search.elapsed_seconds"
+    ],
+    "maximum_differences_per_check": 20,
+    "schema_values": "exact",
+    "types_and_discrete_fields": "exact"
+  },
+  "external_validation": {
+    "archived_evidence_integrity": "passed",
+    "description": "Recorded v0.3 SAX comparisons only; no solver imported or executed.",
+    "executed_now": false
+  },
+  "schema_version": "npp-multiphysics-baseline-check/1",
+  "scope": "software compatibility only; not independent semantic or physics validation",
+  "status": "passed"
+}

@@ -6,7 +6,7 @@ nor claims physical calibration, whole-network accuracy, or manufacturing closur
 from __future__ import annotations
 
 from copy import deepcopy
-from decimal import Decimal, DecimalException, localcontext
+from decimal import Decimal, DecimalException, Underflow, localcontext
 import itertools
 import json
 import math
@@ -129,7 +129,14 @@ def _quantity(value, dimension, path):
             # by one float step, breaking locks and duplicate-choice checks.
             with localcontext() as context:
                 context.prec = max(28, len(number) + 16)
-                result = float(Decimal(number) * Decimal(str(_UNITS[dimension].get(unit, 1.0))))
+                # Extremely small exponents can underflow in Decimal arithmetic
+                # before float conversion. Neither step may silently erase a
+                # nonzero quantity (especially a negative nonnegative-bound input).
+                context.traps[Underflow] = True
+                scaled = Decimal(number) * Decimal(str(_UNITS[dimension].get(unit, 1.0)))
+                result = float(scaled)
+                if scaled != 0 and result == 0:
+                    _fail("invalid_quantity", path, "nonzero quantity is below the supported floating-point range")
         else:
             raise ValueError()
     except InputValidationError:

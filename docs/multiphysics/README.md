@@ -1,8 +1,10 @@
 # Multiphysics extension
 
-This directory adopts the supplied 3 October 2026 specification as the next
-development roadmap. It does not change the v0.3 runtime or advertise a completed
-multiphysics compiler. The current runtime remains version **0.3.0**.
+This directory adopts the supplied 3 October 2026 specification. M0 was
+reconciled against version **0.3.0**; **0.3.1** retained that runtime scope. The
+**0.4.0 development** implementation adds an opt-in `npp mp` runtime while
+preserving those frozen baselines. M1 and M2 have passed independent review.
+This is not yet a completed M1–M6 release.
 
 The extension explores digital electronics, analog electronics, classical
 photonics, acoustics/phononics, and quantum computation through common contracts
@@ -22,6 +24,8 @@ equivalence, controlled approximation and model adaptation are separate tracks.
 | [experiments.json](experiments.json) | Proposed experiment registry; not executable planner input |
 | [baseline_v03.json](baseline_v03.json) | Immutable baseline manifest for software regression checks |
 | [M0_GATE.md](M0_GATE.md) | Executed checks, critique decisions and limits of the M0 delivery |
+| [IMPLEMENTED.md](IMPLEMENTED.md) | Current executable runtime, commands and bounds |
+| [IMPLEMENTATION_ACCEPTANCE.md](IMPLEMENTATION_ACCEPTANCE.md) | Concrete mechanisms, negative tests and requirement traceability for every gate |
 
 Run the baseline compatibility gate from the repository root:
 
@@ -37,13 +41,10 @@ dependencies produce explicit skips.
 
 ## Current delivery boundary
 
-M0 integrates and reconciles the specification. M1–M6 are future implementation
-gates. The old four-part milestone passed for its documented optical distribution
-scope; those approvals are useful evidence but do not approve the broader stages.
-Read [M0_GATE.md](M0_GATE.md) for the actual gate decision and executed evidence.
-
-The next runtime deliverable is **M1**: versioned shared component/evidence
-contracts, an explicit digital reference, and one bounded electronic/photonic
-model family. Interface and state checks must precede wider search. No acoustic,
-quantum, decoder or mixed-FFN support is claimed by this integration. H1–H6 are
-registered research questions with unresolved models and sweep bounds, not results.
+M1 implements shared component/evidence contracts, a complete bounded digital
+FFN, and a signed analog matrix model. See [its independent review](../reviews/multiphysics_m1.md).
+M2 adds the typed mixed graph and scheduling layer; [its independent gate passed](../reviews/multiphysics_m2.md).
+M3–M6 are later gates. No acoustic, quantum or decoder support is claimed yet.
+H1–H6 remain registered research questions until their executable studies run.
+The old four-part milestone passed for its optical distribution scope; those
+approvals do not approve the broader stages.

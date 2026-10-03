@@ -1,0 +1,2796 @@
+{
+  "schema_version": "npp-typed-graph-1",
+  "nodes": [
+    {
+      "id": "input",
+      "operation": "input",
+      "ports": {
+        "out": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.5,
+            "maximum": 0.4
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        }
+      },
+      "resource": "memory",
+      "schedule_id": null
+    },
+    {
+      "id": "run0.gate.0",
+      "operation": "analog.composite",
+      "ports": {
+        "out": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.17496066349089204,
+            "maximum": 0.13330710899392803
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        },
+        "in0": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.5,
+            "maximum": 0.4
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        }
+      },
+      "resource": "analog",
+      "schedule_id": "run0.gate.0",
+      "component_id": "analog_reference",
+      "accounting": "inclusive composite with complete task reservations",
+      "weight_version": "68ecc942cba86f49dbf8fe30db605a1c2c8bdc89f98023b228fefbf9b2a61c3e",
+      "physical_subgraph": {
+        "schema_version": "npp-typed-graph-1",
+        "nodes": [
+          {
+            "id": "run0.gate.0.physical.input",
+            "operation": "input",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.5,
+                  "maximum": 0.4
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "memory",
+            "schedule_id": null,
+            "accounting_parent": "run0.gate.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  0.25,
+                  -0.5
+                ],
+                [
+                  -0.2,
+                  0.4
+                ]
+              ]
+            }
+          },
+          {
+            "id": "run0.gate.0.physical.dac",
+            "operation": "interface.dac",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "bipolar_voltage",
+                "physical_variable": "voltage",
+                "signed": true,
+                "scale": 10.0,
+                "unit": "V",
+                "value_range": {
+                  "minimum": -0.050024425989252566,
+                  "maximum": 0.0399609184171959
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.5,
+                  "maximum": 0.4
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "converter",
+            "schedule_id": "run0.gate.0",
+            "accounting_parent": "run0.gate.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "voltage_v": [
+                [
+                  0.025012212994626283,
+                  -0.050024425989252566
+                ],
+                [
+                  -0.020029311187103077,
+                  0.0399609184171959
+                ]
+              ],
+              "bits": 12
+            }
+          },
+          {
+            "id": "run0.gate.0.physical.conductance",
+            "operation": "analog.tile",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "differential_current",
+                "physical_variable": "current",
+                "signed": true,
+                "scale": 202020.20202020198,
+                "unit": "A",
+                "value_range": {
+                  "minimum": -8.64111710279944e-07,
+                  "maximum": 6.910000410269178e-07
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "bipolar_voltage",
+                "physical_variable": "voltage",
+                "signed": true,
+                "scale": 10.0,
+                "unit": "V",
+                "value_range": {
+                  "minimum": -0.050024425989252566,
+                  "maximum": 0.0399609184171959
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "analog",
+            "schedule_id": "run0.gate.0",
+            "accounting_parent": "run0.gate.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "conductance_positive_s": [
+                [
+                  1.0870967741935484e-05,
+                  5.935483870967741e-06
+                ],
+                [
+                  1e-06,
+                  1.0870967741935484e-05
+                ]
+              ],
+              "conductance_negative_s": [
+                [
+                  1e-06,
+                  1e-06
+                ],
+                [
+                  1.5806451612903226e-05,
+                  1e-06
+                ]
+              ],
+              "loaded_voltage_v": [
+                [
+                  0.02501149572947456,
+                  -0.05002348522499817
+                ],
+                [
+                  -0.0200287368146183,
+                  0.0399601669082505
+                ]
+              ],
+              "differential_current_a": [
+                [
+                  -2.4369743711215787e-12,
+                  -8.64111710279944e-07
+                ],
+                [
+                  -4.80255751963647e-10,
+                  6.910000410269178e-07
+                ]
+              ],
+              "relation": "differential current = loaded_voltage @ (G_positive-G_negative).T; loading and rail currents owned here"
+            }
+          },
+          {
+            "id": "run0.gate.0.physical.adc",
+            "operation": "interface.adc",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.18496066349089205,
+                  "maximum": 0.12330710899392802
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "differential_current",
+                "physical_variable": "current",
+                "signed": true,
+                "scale": 202020.20202020198,
+                "unit": "A",
+                "value_range": {
+                  "minimum": -8.64111710279944e-07,
+                  "maximum": 6.910000410269178e-07
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "converter",
+            "schedule_id": "run0.gate.0",
+            "accounting_parent": "run0.gate.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  -0.0,
+                  -0.18496066349089205
+                ],
+                [
+                  -0.0,
+                  0.12330710899392802
+                ]
+              ],
+              "bits": 16,
+              "decode_scale": 202020.20202020198
+            }
+          },
+          {
+            "id": "run0.gate.0.physical.bias_value",
+            "operation": "input",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": 0.0,
+                  "maximum": 0.01
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "memory",
+            "schedule_id": null,
+            "accounting_parent": "run0.gate.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  0.0,
+                  0.01
+                ],
+                [
+                  0.0,
+                  0.01
+                ]
+              ],
+              "origin": "programmed bias"
+            }
+          },
+          {
+            "id": "run0.gate.0.physical.bias_add",
+            "operation": "digital.add_bias",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.17496066349089204,
+                  "maximum": 0.13330710899392803
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.18496066349089205,
+                  "maximum": 0.12330710899392802
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in1": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": 0.0,
+                  "maximum": 0.01
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "control",
+            "schedule_id": "run0.gate.0",
+            "accounting_parent": "run0.gate.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  0.0,
+                  -0.17496066349089204
+                ],
+                [
+                  0.0,
+                  0.13330710899392803
+                ]
+              ],
+              "relation": "bias added once after ADC"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "source": {
+              "node": "run0.gate.0.physical.input",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.gate.0.physical.dac",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.gate.0.physical.dac",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.gate.0.physical.conductance",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.gate.0.physical.conductance",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.gate.0.physical.adc",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.gate.0.physical.adc",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.gate.0.physical.bias_add",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.gate.0.physical.bias_value",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.gate.0.physical.bias_add",
+              "port": "in1"
+            },
+            "mechanism": "plain_wire"
+          }
+        ]
+      }
+    },
+    {
+      "id": "run0.silu",
+      "operation": "digital.silu",
+      "ports": {
+        "out": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.07984698555465485,
+            "maximum": 0.07108968331123137
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        },
+        "in0": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.17496066349089204,
+            "maximum": 0.13330710899392803
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        }
+      },
+      "resource": "digital",
+      "schedule_id": "run0.silu",
+      "component_id": "digital_reference",
+      "accounting": "leaf",
+      "weight_version": null
+    },
+    {
+      "id": "run0.up.0",
+      "operation": "photonic.composite",
+      "ports": {
+        "out": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.18285189218882025,
+            "maximum": 0.1930960332794824
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        },
+        "in0": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.5,
+            "maximum": 0.4
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        }
+      },
+      "resource": "photonic",
+      "schedule_id": "run0.up.0",
+      "component_id": "photonic_reference",
+      "accounting": "inclusive composite with complete task reservations",
+      "weight_version": "c6720fff46f1317588e5871ecb57e7cbedd3104b8ca6e875ddfa0f56bb3b0b62",
+      "physical_subgraph": {
+        "schema_version": "npp-typed-graph-1",
+        "nodes": [
+          {
+            "id": "run0.up.0.physical.input",
+            "operation": "input",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.5,
+                  "maximum": 0.4
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "memory",
+            "schedule_id": null,
+            "accounting_parent": "run0.up.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  0.25,
+                  -0.5
+                ],
+                [
+                  -0.2,
+                  0.4
+                ]
+              ]
+            }
+          },
+          {
+            "id": "run0.up.0.physical.encoder",
+            "operation": "interface.encode",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_coherent_field",
+                "physical_variable": "field_amplitude",
+                "signed": true,
+                "scale": 2.0,
+                "unit": "sqrt(mW)",
+                "value_range": {
+                  "minimum": -0.250007629627369,
+                  "maximum": 0.1999877925962096
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "phase_reference",
+                  "control"
+                ],
+                "phase_reference": "reference",
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.5,
+                  "maximum": 0.4
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "converter",
+            "schedule_id": "run0.up.0",
+            "accounting_parent": "run0.up.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "field": {
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "encoding": "signed_coherent_field",
+                "real": [
+                  [
+                    0.1250038148136845,
+                    -0.250007629627369
+                  ],
+                  [
+                    -0.1000091555528428,
+                    0.1999877925962096
+                  ]
+                ],
+                "imag": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "decode_scale": 2.0,
+                "reference_id": "reference"
+              },
+              "source_accounting": "source and driver included in parent input ledger"
+            }
+          },
+          {
+            "id": "run0.up.0.physical.mesh",
+            "operation": "photonic.mesh",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_coherent_field",
+                "physical_variable": "field_amplitude",
+                "signed": true,
+                "scale": 16.0,
+                "unit": "sqrt(mW)",
+                "value_range": {
+                  "minimum": -0.010808433920252734,
+                  "maximum": 0.010812205181215838
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "phase_reference",
+                  "control"
+                ],
+                "phase_reference": "reference",
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_coherent_field",
+                "physical_variable": "field_amplitude",
+                "signed": true,
+                "scale": 2.0,
+                "unit": "sqrt(mW)",
+                "value_range": {
+                  "minimum": -0.250007629627369,
+                  "maximum": 0.1999877925962096
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "phase_reference",
+                  "control"
+                ],
+                "phase_reference": "reference",
+                "quantum_platform": null
+              }
+            },
+            "resource": "photonic",
+            "schedule_id": "run0.up.0",
+            "accounting_parent": "run0.up.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "input_field": {
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "encoding": "signed_coherent_field",
+                "real": [
+                  [
+                    0.1250038148136845,
+                    -0.250007629627369
+                  ],
+                  [
+                    -0.1000091555528428,
+                    0.1999877925962096
+                  ]
+                ],
+                "imag": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "decode_scale": 2.0,
+                "reference_id": "reference"
+              },
+              "output_field": {
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "encoding": "signed_coherent_field",
+                "real": [
+                  [
+                    0.010812205181215838,
+                    -0.010808433920252734
+                  ],
+                  [
+                    -0.008649538016629765,
+                    0.008645766755666664
+                  ]
+                ],
+                "imag": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "decode_scale": 16.0,
+                "reference_id": "reference"
+              },
+              "transfer_real": [
+                [
+                  0.03707790622679458,
+                  -0.02470854776220078
+                ],
+                [
+                  0.012369358464593796,
+                  0.04941709552440156
+                ]
+              ],
+              "transfer_imag": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0
+                ]
+              ],
+              "maximum_singular_value": 0.05577870149076537,
+              "relation": "passive complex field transfer; decode normalization is not optical gain"
+            }
+          },
+          {
+            "id": "run0.up.0.physical.readout",
+            "operation": "interface.readout",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.17285189218882024,
+                  "maximum": 0.17309603327948242
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_coherent_field",
+                "physical_variable": "field_amplitude",
+                "signed": true,
+                "scale": 16.0,
+                "unit": "sqrt(mW)",
+                "value_range": {
+                  "minimum": -0.010808433920252734,
+                  "maximum": 0.010812205181215838
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "phase_reference",
+                  "control"
+                ],
+                "phase_reference": "reference",
+                "quantum_platform": null
+              }
+            },
+            "resource": "converter",
+            "schedule_id": "run0.up.0",
+            "accounting_parent": "run0.up.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  0.17309603327948242,
+                  -0.17285189218882024
+                ],
+                [
+                  -0.1384279984054535,
+                  0.1384279984054535
+                ]
+              ],
+              "field": {
+                "carrier": "optical",
+                "regime": "classical_analog",
+                "encoding": "signed_coherent_field",
+                "real": [
+                  [
+                    0.010812205181215838,
+                    -0.010808433920252734
+                  ],
+                  [
+                    -0.008649538016629765,
+                    0.008645766755666664
+                  ]
+                ],
+                "imag": [
+                  [
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "decode_scale": 16.0,
+                "reference_id": "reference"
+              },
+              "mechanism": "paid balanced homodyne with LO, then ADC"
+            }
+          },
+          {
+            "id": "run0.up.0.physical.bias_value",
+            "operation": "input",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.01,
+                  "maximum": 0.02
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "memory",
+            "schedule_id": null,
+            "accounting_parent": "run0.up.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  0.02,
+                  -0.01
+                ],
+                [
+                  0.02,
+                  -0.01
+                ]
+              ],
+              "origin": "programmed digital bias"
+            }
+          },
+          {
+            "id": "run0.up.0.physical.bias_add",
+            "operation": "digital.add_bias",
+            "ports": {
+              "out": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.18285189218882025,
+                  "maximum": 0.1930960332794824
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in0": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.17285189218882024,
+                  "maximum": 0.17309603327948242
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              },
+              "in1": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  2,
+                  2
+                ],
+                "axis_order": [
+                  "batch",
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -0.01,
+                  "maximum": 0.02
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "local asynchronous interface; timing comes from parent scheduled reservations"
+                },
+                "clock": {
+                  "domain": "reference",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            "resource": "control",
+            "schedule_id": "run0.up.0",
+            "accounting_parent": "run0.up.0",
+            "accounting": "included_in_parent",
+            "physical_payload": {
+              "values": [
+                [
+                  0.1930960332794824,
+                  -0.18285189218882025
+                ],
+                [
+                  -0.1184279984054535,
+                  0.1284279984054535
+                ]
+              ],
+              "relation": "bias added once after physical readout"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "source": {
+              "node": "run0.up.0.physical.input",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.up.0.physical.encoder",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.up.0.physical.encoder",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.up.0.physical.mesh",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.up.0.physical.mesh",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.up.0.physical.readout",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.up.0.physical.readout",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.up.0.physical.bias_add",
+              "port": "in0"
+            },
+            "mechanism": "plain_wire"
+          },
+          {
+            "source": {
+              "node": "run0.up.0.physical.bias_value",
+              "port": "out"
+            },
+            "target": {
+              "node": "run0.up.0.physical.bias_add",
+              "port": "in1"
+            },
+            "mechanism": "plain_wire"
+          }
+        ]
+      }
+    },
+    {
+      "id": "run0.multiply",
+      "operation": "digital.multiply",
+      "ports": {
+        "out": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.0,
+            "maximum": 0.014600172394242036
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        },
+        "in0": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.18285189218882025,
+            "maximum": 0.1930960332794824
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        },
+        "in1": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.07984698555465485,
+            "maximum": 0.07108968331123137
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        }
+      },
+      "resource": "digital",
+      "schedule_id": "run0.multiply",
+      "component_id": "digital_reference",
+      "accounting": "leaf",
+      "weight_version": null
+    },
+    {
+      "id": "run0.down.0",
+      "operation": "digital.linear",
+      "ports": {
+        "out": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.0058400689576968146,
+            "maximum": 0.004380051718272611
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        },
+        "in0": {
+          "payload": "tensor",
+          "carrier": "electrical",
+          "regime": "classical_digital",
+          "shape": [
+            2,
+            2
+          ],
+          "axis_order": [
+            "batch",
+            "lane"
+          ],
+          "encoding": "signed_numeric",
+          "physical_variable": "digital_word",
+          "signed": true,
+          "scale": 1.0,
+          "unit": "1",
+          "value_range": {
+            "minimum": -0.0,
+            "maximum": 0.014600172394242036
+          },
+          "bandwidth_hz": {
+            "state": "known",
+            "unit": "Hz",
+            "value": 0.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "clock": {
+            "domain": "reference",
+            "mode": "asynchronous",
+            "period_ns": null,
+            "phase_ns": 0.0
+          },
+          "lifetime": {
+            "arrival_ns": {
+              "minimum": 0.0,
+              "maximum": 0.0
+            },
+            "integration_ns": 0.0,
+            "retention_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_required": false
+          },
+          "multiplexing": [],
+          "disturbance_ids": [],
+          "required_services": [
+            "power_supply",
+            "clock"
+          ],
+          "phase_reference": null,
+          "quantum_platform": null
+        }
+      },
+      "resource": "digital",
+      "schedule_id": "run0.down.0",
+      "component_id": "digital_reference",
+      "accounting": "leaf",
+      "weight_version": "d2f01a3d1eeead38718a7fa4e045a4873c4168a7fefc18a9abb3d1ed501eb5b7"
+    }
+  ],
+  "edges": [
+    {
+      "source": {
+        "node": "input",
+        "port": "out"
+      },
+      "target": {
+        "node": "run0.gate.0",
+        "port": "in0"
+      },
+      "mechanism": "plain_wire",
+      "route": {
+        "source": "memory",
+        "target": "analog",
+        "length_um": 1046.1959226359986,
+        "duration_ns": 5.7309796131799935,
+        "bytes": 32,
+        "reservation": "inclusive in receiving task"
+      }
+    },
+    {
+      "source": {
+        "node": "run0.gate.0",
+        "port": "out"
+      },
+      "target": {
+        "node": "run0.silu",
+        "port": "in0"
+      },
+      "mechanism": "plain_wire",
+      "route": {
+        "source": "analog",
+        "target": "digital",
+        "length_um": 538.8427301622321,
+        "duration_ns": 3.1942136508111605,
+        "bytes": 32,
+        "reservation": "inclusive in receiving task"
+      }
+    },
+    {
+      "source": {
+        "node": "input",
+        "port": "out"
+      },
+      "target": {
+        "node": "run0.up.0",
+        "port": "in0"
+      },
+      "mechanism": "plain_wire",
+      "route": {
+        "source": "memory",
+        "target": "photonic",
+        "length_um": 671.3987675753112,
+        "duration_ns": 3.8569938378765563,
+        "bytes": 32,
+        "reservation": "inclusive in receiving task"
+      }
+    },
+    {
+      "source": {
+        "node": "run0.up.0",
+        "port": "out"
+      },
+      "target": {
+        "node": "run0.multiply",
+        "port": "in0"
+      },
+      "mechanism": "plain_wire",
+      "route": {
+        "source": "photonic",
+        "target": "digital",
+        "length_um": 538.7697876120551,
+        "duration_ns": 3.1938489380602757,
+        "bytes": 32,
+        "reservation": "inclusive in receiving task"
+      }
+    },
+    {
+      "source": {
+        "node": "run0.silu",
+        "port": "out"
+      },
+      "target": {
+        "node": "run0.multiply",
+        "port": "in1"
+      },
+      "mechanism": "plain_wire"
+    },
+    {
+      "source": {
+        "node": "run0.multiply",
+        "port": "out"
+      },
+      "target": {
+        "node": "run0.down.0",
+        "port": "in0"
+      },
+      "mechanism": "plain_wire"
+    }
+  ]
+}

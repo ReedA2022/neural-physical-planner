@@ -1,0 +1,108 @@
+{
+  "baseline": {
+    "checks": 30,
+    "frozen_files": 57,
+    "status": "passed"
+  },
+  "date": "2026-10-03",
+  "evidence_sha256": {
+    "baseline-check.json": "c4f2633a157033c6197054935c7ebd9b9b33d91f3373405dbb1f13115e157f56",
+    "baseline-check.log": "c4f2633a157033c6197054935c7ebd9b9b33d91f3373405dbb1f13115e157f56",
+    "environment-core.json": "731b1c366c2d910ff5d970b9a974a1026367fff3ac027b88c3a4c313d851e70d",
+    "environment-full.json": "71c4d2db246c5f0416bf1be195787f004490ca5191687514a1f4dd6a1033af8e",
+    "full-stress-final.log": "d7ac7e71d047b4881590ff83448ef92fd6140122022966f1e964eae90acdd3bb",
+    "full-stress-final/designer-20261003.json": "e9d53c074b5a3165c1b865e898b0e7bb7d082c85b6b63c3b031c0d0014e753ae",
+    "full-stress-final/designer-731.json": "b4b8bd63e21d0e14c79dbb7a98b348e28021f59dcfcedc8feadacc8430d0386f",
+    "full-stress-final/designer-987654321.json": "9a659f38c4c42b23f52842b2561cb9cf0cd2ef762b2a59477584d605106d438e",
+    "full-stress-final/external-sax.json": "427ee0b03070f2e1c7ffae22641730b5697aa8616775f9fba807a81a37ca6dbf",
+    "full-stress-final/inputs-20261003.json": "12cc95cc16fb0875d45d23cc792af899e4ff2bffe9e8694fc9d2864f67f0e4bb",
+    "full-stress-final/inputs-731.json": "0c6d2fcf47a17912298269a5edb96097a622f3a0cdcf13a8c4af418cb885ffa9",
+    "full-stress-final/inputs-987654321.json": "1bf0737ad0acdb42cce8e03928f0ae259148f7329b9449c1d2faeabf9037f6be",
+    "full-stress-final/legacy-20261003.json": "716b9d63bc73646d0c0eea4685770a42482ee556acacb3ed3868410c7ec2f919",
+    "full-stress-final/legacy-731.json": "2425c397cbd7e41b2c303404deb15791a3bbff1ed2d02b81b5da20efc0a7b54d",
+    "full-stress-final/legacy-987654321.json": "5e10b6aec2c028a35a7d3db6f2ef464111c1aacb9f48ff667a9cca257184b500",
+    "full-stress-final/physical-20261003.json": "4391685da9b2dd594ce03de6f6bc120565dc7dce2c66d87b414339c8d3cf3110",
+    "full-stress-final/physical-731.json": "27306b9c6452143938ce82553799e77e5685e5608889f9753ceec1ed25a3647d",
+    "full-stress-final/physical-987654321.json": "760d4736c9c9c0959cf1fa0bfa53156e0bf6446d21f07ab3e9b51e2801ec366b",
+    "full-stress-final/reports-20261003.json": "21292cc388d9636321206988c649a2ffa53908c382aeda687dc19aafa0a1d98f",
+    "full-stress-final/reports-731.json": "e4113c3aa67d6f1e7389b469ba23cfee6955017a35c81cfbca63a673298f557c",
+    "full-stress-final/reports-987654321.json": "5dbe738831d8f870aa3948f4c65b57dd74f22a0e556c184298902d1b7e5ac01a",
+    "full-stress-final/summary.json": "94b4a3f26ca2b013f6ceb4ae656e9e11aa90de3c1a6ff6e1f21d8527f7cbf620",
+    "full-stress.log": "7d3c710b8e22b29e415d08789ce13fc5f31ae83229155655c75b80a42b92c0d9",
+    "full-stress/designer-20261003.json": "c47adb254c1d8cd3f57422824e218ef25d14a8c37d40f1cc48fa2795657d1a84",
+    "full-stress/designer-731.json": "d9efb9846c1a96689a0fc430c79ef4b351fd2bef0ba73aec382e56845f1aee4b",
+    "full-stress/designer-987654321.json": "847146234013fd9a9b9bb464b3ffc590a878749a61a13194b08974bd31b4e927",
+    "full-stress/external-sax.json": "94f745978db16df0b3c59d0af0dc175cc2f048ba6d6d7c0077c4b93445168cf9",
+    "full-stress/inputs-20261003.json": "19e6c62fe15d37a0cecba9f859a7d8a1fa5334368735e38476ee45ba3f1c68db",
+    "full-stress/inputs-731.json": "46c2766826f4c4c356e20d55cf73d76b3cedb3862e121e2c5b981a19c779aeb8",
+    "full-stress/inputs-987654321.json": "6e52dde27d7c57960fd8e2aff0e0ea4dd96b54a8dc981a236192e7c3cb16d5d2",
+    "full-stress/legacy-20261003.json": "de9c6b39c71286d4b7d39dce19b330f8780f39f35e64d92c400cfc4e37a7612a",
+    "full-stress/legacy-731.json": "5653c086244f8751b1831780d44a42a0e977ad502f4628b5639c9233e2b72eac",
+    "full-stress/legacy-987654321.json": "7dc768efec2c2f705d5575ad99c99433bfb240358b2546c082229b588468cc81",
+    "full-stress/physical-20261003.json": "f896f82fb815a12ff21c8a52b89f1a37e5610c84649d6ccc3a481a80d56632b9",
+    "full-stress/physical-731.json": "52c3b868189bcce7550d64ba09c3a1fb61d0ce2d2d88025cade136eb742c0ee7",
+    "full-stress/physical-987654321.json": "a816b78b24d7f11fe8f7bfc70b79772dfbc25d2ab3400ff05d9b6df6bb4c04e7",
+    "full-stress/reports-20261003.json": "b143511032bd2d6e575f50a0f32e50dd645c2558ed6e6cfe8eacfddaf3b92335",
+    "full-stress/reports-731.json": "0a485d1a0293efc08007ba657337c9c17a27c127d7156f34ad1600bb30922f26",
+    "full-stress/reports-987654321.json": "e4bb40216e08721bda76f7a3cba82cdba89af6fbe51113059297176996ea7348",
+    "full-stress/summary.json": "ec9398c9df6888a2222c03773a7aa39198cba7fc068ce5b645303a2c3946986e",
+    "package-install.json": "c92bcd384179f1cdca22c05416f068df551bb4f433ba72f59e81bcbdb8ed5dd6",
+    "tests-core-final.log": "5801792cc764471842cad7c8bd4e3138403802b60b3ab88c5472cb4f2e1b7fd4",
+    "tests-core.log": "826d4e12969c8787561c1e98207b675297318cfb6670b39933efda47e80de5f8",
+    "tests-full-final.log": "a7efd4a8d4a240418da6fa2658737e94616b59974dd6fa0e1e83951ae5a0ecc4",
+    "tests-full.log": "94405c9183224ce283564cf73a1f0f099a8c5b6d8f156e8dc7e49c39b348172d"
+  },
+  "gate_scope": "Documented bounded research-prototype software only; illustrative uncalibrated physical parameters; no fabrication signoff or M1\u2013M6 implementation.",
+  "independent_review": {
+    "record": "../../docs/reviews/release_v031_round1.md",
+    "scope": "Research-prototype release within documented v0.3 limits",
+    "sha256": "52cd287db10ae05a3d8219320fe6442a2a21302425ca7da594acd4dfbb528a11",
+    "status": "passed"
+  },
+  "initial_aggregate_failure": "Legacy campaign result key mismatch caused 3 recorded harness execution failures; fixed canonical scenario_count field and added real campaign contract regression. Earlier failed evidence retained in full-stress/.",
+  "installed_wheel": {
+    "checks": 18,
+    "passed": true,
+    "sax_comparisons": 24,
+    "wheel_sha256": "86b62c9fb0504ab7e0f453e8438fee2a134825ec843bdbd79684719ad7d3be5d"
+  },
+  "review_record": "../../docs/reviews/release_v031_round1.md",
+  "sax": {
+    "comparisons": 183,
+    "passed": true
+  },
+  "software_version": "0.3.1",
+  "source_sha256": "9886fae30b229f798326045e013391f5fa97ade0396b812a0b2ab6e0092b5fbe",
+  "status": "passed",
+  "stress": {
+    "failed_count": 0,
+    "passed_count": 6075,
+    "scenario_count": 6075,
+    "seeds": [
+      20261003,
+      731,
+      987654321
+    ],
+    "skipped_count": 0,
+    "source_unchanged_during_run": true,
+    "status": "passed"
+  },
+  "tests": {
+    "core": {
+      "exit_code": 0,
+      "failures": 0,
+      "log": "tests-core-final.log",
+      "passed": 298,
+      "skipped": 42,
+      "tests": 340
+    },
+    "full": {
+      "exit_code": 0,
+      "failures": 0,
+      "log": "tests-full-final.log",
+      "passed": 339,
+      "skipped": 1,
+      "tests": 340
+    }
+  }
+}

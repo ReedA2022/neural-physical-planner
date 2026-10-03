@@ -7,6 +7,7 @@ network architecture, repair misspelled keys or invent hardware measurements.
 from __future__ import annotations
 
 from copy import deepcopy
+from decimal import Decimal, DecimalException, Underflow, localcontext
 from importlib.resources import files
 import json
 import math
@@ -30,6 +31,9 @@ _UNITS = {
     "error_rms_bound": {},
 }
 _QUANTITY = re.compile(r"^([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*([^\s]*)$")
+# Bound values introduced by repeated YAML aliases: a tiny source can encode
+# an exponentially large tree. Plain JSON/YAML data retains its existing limits.
+MAX_SPEC_ALIAS_VALUES = 1_000_000
 
 
 def _fail(path: str, message: str, code: str = "config_error") -> None:
@@ -94,7 +98,7 @@ def read_spec(path: str | Path) -> dict:
         else:
             _fail(str(path), "specification extension must be .json, .yaml or .yml", "unsupported_spec_format")
         _mapping(result, str(path))
-        _check_plain_tree(result, str(path), set())
+        _check_plain_tree(result, str(path), set(), {}, [0])
         return result
     except InputValidationError:
         raise
@@ -102,10 +106,16 @@ def read_spec(path: str | Path) -> dict:
         _fail(str(path), str(exc), "spec_load_error")
 
 
-def _check_plain_tree(value: Any, path: str, active: set[int]) -> None:
+def _check_plain_tree(value: Any, path: str, active: set[int], memo: dict[int, int], alias_values: list[int]) -> int:
+    count = 1
     if isinstance(value, (dict, list)):
         if id(value) in active:
             _fail(path, "recursive YAML aliases are unsupported")
+        if id(value) in memo:
+            alias_values[0] += memo[id(value)]
+            if alias_values[0] > MAX_SPEC_ALIAS_VALUES:
+                _fail(path, f"YAML aliases introduce more than {MAX_SPEC_ALIAS_VALUES} expanded values; reduce repeated aliases", "spec_resource_limit")
+            return memo[id(value)]
         active.add(id(value))
         if isinstance(value, dict):
             _mapping(value, path)
@@ -113,12 +123,14 @@ def _check_plain_tree(value: Any, path: str, active: set[int]) -> None:
         else:
             items = ((f"{path}[{index}]", child) for index, child in enumerate(value))
         for child_path, child in items:
-            _check_plain_tree(child, child_path, active)
+            count += _check_plain_tree(child, child_path, active, memo, alias_values)
         active.remove(id(value))
+        memo[id(value)] = count
     elif isinstance(value, float) and not math.isfinite(value):
         _fail(path, "values must be finite", "nonfinite_value")
     elif value is not None and not isinstance(value, (str, int, float, bool)):
         _fail(path, "unsupported YAML value; use JSON-compatible scalars, lists and objects")
+    return count
 
 
 def _quantity(value: Any, field: str, path: str) -> float:
@@ -140,7 +152,18 @@ def _quantity(value: Any, field: str, path: str) -> float:
         if unit and unit not in units:
             accepted = ", ".join(units) or "no unit (normalized RMS error)"
             _fail(path, f"invalid unit {unit!r} for {field}; expected {accepted}", "unit_mismatch")
-        result = float(number) * units.get(unit, 1.0)
+        # Round only once, after decimal unit conversion, so e.g. 9 fJ and
+        # 0.009 pJ yield identical canonical inputs and replay hashes.
+        try:
+            with localcontext() as context:
+                context.prec = max(28, len(number) + 16)
+                context.traps[Underflow] = True
+                scaled = Decimal(number) * Decimal(str(units.get(unit, 1.0)))
+                result = float(scaled)
+                if scaled != 0 and result == 0:
+                    _fail(path, "nonzero quantity is too small for the supported numeric range", "invalid_quantity")
+        except (ValueError, OverflowError, DecimalException):
+            _fail(path, "quantity is outside the supported numeric range", "invalid_quantity")
     else:
         _fail(path, "expected a finite number or a number with a unit", "invalid_quantity")
     if not math.isfinite(result):
@@ -263,6 +286,18 @@ class _TensorResolver:
             value = self._get(value["tensor"], source, path)
         elif isinstance(value, str):
             value = self._get(value, self.source, path)
+        # NumPy promotes [True, 2] to an integer array. Reject boolean leaves
+        # before that coercion can conceal a malformed inline weight or bias.
+        pending = [value] if isinstance(value, (list, tuple)) else []
+        visited = set()
+        while pending:
+            entry = pending.pop()
+            if isinstance(entry, (list, tuple)):
+                if id(entry) not in visited:
+                    visited.add(id(entry))
+                    pending.extend(entry)
+            elif isinstance(entry, (bool, np.bool_)):
+                _fail(path, "tensor must contain finite real numbers, not booleans", "invalid_tensor")
         try:
             array = np.asarray(value)
         except (ValueError, TypeError) as exc:

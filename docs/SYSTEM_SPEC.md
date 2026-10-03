@@ -200,12 +200,16 @@ If enumeration hits `max_evaluations`, `search.complete` is false. Beam search r
 | `infeasible` | No feasible plan exists in the exhausted finite candidate family, or the structural candidate family is empty. This is model-relative. |
 | `search_exhausted` | No feasible plan was found by the incomplete search. Nonexistence is not proved. |
 
-Pareto comparisons minimize the requested objectives, with relative tolerance `1e-9` and no absolute tolerance. Equivalent objective vectors retain a deterministic representative. Budgets are constraints, not objectives that can be traded away.
+Dominance requires exact componentwise no-worse metrics and an improvement larger than relative tolerance `1e-9` in at least one requested objective; there is no absolute tolerance. A tolerance never permits worsening another objective. This transitive significance rule prevents epsilon-dominance cycles and makes incremental frontier retention sound. Only exactly equal objective vectors retain one deterministic representative. Near-equal alternatives may both remain, including uniformly worse vectors whose improvements are all below the significance threshold; this is a frontier under the stated significance rule rather than strict mathematical Pareto filtering. Budgets are constraints, not objectives that can be traded away.
 
 ## Replay checking and simulation
 
 `check_record` validates the inputs, verifies hashes and plan ID, recomputes the evaluation from the decision and compares stored fields. It does not trust cached metrics or rerun the search. It uses the same physical model as the planner; it is not an independent physical proof system. A valid replay does not establish Pareto optimality.
 
 `simulate` independently executes ideal and noisy operations using primitive noise samples. It does not draw from the analytically computed final covariance. Inputs are sampled uniformly from the declared box. The output contains empirical MSE/RMS error, estimated standard errors, an analytic bound and output summaries. Affine consistency requires two-sided agreement with the predicted MSE within four estimated standard errors plus a relative numerical tolerance. Nonlinear consistency checks only the upper bound. These are diagnostic heuristics, not formal confidence guarantees; extreme scales can cause floating-point cancellation, which the affine check can expose.
+
+Evaluation fails closed with `numerical_range_exceeded` if primitive noise variance or array arithmetic underflows or exceeds float64 range; positive modeled noise cannot silently become a zero-error certificate. Rescale the normalized numerical units instead of interpreting this diagnostic as physical infeasibility evidence.
+
+Sampling rejects requests before evaluation or random-array allocation when they exceed 1,000,000 samples, a conservative 16,000,000 aggregate float64 array-element estimate (about 128 MiB), or 100,000,000 multiply-accumulates across ideal and noisy passes. The array estimate includes retained node and edge samples, output arrays, and transient buffers; it is a work limit, not a measured process-memory guarantee. Seeds must be nonnegative integers; booleans are rejected.
 
 The software can be used as a reproducible planning and model-consistency baseline. Claims about characterized devices, fabrication or research novelty require additional evidence.

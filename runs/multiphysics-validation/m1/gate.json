@@ -1,0 +1,32 @@
+{
+  "baseline": {
+    "checks": 30,
+    "frozen_artifacts": 57,
+    "status": "passed"
+  },
+  "review": "docs/reviews/multiphysics_m1.md",
+  "scope": "Common contracts, complete digitalFFN/local costs, differential-conductance matrix tile, friendlyI/O and replay; no M2 or calibrated hardware claim.",
+  "software_version": "0.4.0",
+  "source_hashes": {
+    "npp/__init__.py": "5515afd3f7c43ba510286e41aa4550028e9380d8dde0ffee5c97c8fbc39cec49",
+    "npp/cli.py": "2192955925652ac1bb4ae45fe1443facc9cfb8091f0a0fe23dc0281982e32544",
+    "npp/multiphysics/__init__.py": "04ac0ff41862eb4d60c900875a98799ff01a33f9dd188322a8eafc8f6257589f",
+    "npp/multiphysics/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "npp/multiphysics/backends/__init__.py": "654eb9309b51e351825b0dc42c8be240cd6f96430521f41d5ac8e9fe155df733",
+    "npp/multiphysics/backends/analog.py": "4d4f90dc09c58ccfa4fd97d621ece5925d5ec9ea37d5dc0f64fed7447497cbae",
+    "npp/multiphysics/backends/digital.py": "24de01776f3bf7932b4cdf986806021345099afbf9b2f637b954d851df326c7b",
+    "npp/multiphysics/catalog.py": "5ce793046c5ae31a8bd14a783c7c1c7064ad48fd215cd201201134395ea56ad0",
+    "npp/multiphysics/cli.py": "50b9079e10fc6feb0f9cfe114f10805499a3ea09bb93bc8be8458b6f4b722027",
+    "npp/multiphysics/contracts.py": "2bfb365cdbb13109130b2582c6e68bb59f59af8325b56d36d82ec85b08d23a08",
+    "npp/multiphysics/io.py": "8ac8218344d746247ff83aab0e4b2ad46cdc521c92f4a56984768c4724c7ea6e",
+    "npp/multiphysics/semantic.py": "b3c3dd5101ba56ff5d22b97d8b3cb9047d1abaa049b192a7574c7bc86ea7e5cc",
+    "pyproject.toml": "42a15d9ce19a177dc56dfe1b22f04f5d623f39182db46892d8c7330843f97587"
+  },
+  "stage": "M1",
+  "status": "passed",
+  "tests": {
+    "count": 63,
+    "passed": 63,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,3203 @@
+{
+  "schema_version": "mp-evaluation/1",
+  "software_version": "0.4.0",
+  "inputs": {
+    "schema_version": "npp-multiphysics-1",
+    "name": "Small SwiGLU study",
+    "model": {
+      "W_up": [
+        [
+          0.3,
+          -0.2
+        ],
+        [
+          0.1,
+          0.4
+        ]
+      ],
+      "W_gate": [
+        [
+          0.2,
+          0.1
+        ],
+        [
+          -0.3,
+          0.2
+        ]
+      ],
+      "W_down": [
+        [
+          0.5,
+          -0.4
+        ],
+        [
+          0.2,
+          0.3
+        ]
+      ],
+      "b_up": [
+        0.02,
+        -0.01
+      ],
+      "b_gate": [
+        0.0,
+        0.01
+      ],
+      "b_down": [
+        0.0,
+        0.0
+      ],
+      "name": "small_ffn",
+      "semantic_track": "E",
+      "quality_budget": null,
+      "parent_model_identity": null,
+      "adaptation_identity": null,
+      "adaptation_cost": null
+    },
+    "workload": {
+      "inputs": [
+        [
+          0.25,
+          -0.5
+        ],
+        [
+          -0.2,
+          0.4
+        ]
+      ],
+      "semantic_track": "E",
+      "numeric_policy": {
+        "format": "float64",
+        "accumulation": "float64",
+        "rounding": "nearest_even",
+        "overflow": "reject",
+        "underflow": "gradual"
+      },
+      "reuse_count": 1,
+      "seed": 7,
+      "weight_residency": "sram",
+      "quality": {
+        "max_rms_error": 0.1
+      },
+      "evidence_policy": [
+        "hypothetical"
+      ]
+    },
+    "technology": {
+      "schema_version": "npp-multiphysics-1",
+      "id": "hypothetical_reference",
+      "version": "1.0",
+      "components": [
+        {
+          "id": "digital_reference",
+          "version": "1.0",
+          "family": "digital",
+          "mechanism": "serial digital SwiGLU FFN with explicit SRAM, DRAM and interconnect",
+          "evaluator_id": "digital.ffn",
+          "evaluator_version": "1.0",
+          "ideal_relation": "y = W_down (SiLU(W_gate x + b_gate) * (W_up x + b_up)) + b_down",
+          "fidelity": "analytical_cost",
+          "parameters": [
+            {
+              "name": "add_energy_pj",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/op",
+                "value": 0.03,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "compute_area_um2",
+              "quantity": {
+                "state": "known",
+                "unit": "um^2",
+                "value": 1000.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "dram_bytes_per_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "byte/ns",
+                "value": 16.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "dram_read_energy_pj_per_byte",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/byte",
+                "value": 2.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "launch_energy_pj",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/invocation",
+                "value": 3.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "launch_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "ns",
+                "value": 2.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "link_bytes_per_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "byte/ns",
+                "value": 64.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "link_energy_pj_per_byte",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/byte",
+                "value": 0.02,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "mac_energy_pj",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/MAC",
+                "value": 0.2,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "macs_per_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "MAC/ns",
+                "value": 32.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "multiply_energy_pj",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/op",
+                "value": 0.08,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "program_bytes_per_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "byte/ns",
+                "value": 16.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "program_energy_pj_per_byte",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/byte",
+                "value": 0.06,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "scalar_ops_per_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "op/ns",
+                "value": 8.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "silu_energy_pj",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/op",
+                "value": 0.5,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "sram_area_um2_per_byte",
+              "quantity": {
+                "state": "known",
+                "unit": "um^2/byte",
+                "value": 0.1,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "sram_bytes_per_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "byte/ns",
+                "value": 64.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "sram_capacity_bytes",
+              "quantity": {
+                "state": "known",
+                "unit": "byte",
+                "value": 1048576.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "sram_read_energy_pj_per_byte",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/byte",
+                "value": 0.04,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "sram_write_energy_pj_per_byte",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/byte",
+                "value": 0.05,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "static_power_mw",
+              "quantity": {
+                "state": "known",
+                "unit": "mW",
+                "value": 0.1,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            }
+          ],
+          "ports": [
+            {
+              "name": "input",
+              "direction": "in",
+              "signal": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  1
+                ],
+                "axis_order": [
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "shape-bound local evaluation; no system clock contract yet"
+                },
+                "clock": {
+                  "domain": "local",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            {
+              "name": "output",
+              "direction": "out",
+              "signal": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  1
+                ],
+                "axis_order": [
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "shape-bound local evaluation; no system clock contract yet"
+                },
+                "clock": {
+                  "domain": "local",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            }
+          ],
+          "operating_envelope": [
+            {
+              "name": "rows",
+              "unit": "count",
+              "minimum": 1.0,
+              "maximum": 256.0
+            },
+            {
+              "name": "columns",
+              "unit": "count",
+              "minimum": 1.0,
+              "maximum": 256.0
+            },
+            {
+              "name": "batch",
+              "unit": "count",
+              "minimum": 1.0,
+              "maximum": 64.0
+            },
+            {
+              "name": "temperature_c",
+              "unit": "degC",
+              "minimum": 0.0,
+              "maximum": 85.0
+            }
+          ],
+          "integration": {
+            "substrate": "hypothetical_chiplet",
+            "package": "abstract single die; no fabrication compatibility claim",
+            "temperature_c": {
+              "minimum": 0.0,
+              "maximum": 85.0
+            },
+            "required_services": [
+              "power_supply"
+            ],
+            "interface_families": [
+              "digital_word"
+            ],
+            "geometry_assumptions": [
+              "lumped local device; package routing is outside M1 local boundary",
+              "ports are scalar lane templates; concrete vector shapes bind at graph instantiation"
+            ]
+          },
+          "dynamics": {
+            "startup_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "programming_ns": {
+              "state": "unavailable",
+              "unit": "ns",
+              "value": null,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": "depends on bound matrix shape; evaluator reports exact local modeled duration"
+            },
+            "settling_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "integration_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "retention_ns": {
+              "state": "unavailable",
+              "unit": "ns",
+              "value": null,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": "retention beyond the explicit evaluated age is not guaranteed"
+            },
+            "calibration_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            }
+          },
+          "imperfections": [
+            "explicit IEEE arithmetic; hypothetical costs do not model digital bit faults"
+          ],
+          "accounting": {
+            "mode": "inclusive",
+            "boundary": "local_component",
+            "cost_categories": [
+              "compute",
+              "movement",
+              "conversion",
+              "storage",
+              "programming",
+              "calibration",
+              "control",
+              "support"
+            ],
+            "exclusions": [
+              "cold chip startup, global clock distribution and package infrastructure are outside the active-component workload boundary"
+            ],
+            "amortization": "weight programming once per evaluation; other costs per explicit invocation; no free reuse"
+          },
+          "validation": {
+            "reference_implementations": [
+              "npp.multiphysics.semantic"
+            ],
+            "tests": [
+              "tests/test_mp_devices.py"
+            ],
+            "known_failures": [
+              "out-of-envelope input rejected; unknown cost prevents complete numeric total"
+            ],
+            "limitations": [
+              "software model consistency only; no external hardware calibration",
+              "local duration excludes system resource contention",
+              "zero startup/calibration/reset mean excluded operations in this active-component boundary, not claims of free physical processes"
+            ]
+          }
+        },
+        {
+          "id": "analog_reference",
+          "version": "1.0",
+          "family": "analog_electrical",
+          "mechanism": "differential conductance tile with owned input DAC and differential output ADC",
+          "evaluator_id": "analog.differential_conductance",
+          "evaluator_version": "1.0",
+          "ideal_relation": "y = W x + b; signed bipolar voltages; W proportional to G_positive-G_negative",
+          "fidelity": "reduced_order_dynamics",
+          "parameters": [
+            {
+              "name": "adc_bits",
+              "quantity": {
+                "state": "known",
+                "unit": "bit",
+                "value": 16.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "adc_energy_pj",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/sample",
+                "value": 1.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "adc_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "ns",
+                "value": 4.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "bias_add_energy_pj_per_output",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/output",
+                "value": 0.03,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "cell_area_um2",
+              "quantity": {
+                "state": "known",
+                "unit": "um^2/cell",
+                "value": 0.1,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "control_energy_pj_per_read",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/read",
+                "value": 0.2,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "control_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "ns",
+                "value": 1.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "converter_area_um2",
+              "quantity": {
+                "state": "known",
+                "unit": "um^2/lane",
+                "value": 10.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "dac_bits",
+              "quantity": {
+                "state": "known",
+                "unit": "bit",
+                "value": 12.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "dac_energy_pj",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/sample",
+                "value": 0.1,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "dac_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "ns",
+                "value": 2.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "drift_per_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "1/ns",
+                "value": 1e-12,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "g_max_s",
+              "quantity": {
+                "state": "known",
+                "unit": "S",
+                "value": 0.0001,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "g_min_s",
+              "quantity": {
+                "state": "known",
+                "unit": "S",
+                "value": 1e-06,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "input_limit",
+              "quantity": {
+                "state": "known",
+                "unit": "1",
+                "value": 2.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "input_scale_v",
+              "quantity": {
+                "state": "known",
+                "unit": "V",
+                "value": 0.1,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "integration_ns",
+              "quantity": {
+                "state": "known",
+                "unit": "ns",
+                "value": 10.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "line_resistance_ohm",
+              "quantity": {
+                "state": "known",
+                "unit": "ohm",
+                "value": 1.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "output_current_limit_a",
+              "quantity": {
+                "state": "known",
+                "unit": "A",
+                "value": 0.01,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "program_bits",
+              "quantity": {
+                "state": "known",
+                "unit": "bit",
+                "value": 10.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "programming_energy_pj_per_cell",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/cell",
+                "value": 5.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "programming_noise_relative",
+              "quantity": {
+                "state": "known",
+                "unit": "1",
+                "value": 0.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "programming_ns_per_cell",
+              "quantity": {
+                "state": "known",
+                "unit": "ns/cell",
+                "value": 1.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "read_disturbance_relative",
+              "quantity": {
+                "state": "known",
+                "unit": "1/read",
+                "value": 1e-08,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "readout_energy_pj_per_output",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/output",
+                "value": 0.2,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "reference_energy_pj_per_read",
+              "quantity": {
+                "state": "known",
+                "unit": "pJ/read",
+                "value": 0.5,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "static_power_mw",
+              "quantity": {
+                "state": "known",
+                "unit": "mW",
+                "value": 0.01,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "temperature_max_c",
+              "quantity": {
+                "state": "known",
+                "unit": "degC",
+                "value": 85.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "temperature_min_c",
+              "quantity": {
+                "state": "known",
+                "unit": "degC",
+                "value": 0.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            },
+            {
+              "name": "weight_scale",
+              "quantity": {
+                "state": "known",
+                "unit": "1",
+                "value": 2.0,
+                "lower": null,
+                "upper": null,
+                "symbol": null,
+                "reason": null
+              },
+              "evidence": {
+                "kind": "hypothetical",
+                "source": "NPP reference scenario; invented illustrative coefficients",
+                "location": "npp.multiphysics.catalog.reference_pack",
+                "version": "1.0",
+                "scope": "theoretical exploration only; no measured calibration or device claim"
+              },
+              "uncertainty": {
+                "kind": "epistemic",
+                "description": "Chosen reference point; real device uncertainty has not been characterized",
+                "distribution": null,
+                "correlation_group": null,
+                "bounds": null
+              },
+              "envelope": null,
+              "dependencies": [],
+              "instance_group": "reference.v1"
+            }
+          ],
+          "ports": [
+            {
+              "name": "input",
+              "direction": "in",
+              "signal": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  1
+                ],
+                "axis_order": [
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "shape-bound local evaluation; no system clock contract yet"
+                },
+                "clock": {
+                  "domain": "local",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            },
+            {
+              "name": "output",
+              "direction": "out",
+              "signal": {
+                "payload": "tensor",
+                "carrier": "electrical",
+                "regime": "classical_digital",
+                "shape": [
+                  1
+                ],
+                "axis_order": [
+                  "lane"
+                ],
+                "encoding": "signed_numeric",
+                "physical_variable": "digital_word",
+                "signed": true,
+                "scale": 1.0,
+                "unit": "1",
+                "value_range": {
+                  "minimum": -1.7976931348623157e+308,
+                  "maximum": 1.7976931348623157e+308
+                },
+                "bandwidth_hz": {
+                  "state": "unavailable",
+                  "unit": "Hz",
+                  "value": null,
+                  "lower": null,
+                  "upper": null,
+                  "symbol": null,
+                  "reason": "shape-bound local evaluation; no system clock contract yet"
+                },
+                "clock": {
+                  "domain": "local",
+                  "mode": "asynchronous",
+                  "period_ns": null,
+                  "phase_ns": 0.0
+                },
+                "lifetime": {
+                  "arrival_ns": {
+                    "minimum": 0.0,
+                    "maximum": 0.0
+                  },
+                  "integration_ns": 0.0,
+                  "retention_ns": {
+                    "state": "known",
+                    "unit": "ns",
+                    "value": 0.0,
+                    "lower": null,
+                    "upper": null,
+                    "symbol": null,
+                    "reason": null
+                  },
+                  "reset_required": false
+                },
+                "multiplexing": [],
+                "disturbance_ids": [],
+                "required_services": [
+                  "power_supply"
+                ],
+                "phase_reference": null,
+                "quantum_platform": null
+              }
+            }
+          ],
+          "operating_envelope": [
+            {
+              "name": "rows",
+              "unit": "count",
+              "minimum": 1.0,
+              "maximum": 64.0
+            },
+            {
+              "name": "columns",
+              "unit": "count",
+              "minimum": 1.0,
+              "maximum": 64.0
+            },
+            {
+              "name": "batch",
+              "unit": "count",
+              "minimum": 1.0,
+              "maximum": 128.0
+            },
+            {
+              "name": "temperature_c",
+              "unit": "degC",
+              "minimum": 0.0,
+              "maximum": 85.0
+            }
+          ],
+          "integration": {
+            "substrate": "hypothetical_chiplet",
+            "package": "abstract single die; no fabrication compatibility claim",
+            "temperature_c": {
+              "minimum": 0.0,
+              "maximum": 85.0
+            },
+            "required_services": [
+              "power_supply"
+            ],
+            "interface_families": [
+              "digital_word"
+            ],
+            "geometry_assumptions": [
+              "lumped local device; package routing is outside M1 local boundary",
+              "ports are scalar lane templates; concrete vector shapes bind at graph instantiation"
+            ]
+          },
+          "dynamics": {
+            "startup_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "programming_ns": {
+              "state": "unavailable",
+              "unit": "ns",
+              "value": null,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": "depends on bound matrix shape; evaluator reports exact local modeled duration"
+            },
+            "settling_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 2.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "integration_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 10.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "reset_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "retention_ns": {
+              "state": "unavailable",
+              "unit": "ns",
+              "value": null,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": "retention beyond the explicit evaluated age is not guaranteed"
+            },
+            "calibration_ns": {
+              "state": "known",
+              "unit": "ns",
+              "value": 0.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            }
+          },
+          "imperfections": [
+            "finite arithmetic/quantization and explicitly declared local analog imperfections"
+          ],
+          "accounting": {
+            "mode": "inclusive",
+            "boundary": "local_component",
+            "cost_categories": [
+              "compute",
+              "movement",
+              "conversion",
+              "storage",
+              "programming",
+              "calibration",
+              "control",
+              "support"
+            ],
+            "exclusions": [
+              "cold chip startup, global clock distribution and package infrastructure are outside the active-component workload boundary"
+            ],
+            "amortization": "weight programming once per evaluation; other costs per explicit invocation; no free reuse"
+          },
+          "validation": {
+            "reference_implementations": [
+              "independent differential-conductance scalar oracle in tests"
+            ],
+            "tests": [
+              "tests/test_mp_devices.py"
+            ],
+            "known_failures": [
+              "out-of-envelope input rejected; unknown cost prevents complete numeric total"
+            ],
+            "limitations": [
+              "software model consistency only; no external hardware calibration",
+              "local duration excludes system resource contention",
+              "zero startup/calibration/reset mean excluded operations in this active-component boundary, not claims of free physical processes"
+            ]
+          }
+        }
+      ],
+      "assumptions": [
+        "All numerical reference coefficients are hypothetical and uncalibrated.",
+        "M1 evaluates local active components; its durations are not an end-to-end schedule.",
+        "Physical finite quantizers remain enabled in the reference analog component."
+      ]
+    },
+    "constraints": {
+      "resources": {
+        "digital": 1,
+        "analog": 1,
+        "photonic": 1,
+        "converter": 1,
+        "memory": 1,
+        "link": 1,
+        "control": 1,
+        "source": 1,
+        "buffer": 1
+      },
+      "max_energy_pj": 10000000.0,
+      "max_latency_ns": 1000000.0,
+      "max_memory_bytes": 1048576.0
+    },
+    "environment": {
+      "temperature_c": 25,
+      "region": "room_temperature",
+      "substrate": "hypothetical_chiplet",
+      "services": [
+        "power_supply",
+        "clock",
+        "reference",
+        "cooling",
+        "laser",
+        "phase_reference",
+        "control"
+      ]
+    },
+    "input_hash": "929aaa280dfe5e7beeb7068413dd24d31e2130b269b94e7311c67d1b8fcbeefb"
+  },
+  "family": "digital",
+  "evaluation": {
+    "backend_id": "digital.ffn",
+    "backend_version": "1.0",
+    "status": "model_feasible",
+    "ideal_output": [
+      [
+        -0.005602477081885717,
+        0.004201857811414287
+      ],
+      [
+        -0.004191952793681248,
+        0.003143964595260936
+      ]
+    ],
+    "actual_output": [
+      [
+        -0.005602477081885716,
+        0.004201857811414286
+      ],
+      [
+        -0.004191952793681247,
+        0.0031439645952609356
+      ]
+    ],
+    "error": {
+      "rms": 7.818293051731877e-19,
+      "max_abs": 8.673617379884035e-19,
+      "approximation": "none",
+      "finite_precision": "binary64 roundoff only",
+      "stochastic": "fixed declared physical seed; realized sample, not a confidence bound",
+      "epistemic": "reference coefficients are hypothetical; modeled error is not task accuracy"
+    },
+    "semantic": {
+      "schema": "mp.digital.ffn.v1",
+      "status": "evaluated",
+      "model_identity": "sha256:9ad06caed3061a2bbeb2aa058bcd72e915c2e37ca3edffc1fb73f01fafde8138",
+      "semantic_track": "E",
+      "numeric_policy": {
+        "format": "float64",
+        "accumulation": "float64",
+        "rounding": "nearest_even",
+        "overflow": "reject",
+        "underflow": "gradual"
+      },
+      "ideal_reference": "binary64 products, compensated math.fsum, stable binary64 SiLU; numerical approximation to real ideal",
+      "ideal_output": [
+        [
+          -0.005602477081885717,
+          0.004201857811414287
+        ],
+        [
+          -0.004191952793681248,
+          0.003143964595260936
+        ]
+      ],
+      "output": [
+        [
+          -0.005602477081885716,
+          0.004201857811414286
+        ],
+        [
+          -0.004191952793681247,
+          0.0031439645952609356
+        ]
+      ],
+      "intermediates": {
+        "up": [
+          [
+            0.19499999999999998,
+            -0.18500000000000003
+          ],
+          [
+            -0.12000000000000001,
+            0.13
+          ]
+        ],
+        "gate_linear": [
+          [
+            0.0,
+            -0.16499999999999998
+          ],
+          [
+            0.0,
+            0.15000000000000002
+          ]
+        ],
+        "gate": [
+          [
+            0.0,
+            -0.07570914975521237
+          ],
+          [
+            0.0,
+            0.08061447680156245
+          ]
+        ],
+        "hidden": [
+          [
+            0.0,
+            0.01400619270471429
+          ],
+          [
+            -0.0,
+            0.010479881984203118
+          ]
+        ]
+      },
+      "absolute_error": {
+        "max": 8.673617379884035e-19,
+        "rms": 7.818293051731877e-19
+      },
+      "quality_budget": null,
+      "quality_passed": null,
+      "quality_scope": "numeric execution versus this supplied model only; no task-quality or parent-model equivalence claim",
+      "operations": {
+        "batch": 2,
+        "matrix_mac": 24,
+        "bias_add": 12,
+        "silu": 4,
+        "elementwise_multiply": 4,
+        "weight_elements": 12,
+        "bias_elements": 6,
+        "input_elements": 4,
+        "output_elements": 4,
+        "intermediate_elements": 16,
+        "execution": "batched_matrix_vector",
+        "count_boundary": "logical arithmetic and tensor sizes; no assumed hardware reuse or traffic"
+      }
+    },
+    "ledger": {
+      "contract": {
+        "boundary": "local_component",
+        "owners": [
+          {
+            "id": "digital_ffn",
+            "mode": "leaf",
+            "children": [],
+            "resource_summary_complete": false,
+            "reservations": []
+          }
+        ],
+        "entries": [
+          {
+            "contribution_id": "matrix_mac",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "compute",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 4.800000000000001,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "bias_add",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "compute",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 0.36,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "silu",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "compute",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 2.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "elementwise_multiply",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "compute",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 0.32,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "sram_reads",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "movement",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 13.44,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "sram_writes",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "movement",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 8.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "dram_weight_loads",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "movement",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 288.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "local_interconnect",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "movement",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 12.8,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "weight_programming",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "programming",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 8.64,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "launch",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "control",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 3.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "static_energy",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "support",
+            "metric": "energy_pj",
+            "quantity": {
+              "state": "known",
+              "unit": "pJ",
+              "value": 4.1000000000000005,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "coefficient times explicit event count or elapsed ns"
+          },
+          {
+            "contribution_id": "area.compute",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "support",
+            "metric": "area_um2",
+            "quantity": {
+              "state": "known",
+              "unit": "um^2",
+              "value": 1000.0,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "declared physical capacity, not invocation count"
+          },
+          {
+            "contribution_id": "area.sram",
+            "owner": "digital_ffn",
+            "boundary": "local_component",
+            "category": "support",
+            "metric": "area_um2",
+            "quantity": {
+              "state": "known",
+              "unit": "um^2",
+              "value": 104857.6,
+              "lower": null,
+              "upper": null,
+              "symbol": null,
+              "reason": null
+            },
+            "basis": "declared physical capacity, not invocation count"
+          }
+        ],
+        "expected_contributions": [
+          "matrix_mac",
+          "bias_add",
+          "silu",
+          "elementwise_multiply",
+          "sram_reads",
+          "sram_writes",
+          "dram_weight_loads",
+          "local_interconnect",
+          "weight_programming",
+          "launch",
+          "static_energy",
+          "area.compute",
+          "area.sram"
+        ]
+      },
+      "boundary": "inclusive_local_component",
+      "entries": [
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "matrix_mac",
+          "category": "compute",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/MAC",
+            "value": 0.2,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 24,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 4.800000000000001
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "bias_add",
+          "category": "compute",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/op",
+            "value": 0.03,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 12,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 0.36
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "silu",
+          "category": "compute",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/op",
+            "value": 0.5,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 4,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 2.0
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "elementwise_multiply",
+          "category": "compute",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/op",
+            "value": 0.08,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 4,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 0.32
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "sram_reads",
+          "category": "movement",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.04,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 336,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 13.44
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "sram_writes",
+          "category": "movement",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.05,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 160,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 8.0
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "dram_weight_loads",
+          "category": "movement",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 2.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 144,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 288.0
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "local_interconnect",
+          "category": "movement",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.02,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 640,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 12.8
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "weight_programming",
+          "category": "programming",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.06,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 144,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 8.64
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "launch",
+          "category": "control",
+          "coefficient": {
+            "state": "known",
+            "unit": "pJ/invocation",
+            "value": 3.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 1,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 3.0
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "static_energy",
+          "category": "support",
+          "coefficient": {
+            "state": "known",
+            "unit": "mW",
+            "value": 0.1,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "multiplier": 41.0,
+          "energy_pj": {
+            "state": "known",
+            "unit": "pJ",
+            "value": 4.1000000000000005
+          }
+        }
+      ],
+      "area_entries": [
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "compute",
+          "area_um2": {
+            "state": "known",
+            "unit": "um^2",
+            "value": 1000.0
+          }
+        },
+        {
+          "owner_id": "digital_ffn",
+          "effect_id": "sram",
+          "area_um2": {
+            "state": "known",
+            "unit": "um^2",
+            "value": 104857.6
+          }
+        }
+      ],
+      "category_coverage": {
+        "compute": {
+          "status": "charged",
+          "contribution_ids": [
+            "matrix_mac",
+            "bias_add",
+            "silu",
+            "elementwise_multiply"
+          ],
+          "reason": "enumerated exactly once in the typed ledger"
+        },
+        "movement": {
+          "status": "charged",
+          "contribution_ids": [
+            "sram_reads",
+            "sram_writes",
+            "dram_weight_loads",
+            "local_interconnect"
+          ],
+          "reason": "enumerated exactly once in the typed ledger"
+        },
+        "conversion": {
+          "status": "not_applicable",
+          "contribution_ids": [],
+          "reason": "digital-only electrical word boundary has no DAC, ADC or physical domain crossing"
+        },
+        "storage": {
+          "status": "covered_by_other_contributions",
+          "contribution_ids": [
+            "sram_reads",
+            "sram_writes",
+            "weight_programming",
+            "static_energy",
+            "area.sram"
+          ],
+          "reason": "weight/intermediate storage is represented by the existing programming, memory traffic, installed capacity and active static-energy owners; no duplicate charge"
+        },
+        "programming": {
+          "status": "charged",
+          "contribution_ids": [
+            "weight_programming"
+          ],
+          "reason": "enumerated exactly once in the typed ledger"
+        },
+        "calibration": {
+          "status": "excluded",
+          "contribution_ids": [],
+          "reason": "active configured-component boundary excludes a calibration procedure; no end-to-end chip calibration cost or free physical calibration is claimed"
+        },
+        "control": {
+          "status": "charged",
+          "contribution_ids": [
+            "launch"
+          ],
+          "reason": "enumerated exactly once in the typed ledger"
+        },
+        "support": {
+          "status": "charged",
+          "contribution_ids": [
+            "static_energy",
+            "area.compute",
+            "area.sram"
+          ],
+          "reason": "enumerated exactly once in the typed ledger"
+        }
+      },
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 345.46
+      },
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 105857.6
+      },
+      "complete": true,
+      "duration_ns": {
+        "state": "known",
+        "value": 41.0,
+        "unit": "ns"
+      },
+      "obligations": []
+    },
+    "local_duration_ns": 41.0,
+    "schedule_status": "local_serial_model_not_system_schedule",
+    "duration_breakdown": {
+      "compute_ns": 3.25,
+      "sram_ns": 7.75,
+      "dram_ns": 9.0,
+      "link_ns": 10.0,
+      "programming_ns": 9.0,
+      "control_ns": 2.0
+    },
+    "operations": {
+      "batch": 2,
+      "matrix_mac": 24,
+      "bias_add": 12,
+      "silu": 4,
+      "elementwise_multiply": 4,
+      "weight_elements": 12,
+      "bias_elements": 6,
+      "input_elements": 4,
+      "output_elements": 4,
+      "intermediate_elements": 16,
+      "execution": "batched_matrix_vector",
+      "count_boundary": "logical arithmetic and tensor sizes; no assumed hardware reuse or traffic"
+    },
+    "resources": {
+      "compute_engines": 1,
+      "sram_bytes": 336,
+      "weight_bytes": 144,
+      "sram_read_bytes": 336,
+      "sram_write_bytes": 160,
+      "dram_bytes": 144,
+      "link_bytes": 640
+    },
+    "state": {
+      "owner_id": "digital_ffn",
+      "weight_version": "sha256:9ad06caed3061a2bbeb2aa058bcd72e915c2e37ca3edffc1fb73f01fafde8138",
+      "programmed_once": true,
+      "reuse_count": 1
+    },
+    "dependencies": {
+      "cache_key": "0aada79a23611b3488b4cc19ae9346ae9aa24218778f4cfde33718b553e79e3b",
+      "snapshot": {
+        "backend_id": "digital.ffn",
+        "backend_version": "1.0",
+        "workload": {
+          "model": {
+            "W_up": [
+              [
+                0.3,
+                -0.2
+              ],
+              [
+                0.1,
+                0.4
+              ]
+            ],
+            "W_gate": [
+              [
+                0.2,
+                0.1
+              ],
+              [
+                -0.3,
+                0.2
+              ]
+            ],
+            "W_down": [
+              [
+                0.5,
+                -0.4
+              ],
+              [
+                0.2,
+                0.3
+              ]
+            ],
+            "b_up": [
+              0.02,
+              -0.01
+            ],
+            "b_gate": [
+              0.0,
+              0.01
+            ],
+            "b_down": [
+              0.0,
+              0.0
+            ],
+            "name": "small_ffn",
+            "semantic_track": "E",
+            "quality_budget": null,
+            "parent_model_identity": null,
+            "adaptation_identity": null,
+            "adaptation_cost": null
+          },
+          "inputs": [
+            [
+              0.25,
+              -0.5
+            ],
+            [
+              -0.2,
+              0.4
+            ]
+          ]
+        },
+        "parameters": {
+          "add_energy_pj": {
+            "state": "known",
+            "unit": "pJ/op",
+            "value": 0.03,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "compute_area_um2": {
+            "state": "known",
+            "unit": "um^2",
+            "value": 1000.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "dram_bytes_per_ns": 16.0,
+          "dram_read_energy_pj_per_byte": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 2.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "launch_energy_pj": {
+            "state": "known",
+            "unit": "pJ/invocation",
+            "value": 3.0,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "launch_ns": 2.0,
+          "link_bytes_per_ns": 64.0,
+          "link_energy_pj_per_byte": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.02,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "mac_energy_pj": {
+            "state": "known",
+            "unit": "pJ/MAC",
+            "value": 0.2,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "macs_per_ns": 32.0,
+          "multiply_energy_pj": {
+            "state": "known",
+            "unit": "pJ/op",
+            "value": 0.08,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "program_bytes_per_ns": 16.0,
+          "program_energy_pj_per_byte": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.06,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "scalar_ops_per_ns": 8.0,
+          "silu_energy_pj": {
+            "state": "known",
+            "unit": "pJ/op",
+            "value": 0.5,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "sram_area_um2_per_byte": {
+            "state": "known",
+            "unit": "um^2/byte",
+            "value": 0.1,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "sram_bytes_per_ns": 64.0,
+          "sram_capacity_bytes": 1048576,
+          "sram_read_energy_pj_per_byte": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.04,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "sram_write_energy_pj_per_byte": {
+            "state": "known",
+            "unit": "pJ/byte",
+            "value": 0.05,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          },
+          "static_power_mw": {
+            "state": "known",
+            "unit": "mW",
+            "value": 0.1,
+            "lower": null,
+            "upper": null,
+            "symbol": null,
+            "reason": null
+          }
+        },
+        "context": {
+          "environment": {
+            "temperature_c": 25,
+            "region": "room_temperature",
+            "substrate": "hypothetical_chiplet",
+            "services": [
+              "power_supply",
+              "clock",
+              "reference",
+              "cooling",
+              "laser",
+              "phase_reference",
+              "control"
+            ]
+          },
+          "numeric_policy": {
+            "format": "float64",
+            "accumulation": "float64",
+            "rounding": "nearest_even",
+            "overflow": "reject",
+            "underflow": "gradual"
+          },
+          "reuse_count": 1,
+          "seed": 7,
+          "weight_residency": "sram",
+          "owner_id": "digital_ffn"
+        }
+      },
+      "pack_hash": "15164fa801fe4c6e96030bfb82895f585437fa99a791694c593af694b0f01b1c",
+      "component_hash": "97c4034a303be1e5f59b631ada25bc0347e17306dd9e9e2a472d43d0b1acf31f"
+    },
+    "assumptions": [
+      "hypothetical resource coefficients; not measured CPU, GPU or ASIC timing",
+      "matrix-matrix batch reuses one weight load per invocation; matrix-vector is batch one",
+      "both input branches read SRAM separately; all intermediates written and read via charged links; no free broadcast or fusion",
+      "weight programming means register/SRAM configuration after external load; separate energy owners",
+      "serial local compute, movement and control; no system overlap or contention assumed",
+      "input dataset acquisition and task-level cache workloads are outside this FFN boundary"
+    ],
+    "quality_checks": [],
+    "quality": {
+      "max_rms_error": 0.1,
+      "observed_rms_error": 7.818293051731877e-19,
+      "passed": true,
+      "scope": "provided inputs versus this supplied model; not held-out task accuracy"
+    },
+    "technology": {
+      "pack_id": "hypothetical_reference",
+      "pack_version": "1.0",
+      "pack_hash": "15164fa801fe4c6e96030bfb82895f585437fa99a791694c593af694b0f01b1c",
+      "component_id": "digital_reference",
+      "component_version": "1.0",
+      "evidence_kinds": [
+        "hypothetical"
+      ]
+    },
+    "constraint_checks": [
+      {
+        "metric": "energy_pj",
+        "limit": 10000000.0,
+        "status": "passed"
+      },
+      {
+        "metric": "local_duration_ns",
+        "limit": 1000000.0,
+        "status": "passed"
+      },
+      {
+        "metric": "sram_bytes",
+        "limit": 1048576.0,
+        "status": "passed"
+      },
+      {
+        "metric": "declared_local_resources",
+        "missing": [],
+        "status": "passed"
+      }
+    ]
+  },
+  "validation_kind": "production evaluation; not independent validation",
+  "record_hash": "7a1bac7d2dec4daf25b353a21d62887a32e23a9791954bbc289da9e8f3c61f3b"
+}

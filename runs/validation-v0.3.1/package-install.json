@@ -1,0 +1,440 @@
+{
+  "version": "0.3.1",
+  "wheel": "/tmp/npp-v031-wheel/neural_physical_planner-0.3.1-py3-none-any.whl",
+  "wheel_sha256": "86b62c9fb0504ab7e0f453e8438fee2a134825ec843bdbd79684719ad7d3be5d",
+  "wheel_bytes": 125456,
+  "installed_target": "/tmp/npp-v031-installed",
+  "working_directory": "/tmp/npp-v031-installed-check",
+  "python": "/tmp/npp-v02-env/bin/python",
+  "environment_overrides": {
+    "PYTHONPATH": "/tmp/npp-v031-installed",
+    "MPLCONFIGDIR": "/tmp/npp-mpl"
+  },
+  "build": {
+    "command": [
+      "/tmp/npp-v02-env/bin/python",
+      "-m",
+      "pip",
+      "wheel",
+      "--no-deps",
+      "--no-build-isolation",
+      "--wheel-dir",
+      "/tmp/npp-v031-wheel",
+      "."
+    ],
+    "cwd": "/workspace/scratch/9db0500d0a5d/neural-physical-planner",
+    "exit_code": 0
+  },
+  "install": {
+    "command": [
+      "/tmp/npp-v02-env/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-deps",
+      "--no-compile",
+      "--target",
+      "/tmp/npp-v031-installed",
+      "/tmp/npp-v031-wheel/neural_physical_planner-0.3.1-py3-none-any.whl"
+    ],
+    "cwd": "/tmp",
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "check": "package_origin",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-c",
+        "import npp,json; from importlib.metadata import version; print(json.dumps({\"file\":npp.__file__,\"version\":npp.__version__,\"distribution_version\":version(\"neural-physical-planner\")}))"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "file": "/tmp/npp-v031-installed/npp/__init__.py",
+        "version": "0.3.1",
+        "distribution_version": "0.3.1"
+      }
+    },
+    {
+      "check": "starter_init",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "init",
+        "/tmp/npp-v031-installed-check/starter with spaces \u00e9t\u00e9"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok"
+      }
+    },
+    {
+      "check": "weight_inspection",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "inspect-weights",
+        "/tmp/npp-v031-installed-check/starter with spaces \u00e9t\u00e9/weights.npz",
+        "--json"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {}
+    },
+    {
+      "check": "friendly_validate",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "validate",
+        "--project",
+        "/tmp/npp-v031-installed-check/starter with spaces \u00e9t\u00e9/project.yaml"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "valid": true
+      }
+    },
+    {
+      "check": "normalize",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "normalize",
+        "--project",
+        "/tmp/npp-v031-installed-check/starter with spaces \u00e9t\u00e9/project.yaml",
+        "--out-dir",
+        "/tmp/npp-v031-installed-check/portable"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok"
+      }
+    },
+    {
+      "check": "portable_without_weights",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "validate",
+        "--network",
+        "/tmp/npp-v031-installed-check/portable/network.json",
+        "--library",
+        "/tmp/npp-v031-installed-check/portable/library.json",
+        "--request",
+        "/tmp/npp-v031-installed-check/portable/request.json"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "valid": true
+      }
+    },
+    {
+      "check": "macro_plan",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "plan",
+        "--network",
+        "/tmp/npp-v031-installed-check/portable/network.json",
+        "--library",
+        "/tmp/npp-v031-installed-check/portable/library.json",
+        "--request",
+        "/tmp/npp-v031-installed-check/portable/request.json",
+        "--out-dir",
+        "/tmp/npp-v031-installed-check/macro",
+        "--samples",
+        "16"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok",
+        "pareto_plans": 1,
+        "all_saved_plans_checked": true,
+        "simulated_plans": 1
+      }
+    },
+    {
+      "check": "macro_check",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "check",
+        "--network",
+        "/tmp/npp-v031-installed-check/portable/network.json",
+        "--library",
+        "/tmp/npp-v031-installed-check/portable/library.json",
+        "--request",
+        "/tmp/npp-v031-installed-check/portable/request.json",
+        "--plan",
+        "/tmp/npp-v031-installed-check/macro/plans/plan-5be47170d4f2b5a8260969485ff354fe228f298e5e1790191467362ba2af64ac.json"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "valid": true
+      }
+    },
+    {
+      "check": "macro_simulate",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "simulate",
+        "--network",
+        "/tmp/npp-v031-installed-check/portable/network.json",
+        "--library",
+        "/tmp/npp-v031-installed-check/portable/library.json",
+        "--request",
+        "/tmp/npp-v031-installed-check/portable/request.json",
+        "--plan",
+        "/tmp/npp-v031-installed-check/macro/plans/plan-5be47170d4f2b5a8260969485ff354fe228f298e5e1790191467362ba2af64ac.json",
+        "--samples",
+        "32",
+        "--seed",
+        "4321"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "consistent_with_bound": true
+      }
+    },
+    {
+      "check": "bundled_technology",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "technology",
+        "--out",
+        "/tmp/npp-v031-installed-check/technology.json"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok"
+      }
+    },
+    {
+      "check": "bundled_schemas",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "schemas",
+        "--out-dir",
+        "/tmp/npp-v031-installed-check/schemas"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok"
+      }
+    },
+    {
+      "check": "physical_realize",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "realize",
+        "--network",
+        "/workspace/scratch/9db0500d0a5d/neural-physical-planner/examples/physical/fanout4.json",
+        "--spec",
+        "/tmp/npp-v031-installed-check/realization-spec.json",
+        "--out-dir",
+        "/tmp/npp-v031-installed-check/physical"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok"
+      }
+    },
+    {
+      "check": "physical_check",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "check-realization",
+        "--realization",
+        "/tmp/npp-v031-installed-check/physical/realization.json"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "valid": true
+      }
+    },
+    {
+      "check": "optical_export",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "export-optical",
+        "--realization",
+        "/tmp/npp-v031-installed-check/physical/realization.json",
+        "--out",
+        "/tmp/npp-v031-installed-check/optical-netlist.json"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "exported"
+      }
+    },
+    {
+      "check": "physical_design",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "plan-physical",
+        "--network",
+        "/workspace/scratch/9db0500d0a5d/neural-physical-planner/examples/physical/fanout4.json",
+        "--design",
+        "/tmp/npp-v031-installed-check/design.json",
+        "--out-dir",
+        "/tmp/npp-v031-installed-check/designer"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok",
+        "search": {
+          "submitted_grid_size": 4,
+          "evaluated_count": 4,
+          "excluded_count": 0,
+          "not_evaluated_count": 0,
+          "feasible_count": 3,
+          "pareto_count": 1,
+          "complete": true,
+          "max_evaluations": 128,
+          "optimality_scope": "complete submitted grid after hard choice exclusions"
+        }
+      }
+    },
+    {
+      "check": "physical_design_check",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "check-physical-design",
+        "--result",
+        "/tmp/npp-v031-installed-check/designer/design-result.json"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "valid": true
+      }
+    },
+    {
+      "check": "physical_replan",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "replan-physical",
+        "--baseline",
+        "/tmp/npp-v031-installed-check/physical/realization.json",
+        "--design",
+        "/tmp/npp-v031-installed-check/design.json",
+        "--out-dir",
+        "/tmp/npp-v031-installed-check/replan"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "ok",
+        "search": {
+          "submitted_grid_size": 4,
+          "evaluated_count": 4,
+          "excluded_count": 0,
+          "not_evaluated_count": 0,
+          "feasible_count": 3,
+          "pareto_count": 1,
+          "complete": true,
+          "max_evaluations": 128,
+          "optimality_scope": "complete submitted grid after hard choice exclusions"
+        }
+      }
+    },
+    {
+      "check": "simulate_optical_sax",
+      "command": [
+        "/tmp/npp-v02-env/bin/python",
+        "-m",
+        "npp.cli",
+        "simulate-realization",
+        "--realization",
+        "/tmp/npp-v031-installed-check/physical/realization.json",
+        "--wavelengths-nm",
+        "1540",
+        "1550",
+        "1560",
+        "--out-dir",
+        "/tmp/npp-v031-installed-check/sax"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "outcome": {
+        "status": "passed",
+        "passed": true,
+        "simulation": "/tmp/npp-v031-installed-check/sax/simulation.json",
+        "report": "/tmp/npp-v031-installed-check/sax/report.html",
+        "netlist": "/tmp/npp-v031-installed-check/sax/optical-netlist.json",
+        "diagnostics": []
+      }
+    }
+  ],
+  "passed": true,
+  "scope": "Installed wheel resources and actual CLI integration outside the checkout; illustrative model fixtures; SAX verifies optical composition only.",
+  "elapsed_seconds": 9.791,
+  "package_origin": {
+    "file": "/tmp/npp-v031-installed/npp/__init__.py",
+    "version": "0.3.1",
+    "distribution_version": "0.3.1"
+  },
+  "external_comparison": {
+    "engine": {
+      "name": "SAX",
+      "version": "0.18.2",
+      "backend": "klu",
+      "jax_version": "0.9.2",
+      "adapter_version": "npp_scalar_optics_v1"
+    },
+    "summary": {
+      "segment_count": 5,
+      "wavelength_count": 3,
+      "comparison_count": 24,
+      "max_absolute_error_mw": 2.0816681711721685e-17,
+      "max_relative_error": 4.153474054210015e-16
+    },
+    "wavelengths_nm": [
+      1540,
+      1550,
+      1560
+    ],
+    "passed": true
+  },
+  "check_count": 18
+}

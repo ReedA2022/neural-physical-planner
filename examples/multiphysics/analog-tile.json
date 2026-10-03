@@ -1,0 +1,146 @@
+{
+  "weights": [
+    [
+      0.4,
+      -0.2
+    ],
+    [
+      -0.3,
+      0.5
+    ]
+  ],
+  "inputs": [
+    [
+      0.25,
+      -0.5
+    ],
+    [
+      -0.2,
+      0.4
+    ]
+  ],
+  "bias": [
+    0.01,
+    -0.02
+  ],
+  "parameters": {
+    "adc_bits": 16,
+    "adc_energy_pj": {
+      "state": "known",
+      "unit": "pJ/sample",
+      "value": 1.0,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "adc_ns": 4.0,
+    "bias_add_energy_pj_per_output": {
+      "state": "known",
+      "unit": "pJ/output",
+      "value": 0.03,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "cell_area_um2": {
+      "state": "known",
+      "unit": "um^2/cell",
+      "value": 0.1,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "control_energy_pj_per_read": {
+      "state": "known",
+      "unit": "pJ/read",
+      "value": 0.2,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "control_ns": 1.0,
+    "converter_area_um2": {
+      "state": "known",
+      "unit": "um^2/lane",
+      "value": 10.0,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "dac_bits": 12,
+    "dac_energy_pj": {
+      "state": "known",
+      "unit": "pJ/sample",
+      "value": 0.1,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "dac_ns": 2.0,
+    "drift_per_ns": 1e-12,
+    "g_max_s": 0.0001,
+    "g_min_s": 1e-06,
+    "input_limit": 2.0,
+    "input_scale_v": 0.1,
+    "integration_ns": 10.0,
+    "line_resistance_ohm": 1.0,
+    "output_current_limit_a": 0.01,
+    "program_bits": 10,
+    "programming_energy_pj_per_cell": {
+      "state": "known",
+      "unit": "pJ/cell",
+      "value": 5.0,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "programming_noise_relative": 0.0,
+    "programming_ns_per_cell": 1.0,
+    "read_disturbance_relative": 1e-08,
+    "readout_energy_pj_per_output": {
+      "state": "known",
+      "unit": "pJ/output",
+      "value": 0.2,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "reference_energy_pj_per_read": {
+      "state": "known",
+      "unit": "pJ/read",
+      "value": 0.5,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "static_power_mw": {
+      "state": "known",
+      "unit": "mW",
+      "value": 0.01,
+      "lower": null,
+      "upper": null,
+      "symbol": null,
+      "reason": null
+    },
+    "temperature_max_c": 85.0,
+    "temperature_min_c": 0.0,
+    "weight_scale": 2.0,
+    "mode": "finite"
+  },
+  "context": {
+    "seed": 7,
+    "reuse_count": 1,
+    "age_ns": 0.0,
+    "read_count": 0,
+    "temperature_c": 25.0
+  }
+}

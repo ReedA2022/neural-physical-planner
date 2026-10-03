@@ -1,0 +1,66 @@
+[
+  {
+    "id": "analog",
+    "owner": "system",
+    "kind": "compute",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  },
+  {
+    "id": "control",
+    "owner": "system",
+    "kind": "control",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  },
+  {
+    "id": "converter",
+    "owner": "system",
+    "kind": "converter",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  },
+  {
+    "id": "digital",
+    "owner": "system",
+    "kind": "compute",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  },
+  {
+    "id": "link",
+    "owner": "system",
+    "kind": "link",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  },
+  {
+    "id": "memory",
+    "owner": "system",
+    "kind": "memory",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  },
+  {
+    "id": "photonic",
+    "owner": "system",
+    "kind": "compute",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  },
+  {
+    "id": "source",
+    "owner": "system",
+    "kind": "source",
+    "capacity": 1,
+    "capacity_unit": "instance",
+    "region": "room_temperature"
+  }
+]

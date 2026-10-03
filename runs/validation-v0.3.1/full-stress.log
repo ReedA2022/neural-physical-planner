@@ -1,0 +1,22 @@
+{"area": "inputs", "seed": 20261003, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "inputs-20261003.json"}
+{"area": "legacy", "seed": 20261003, "scenario_count": 1, "passed_count": 0, "failed_count": 1, "skipped_count": 0, "report": "legacy-20261003.json"}
+{"area": "physical", "seed": 20261003, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "physical-20261003.json"}
+{"area": "designer", "seed": 20261003, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "designer-20261003.json"}
+{"area": "reports", "seed": 20261003, "scenario_count": 425, "passed_count": 425, "failed_count": 0, "skipped_count": 0, "report": "reports-20261003.json"}
+{"area": "inputs", "seed": 731, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "inputs-731.json"}
+{"area": "legacy", "seed": 731, "scenario_count": 1, "passed_count": 0, "failed_count": 1, "skipped_count": 0, "report": "legacy-731.json"}
+{"area": "physical", "seed": 731, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "physical-731.json"}
+{"area": "designer", "seed": 731, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "designer-731.json"}
+{"area": "reports", "seed": 731, "scenario_count": 425, "passed_count": 425, "failed_count": 0, "skipped_count": 0, "report": "reports-731.json"}
+{"area": "inputs", "seed": 987654321, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "inputs-987654321.json"}
+{"area": "legacy", "seed": 987654321, "scenario_count": 1, "passed_count": 0, "failed_count": 1, "skipped_count": 0, "report": "legacy-987654321.json"}
+{"area": "physical", "seed": 987654321, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "physical-987654321.json"}
+{"area": "designer", "seed": 987654321, "scenario_count": 400, "passed_count": 400, "failed_count": 0, "skipped_count": 0, "report": "designer-987654321.json"}
+{"area": "reports", "seed": 987654321, "scenario_count": 425, "passed_count": 425, "failed_count": 0, "skipped_count": 0, "report": "reports-987654321.json"}
+{
+  "status": "failed",
+  "scenario_count": 4878,
+  "passed_count": 4875,
+  "failed_count": 3,
+  "skipped_count": 0
+}

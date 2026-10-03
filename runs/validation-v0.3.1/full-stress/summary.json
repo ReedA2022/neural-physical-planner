@@ -1,0 +1,283 @@
+{
+  "areas": [
+    "inputs",
+    "legacy",
+    "physical",
+    "designer",
+    "reports"
+  ],
+  "checkout_commit": "cd351be1ff625de7692246d5404d1e240f7fa917",
+  "elapsed_seconds": 82.18656263000594,
+  "evaluated_source_sha256": "e32120f0d17ea9665719f07ae00160e3a4c8c2bdff2f2e719d4e1f8673ec5630",
+  "external_validation": {
+    "circuits": [
+      {
+        "comparison_count": 24,
+        "engine": {
+          "adapter_version": "npp_scalar_optics_v1",
+          "backend": "klu",
+          "jax_version": "0.9.2",
+          "name": "SAX",
+          "version": "0.18.2"
+        },
+        "fanout": 3,
+        "lanes": 2,
+        "max_absolute_error_mw": 8.326672684688674e-17,
+        "max_relative_error": 3.706435821482734e-16,
+        "passed": true,
+        "recipe": "passive",
+        "segment_count": 2,
+        "wavelength_count": 3
+      },
+      {
+        "comparison_count": 39,
+        "engine": {
+          "adapter_version": "npp_scalar_optics_v1",
+          "backend": "klu",
+          "jax_version": "0.9.2",
+          "name": "SAX",
+          "version": "0.18.2"
+        },
+        "fanout": 5,
+        "lanes": 1,
+        "max_absolute_error_mw": 8.326672684688674e-17,
+        "max_relative_error": 5.319447139101469e-16,
+        "passed": true,
+        "recipe": "regenerate",
+        "segment_count": 6,
+        "wavelength_count": 3
+      },
+      {
+        "comparison_count": 96,
+        "engine": {
+          "adapter_version": "npp_scalar_optics_v1",
+          "backend": "klu",
+          "jax_version": "0.9.2",
+          "name": "SAX",
+          "version": "0.18.2"
+        },
+        "fanout": 17,
+        "lanes": 1,
+        "max_absolute_error_mw": 1.734723475976807e-17,
+        "max_relative_error": 7.524977992707861e-16,
+        "passed": true,
+        "recipe": "passive",
+        "segment_count": 1,
+        "wavelength_count": 3
+      },
+      {
+        "comparison_count": 24,
+        "engine": {
+          "adapter_version": "npp_scalar_optics_v1",
+          "backend": "klu",
+          "jax_version": "0.9.2",
+          "name": "SAX",
+          "version": "0.18.2"
+        },
+        "fanout": 2,
+        "lanes": 2,
+        "max_absolute_error_mw": 8.326672684688674e-17,
+        "max_relative_error": 5.319447139101469e-16,
+        "passed": true,
+        "recipe": "regenerate",
+        "segment_count": 6,
+        "wavelength_count": 3
+      }
+    ],
+    "comparison_count": 183,
+    "elapsed_seconds": 8.127503,
+    "executed": true,
+    "passed": true,
+    "scope": "actual SAX full-scale optical power composition only; no independent noise, timing, or device calibration"
+  },
+  "failed_count": 3,
+  "passed_count": 4875,
+  "python_version": "3.12.14",
+  "requested_cases_per_area_seed": 400,
+  "require_optional": true,
+  "runs": [
+    {
+      "area": "inputs",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "inputs-20261003.json",
+      "scenario_count": 400,
+      "seed": 20261003,
+      "skipped_count": 0
+    },
+    {
+      "area": "legacy",
+      "failed_count": 1,
+      "passed_count": 0,
+      "report": "legacy-20261003.json",
+      "scenario_count": 1,
+      "seed": 20261003,
+      "skipped_count": 0
+    },
+    {
+      "area": "physical",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "physical-20261003.json",
+      "scenario_count": 400,
+      "seed": 20261003,
+      "skipped_count": 0
+    },
+    {
+      "area": "designer",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "designer-20261003.json",
+      "scenario_count": 400,
+      "seed": 20261003,
+      "skipped_count": 0
+    },
+    {
+      "area": "reports",
+      "failed_count": 0,
+      "passed_count": 425,
+      "report": "reports-20261003.json",
+      "scenario_count": 425,
+      "seed": 20261003,
+      "skipped_count": 0
+    },
+    {
+      "area": "inputs",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "inputs-731.json",
+      "scenario_count": 400,
+      "seed": 731,
+      "skipped_count": 0
+    },
+    {
+      "area": "legacy",
+      "failed_count": 1,
+      "passed_count": 0,
+      "report": "legacy-731.json",
+      "scenario_count": 1,
+      "seed": 731,
+      "skipped_count": 0
+    },
+    {
+      "area": "physical",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "physical-731.json",
+      "scenario_count": 400,
+      "seed": 731,
+      "skipped_count": 0
+    },
+    {
+      "area": "designer",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "designer-731.json",
+      "scenario_count": 400,
+      "seed": 731,
+      "skipped_count": 0
+    },
+    {
+      "area": "reports",
+      "failed_count": 0,
+      "passed_count": 425,
+      "report": "reports-731.json",
+      "scenario_count": 425,
+      "seed": 731,
+      "skipped_count": 0
+    },
+    {
+      "area": "inputs",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "inputs-987654321.json",
+      "scenario_count": 400,
+      "seed": 987654321,
+      "skipped_count": 0
+    },
+    {
+      "area": "legacy",
+      "failed_count": 1,
+      "passed_count": 0,
+      "report": "legacy-987654321.json",
+      "scenario_count": 1,
+      "seed": 987654321,
+      "skipped_count": 0
+    },
+    {
+      "area": "physical",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "physical-987654321.json",
+      "scenario_count": 400,
+      "seed": 987654321,
+      "skipped_count": 0
+    },
+    {
+      "area": "designer",
+      "failed_count": 0,
+      "passed_count": 400,
+      "report": "designer-987654321.json",
+      "scenario_count": 400,
+      "seed": 987654321,
+      "skipped_count": 0
+    },
+    {
+      "area": "reports",
+      "failed_count": 0,
+      "passed_count": 425,
+      "report": "reports-987654321.json",
+      "scenario_count": 425,
+      "seed": 987654321,
+      "skipped_count": 0
+    }
+  ],
+  "scenario_count": 4878,
+  "schema_version": "npp-release-stress/1",
+  "scope": "Software and declared-model research-prototype release checks; no hardware calibration, fabrication signoff or general neural physical synthesis.",
+  "seeds": [
+    20261003,
+    731,
+    987654321
+  ],
+  "skipped_count": 0,
+  "software_version": "0.3.1",
+  "source_hashes": {
+    "npp/__init__.py": "c70a6518c4a809af0355f4efea6d113672986715442f2349aeee5caf0d7bd2c7",
+    "npp/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "npp/checker.py": "131584fa898797cfffd5e93797911bd9a2d57a84631565c2f7c4957410394fdc",
+    "npp/cli.py": "534410b57be0c5403ededf762474849ee653dd60d266bcdc692224b28f3cb117",
+    "npp/config.py": "2769bdd5c14ab5b4bd876e984fe1f6f142f28fccc7307a080058f2edd56362fb",
+    "npp/data/components.json": "3b5c57fd4e5eb18fba5f9eb3acd66a45bcd153cdc071ceefb063a939e0d78b80",
+    "npp/data/request_default.json": "53fe3d4ff198e2a08b924363d76f9982dda76d4a41ca176f2b7ca455115a9060",
+    "npp/data/request_editable.json": "e0b9ea5e5799185a2177bdb2c0f26a93e3e8c7f40ee0592bae5d87dc0b5b6abd",
+    "npp/data/request_impossible.json": "81deabed834d0b7172dfbf32259be5b5cd7b456850ad4a4db38f368b4e991a63",
+    "npp/data/simple_chain.json": "760caab2e8fa28d34f191d135b3275100391911de66e55f44b28f8fc8f328591",
+    "npp/data/small_relu.json": "13fcc09af8fd1dead3b56acb3682d85d8a9304bc001ad0721918a000798fbbec",
+    "npp/data/split_recombine.json": "8d1ed9bc955cd0f14af1855c80aa747193fffa161d343bd0afdb896c241aa8e4",
+    "npp/data/technology_reference.json": "646b50c4ed46220c032646e33eea07766c6c03f67f718d2ad3b6d62099f2f531",
+    "npp/designer.py": "c871e71e084af8a53438884ce14e0de2dc29737f6d137cdea5c185dacc3bd775",
+    "npp/designer_report.py": "cf1eeca2820142ea3b3d9a638000e95aed1b84c8b3edfc00853abd8f96c6f8b1",
+    "npp/implementation.py": "2b36b4ef0b275083b4c7e88689e4b34d64d75a2b7d861bf52c533c03e11fddbe",
+    "npp/implementation_report.py": "350621cc3d3bcfc5058cd31a74328244fe457c22ae937f41f5b1ba3147c4bb2a",
+    "npp/models.py": "15b3fce7caed9957d033fef0064b3f47c323aa78035df3e19112b1fde2885905",
+    "npp/onnx_import.py": "f806e910ff0190397a0587f4498df87a04f1c66cf0ae0c3a1301a78562609bc1",
+    "npp/optical_report.py": "f823d39dc9f84c5cf093df25c84b1e4b6758b7c3111f0c00fb2aa7846e9b06f7",
+    "npp/optical_simulation.py": "e57c57e8a35cafef2b1daf8b9ca53afe2d02e2c283e36497ef83e10fc2886c9e",
+    "npp/output_contracts.py": "c4ce40eaca0e7e12413cf06a436c2c4e6b8750b9da970360d86c421d25b24afe",
+    "npp/physics.py": "6f4f45411888ccd7ef0bd01e1d125a39dde7fe8d47b2d449de2340aca30879df",
+    "npp/planner.py": "959a0518386f93903b221bb4cc6663d5c1253ce0ef17df4ea8a667a8701abe90",
+    "npp/reports.py": "01194eeba733d191f2c823fc5fb7b8bcf6e7bebbc52a3c5d3a6c147b844efb34",
+    "npp/technology.py": "395aa854b43d827778abf628b26a67481ab805e8b2040a15c1ac69d8786b592d",
+    "npp/templates.py": "e1e1d290881265c3850512ac6215b78d5fc4989694ffa107d4a49e52e687b97a",
+    "npp/weights.py": "6facf97fce18e884d9a2b18fb0a27138a58ab71b5ee219b1b2261eedef7b281b",
+    "scripts/stress_designer.py": "8d65e299d7a83be271fb0bd04d1f71f1b839697ad1d402c10a5947e4d031b0df",
+    "scripts/stress_inputs.py": "4bb9aad42d7bc3eeeefae4cdd42987c4ae46aff94a4eb3242281bb77e082eb88",
+    "scripts/stress_legacy.py": "c2c744a1db7afe4ce2b0f228bf4b398e31def5bbe6ce7035fd00402baa64777a",
+    "scripts/stress_physical.py": "43f400ce7aab4a7dc6d94617b81a228800c71c3814106a1257e7cb69d5e32786",
+    "scripts/stress_release.py": "de9465a5040856731dfb1d1b3a65242a9ab0e2ef3ec6ab54f390ff5dd46deb9e",
+    "scripts/stress_reports.py": "f72f88cea543b5392b4aefc443f369f25ab56641a86d862d16a8e8b060a5d6e6"
+  },
+  "source_unchanged_during_run": true,
+  "status": "failed"
+}

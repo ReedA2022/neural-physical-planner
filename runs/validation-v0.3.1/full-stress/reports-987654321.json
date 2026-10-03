@@ -1,0 +1,149 @@
+{
+  "campaign": "reports_and_cli",
+  "cli_results": [
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "init_unicode_spaces"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "init_refuses_overwrite"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "inspect_npz"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "validate_friendly"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "normalize_external_weights"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "normalize_refuses_overwrite"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "portable_after_weights_removed"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "macro_plan_with_samples"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "macro_replay"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "macro_simulate_small"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "simulate_rejects_one_sample"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "plan_rejects_negative_samples"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "malformed_saved_json"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "physical_feasible"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "physical_replay"
+    },
+    {
+      "exit_code": 3,
+      "passed": true,
+      "scenario": "physical_infeasible"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "infeasible_record_replays_honestly"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "tampered_physical_rejected"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "optical_export_no_solver"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "optical_export_refuses_overwrite"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "designer_feasible"
+    },
+    {
+      "exit_code": 0,
+      "passed": true,
+      "scenario": "designer_replay"
+    },
+    {
+      "exit_code": 2,
+      "passed": true,
+      "scenario": "designer_refuses_overwrite"
+    },
+    {
+      "exit_code": 3,
+      "passed": true,
+      "scenario": "designer_complete_infeasible"
+    },
+    {
+      "exit_code": 4,
+      "passed": true,
+      "scenario": "designer_truncated_empty"
+    }
+  ],
+  "cli_scenario_count": 25,
+  "elapsed_seconds": 6.741,
+  "failures": [],
+  "family_counts": {
+    "cli": 25,
+    "designer": 133,
+    "implementation": 134,
+    "optical": 133
+  },
+  "passed": true,
+  "report_mutation_counts": {
+    "html_injection": 81,
+    "missing_required_fields": 81,
+    "nested_type_corruption": 238
+  },
+  "report_scenario_count": 400,
+  "scenario_count": 425,
+  "scope": "Stored report robustness and actual local CLI workflows. Optical fixture rendering is not a new independent solver comparison; no external solver was run.",
+  "seed": 987654321
+}

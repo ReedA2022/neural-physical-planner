@@ -25,6 +25,8 @@ Thumbs.db
 !/runs/experiments/
 !/runs/friendly-v0.2/
 !/runs/validation-v0.3/
+!/runs/validation-v0.3.1/
+!/runs/multiphysics-validation/
 
 # Initial implementation coordination; public specifications live in docs/.
 /IMPLEMENTATION_CONTRACT.md

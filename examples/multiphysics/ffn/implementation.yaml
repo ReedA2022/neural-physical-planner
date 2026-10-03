@@ -1,0 +1,12 @@
+# Compile with: npp mp compile --project project.yaml --implementation implementation.yaml --out-dir run
+# Choices: digital, analog, photonic. Optional input_cuts/output_cuts partition each matrix axis.
+schema_version: npp-implementation-1
+name: Editable mixed FFN example
+operators:
+  up: {family: photonic}
+  gate: {family: analog}
+  down: {family: digital}
+# Unfused explicitly reads out and multiplies the branches.
+fusion: unfused
+# Explicit illustrative package, clock, storage and route costs. Exported records pin every coefficient.
+system: {preset: hypothetical_system}

@@ -1,0 +1,5 @@
+{
+  "valid": true,
+  "reason": "complete deterministic replay matches",
+  "scope": "replay self-consistency, not independent physical validation"
+}

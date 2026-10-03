@@ -14,9 +14,11 @@ an approximate frontier. Only complete retained assignments are evaluated by
 the physical model. Ranking surrogates saturate at 1e300 to avoid overflow;
 this changes heuristic ordering only and never clips the actual evaluation.
 
-Pareto comparisons use relative tolerance 1e-9 and *no absolute tolerance*.
-Thus a strictly positive error/energy never becomes equal to zero merely
-because it is small. Objective ties retain one deterministic canonical plan.
+Dominance requires exact componentwise no-worse metrics and a relative
+improvement greater than 1e-9 in at least one objective. No worsening is
+forgiven by a tolerance. This transitive significance rule avoids cycles and
+permits safe streaming retention. Only exactly equal objective vectors share
+one canonical representative; near-equal alternatives can both survive.
 """
 
 from __future__ import annotations
@@ -59,7 +61,7 @@ def _close(a: float, b: float) -> bool:
 
 
 def _dominates(a: Sequence[float], b: Sequence[float]) -> bool:
-    no_worse = all(x <= y or _close(x, y) for x, y in zip(a, b))
+    no_worse = all(x <= y for x, y in zip(a, b))
     better = any(x < y and not _close(x, y) for x, y in zip(a, b))
     return no_worse and better
 
@@ -83,7 +85,7 @@ def _insert_frontier(
     to_remove: list[int] = []
     for i, other in enumerate(frontier):
         other_values = _objective_values(other, objectives)
-        if all(_close(a, b) for a, b in zip(values, other_values)):
+        if values == other_values:
             if _canonical_record_key(other) <= key:
                 return
             to_remove.append(i)

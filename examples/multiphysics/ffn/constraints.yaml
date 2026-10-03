@@ -1,0 +1,5 @@
+# Capacities are simultaneous reservations, not advertised throughput.
+resources: {digital: 1, analog: 1, photonic: 1, converter: 1, memory: 1, link: 1, control: 1, source: 1, buffer: 1}
+max_energy_pj: 10 uJ
+max_latency_ns: 1 ms
+max_memory_bytes: 1 MiB

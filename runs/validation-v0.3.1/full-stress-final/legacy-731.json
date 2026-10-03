@@ -1,0 +1,23 @@
+{
+  "actual_scenario_count": 400,
+  "campaign": "legacy_macro_model",
+  "elapsed_seconds": 0.9285470710019581,
+  "failed": 0,
+  "failures": [],
+  "family_counts": {
+    "affine_dag": 162,
+    "near_tie_frontier": 26,
+    "nonlinear_dag": 27,
+    "nonlinear_precision": 26,
+    "optical_rule": 53,
+    "precision": 26,
+    "replay_tamper": 26,
+    "tiny_search": 54
+  },
+  "passed": 400,
+  "requested_cases": 400,
+  "scenario_count": 400,
+  "schema_version": "1",
+  "scope": "Seeded synthetic software/model checks; no device calibration or arbitrary-space optimality claim.",
+  "seed": 731
+}

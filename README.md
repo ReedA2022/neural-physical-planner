@@ -1,4 +1,4 @@
-# Neural Physical Planner — research prototype v0.3
+# Neural Physical Planner — research prototype v0.4.0 development
 
 A runnable compiler for exploring alternative **hardware macro-plans** for a neural computation graph. It takes explicit weights, a physical component and compensation-rule library, and a design request. It returns feasible implementations, a Pareto set, predicted costs and error, an expanded implementation graph, and a schedule.
 
@@ -10,11 +10,17 @@ The example hardware values are **illustrative and uncalibrated**. This is not a
 fabrication tool or a whole-NN physical implementation, and the examples establish
 no research novelty or measured hardware-performance claim.
 
-The [multiphysics extension specification](docs/multiphysics/README.md) now defines
-the next stages: separate device backends, explicit interfaces, state and resource
-scheduling, and six controlled research experiments. Its M0 reconciliation adds
-a v0.3 capability inventory and reproducible baseline checks. The broader runtime
-stages M1–M6 are planned; the current CLI retains its documented v0.3 scope.
+Version 0.3.1 hardens numerical range handling, legacy frontier selection, input
+normalization and reports. See the [stress validation record](docs/STRESS_VALIDATION.md)
+for reproducible campaigns, independent critique and the release boundary.
+
+The [multiphysics extension](docs/multiphysics/README.md) is being implemented in
+six independently reviewed stages. The opt-in `npp mp` commands use separate
+schemas; legacy commands retain their documented meaning. M1 and M2 have passed
+their independent gates; M3 is next. See the [runtime guide](docs/multiphysics/IMPLEMENTED.md)
+for executable commands and the [acceptance matrix](docs/multiphysics/IMPLEMENTATION_ACCEPTANCE.md)
+for the remaining work. Historical specifications and proposed experiments are
+kept distinct from executed validation records.
 
 ## Start with a friendly project
 

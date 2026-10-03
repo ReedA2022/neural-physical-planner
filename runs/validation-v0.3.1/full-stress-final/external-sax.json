@@ -1,0 +1,81 @@
+{
+  "circuits": [
+    {
+      "comparison_count": 24,
+      "engine": {
+        "adapter_version": "npp_scalar_optics_v1",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "name": "SAX",
+        "version": "0.18.2"
+      },
+      "fanout": 3,
+      "lanes": 2,
+      "max_absolute_error_mw": 8.326672684688674e-17,
+      "max_relative_error": 3.706435821482734e-16,
+      "passed": true,
+      "recipe": "passive",
+      "segment_count": 2,
+      "wavelength_count": 3
+    },
+    {
+      "comparison_count": 39,
+      "engine": {
+        "adapter_version": "npp_scalar_optics_v1",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "name": "SAX",
+        "version": "0.18.2"
+      },
+      "fanout": 5,
+      "lanes": 1,
+      "max_absolute_error_mw": 8.326672684688674e-17,
+      "max_relative_error": 5.319447139101469e-16,
+      "passed": true,
+      "recipe": "regenerate",
+      "segment_count": 6,
+      "wavelength_count": 3
+    },
+    {
+      "comparison_count": 96,
+      "engine": {
+        "adapter_version": "npp_scalar_optics_v1",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "name": "SAX",
+        "version": "0.18.2"
+      },
+      "fanout": 17,
+      "lanes": 1,
+      "max_absolute_error_mw": 1.734723475976807e-17,
+      "max_relative_error": 7.524977992707861e-16,
+      "passed": true,
+      "recipe": "passive",
+      "segment_count": 1,
+      "wavelength_count": 3
+    },
+    {
+      "comparison_count": 24,
+      "engine": {
+        "adapter_version": "npp_scalar_optics_v1",
+        "backend": "klu",
+        "jax_version": "0.9.2",
+        "name": "SAX",
+        "version": "0.18.2"
+      },
+      "fanout": 2,
+      "lanes": 2,
+      "max_absolute_error_mw": 8.326672684688674e-17,
+      "max_relative_error": 5.319447139101469e-16,
+      "passed": true,
+      "recipe": "regenerate",
+      "segment_count": 6,
+      "wavelength_count": 3
+    }
+  ],
+  "comparison_count": 183,
+  "elapsed_seconds": 7.934789,
+  "executed": true,
+  "passed": true,
+  "scope": "actual SAX full-scale optical power composition only; no independent noise, timing, or device calibration"
+}

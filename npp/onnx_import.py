@@ -109,6 +109,16 @@ def import_onnx(path, *, input_bounds=(-1.0, 1.0), name=None) -> dict:
         return (int(dims[-1].dim_value),)
 
     def numeric(value, location):
+        pending = [value] if isinstance(value, (list, tuple)) else []
+        visited = set()
+        while pending:
+            entry = pending.pop()
+            if isinstance(entry, (list, tuple)):
+                if id(entry) not in visited:
+                    visited.add(id(entry))
+                    pending.extend(entry)
+            elif isinstance(entry, (bool, np.bool_)):
+                _fail("onnx_constant_type", location, "Numeric values must not contain booleans.")
         array = np.asarray(value)
         if array.dtype.kind not in "fiu":
             _fail("onnx_constant_type", location, "Weights and bias constants must contain real numeric values.")

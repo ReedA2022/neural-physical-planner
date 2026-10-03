@@ -1,0 +1,4 @@
+temperature_c: 25
+region: room_temperature
+substrate: hypothetical_chiplet
+services: [power_supply, clock, reference, cooling, laser, phase_reference, control]

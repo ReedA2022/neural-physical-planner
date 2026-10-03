@@ -314,9 +314,24 @@ def _number(value: float, name: str, *, positive: bool = False) -> float:
     return float(value)
 
 
+def _evaluated_number(value: float, name: str, *, positive: bool = False) -> float:
+    """Do not turn a positive physical contribution into a free/ideal zero.
+
+    Binary64 underflow is a model-range failure, just like overflow. The caller
+    states whether its exact expression is strictly positive, independently of
+    the rounded intermediate result. True zero inputs remain supported.
+    """
+    if not math.isfinite(value) or value < 0:
+        raise ValueError(f"{name} exceeds supported finite numeric range")
+    if positive and value == 0:
+        raise ValueError(f"{name} underflows supported finite numeric range")
+    return value
+
+
 def db_transmission(loss_db: float) -> float:
     """Power transmission (field amplitude transmission is its square root)."""
-    return 10.0 ** (-_number(loss_db, "loss_db") / 10.0)
+    return _evaluated_number(10.0 ** (-_number(loss_db, "loss_db") / 10.0),
+                             "power transmission", positive=True)
 
 
 def photon_count(power_mw: float, symbol_duration_ns: float, wavelength_nm: float) -> float:
@@ -325,9 +340,7 @@ def photon_count(power_mw: float, symbol_duration_ns: float, wavelength_nm: floa
     duration = _number(symbol_duration_ns, "symbol_duration_ns", positive=True)
     wavelength = _number(wavelength_nm, "wavelength_nm", positive=True)
     value = power * duration * wavelength * 1e-21 / (H_J_S * C_M_PER_S)
-    if not math.isfinite(value):
-        raise ValueError("photon count exceeds finite numeric range")
-    return value
+    return _evaluated_number(value, "photon count", positive=power > 0)
 
 
 def check_operating_point(component: dict, *, wavelength_nm: float, temperature_c: float, symbol_duration_ns: float,
@@ -373,8 +386,11 @@ def evaluate_component(component: dict, *, wavelength_nm: float = 1550.0, temper
         if not p["minimum_output_power_mw"] <= power <= p["maximum_output_power_mw"]:
             raise ValueError("source power outside declared output range")
         result["output_powers_mw"] = {"out": power}
-        result["energy_pj"] += power * symbol_duration_ns / p["wall_plug_efficiency"]
-        result["added_noise_variance"] = p["relative_intensity_noise_rms"] * p["relative_intensity_noise_rms"]
+        result["energy_pj"] += _evaluated_number(power * symbol_duration_ns / p["wall_plug_efficiency"],
+                                                 "source energy", positive=True)
+        result["added_noise_variance"] = _evaluated_number(
+            p["relative_intensity_noise_rms"] * p["relative_intensity_noise_rms"],
+            "source noise variance", positive=p["relative_intensity_noise_rms"] > 0)
     elif kind == "splitter":
         delivered = input_power_mw * db_transmission(p["insertion_loss_db"])
         result["output_powers_mw"] = {"out1": delivered * p["power_ratio"], "out2": delivered * (1 - p["power_ratio"])}
@@ -382,9 +398,12 @@ def evaluate_component(component: dict, *, wavelength_nm: float = 1550.0, temper
         length = _number(length_um, "length_um")
         if length > p["maximum_length_um"]:
             raise ValueError("waveguide length outside declared range")
-        result["output_powers_mw"] = {"out": input_power_mw * db_transmission(p["attenuation_db_per_um"] * length)}
-        result["latency_ns"] += p["group_index"] * length * 1e3 / C_M_PER_S
-        result["area_um2"] += length * p["width_um"]
+        loss = _evaluated_number(p["attenuation_db_per_um"] * length, "waveguide loss",
+                                  positive=p["attenuation_db_per_um"] > 0 and length > 0)
+        result["output_powers_mw"] = {"out": input_power_mw * db_transmission(loss)}
+        result["latency_ns"] += _evaluated_number(p["group_index"] * length * 1e3 / C_M_PER_S,
+                                                  "waveguide delay", positive=length > 0)
+        result["area_um2"] += _evaluated_number(length * p["width_um"], "waveguide area", positive=length > 0)
     elif kind == "detector":
         if input_power_mw < p["minimum_full_scale_power_mw"]:
             raise ValueError("receiver full-scale power is below declared sensitivity")
@@ -392,12 +411,19 @@ def evaluate_component(component: dict, *, wavelength_nm: float = 1550.0, temper
         if electrons <= 0 or not math.isfinite(electrons):
             raise ValueError("photoelectron count exceeds supported numeric range")
         noise_ratio = p["input_referred_noise_mw_rms"] / input_power_mw
-        result["added_noise_variance"] = 1.0 / electrons + noise_ratio * noise_ratio
+        electronic_variance = _evaluated_number(noise_ratio * noise_ratio, "detector electronic noise variance",
+                                                 positive=p["input_referred_noise_mw_rms"] > 0)
+        result["added_noise_variance"] = 1.0 / electrons + electronic_variance
         result["mean_photoelectrons"] = electrons
         result["electrical_output_full_scale"] = 1.0
     elif kind == "modulator":
         result["output_powers_mw"] = {"out": input_power_mw * db_transmission(p["insertion_loss_db"])}
-        result["added_noise_variance"] = p["added_sample_noise_rms"] * p["added_sample_noise_rms"]
+        result["added_noise_variance"] = _evaluated_number(p["added_sample_noise_rms"] * p["added_sample_noise_rms"],
+                                                          "modulator noise variance", positive=p["added_sample_noise_rms"] > 0)
+    # Every supported optical map has strictly positive transmission for finite
+    # loss and positive input. A zero output would silently erase positive power.
+    for output in result["output_powers_mw"].values():
+        _evaluated_number(output, "output optical power", positive=kind == "source" or input_power_mw > 0)
     if not all(math.isfinite(result[key]) for key in ("area_um2", "energy_pj", "latency_ns", "added_noise_variance")):
         raise ValueError("component evaluation exceeds finite numeric range")
     return result

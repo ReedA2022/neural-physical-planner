@@ -1,0 +1,26 @@
+======================================================================
+ERROR: test_nested_analog_disclosure_keeps_voltage_and_current_distinct (test_mp_photonic.CoherentPhotonicTests.test_nested_analog_disclosure_keeps_voltage_and_current_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/9db0500d0a5d/neural-physical-planner/tests/test_mp_photonic.py", line 169, in test_nested_analog_disclosure_keeps_voltage_and_current_distinct
+    self.assertTrue(validate_graph_structure(graph,_depth=1)['valid'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/9db0500d0a5d/neural-physical-planner/npp/multiphysics/composition_validation.py", line 128, in validate_graph_structure
+    raise ValueError('nested validation requires its actual enclosing composite')
+ValueError: nested validation requires its actual enclosing composite
+
+======================================================================
+ERROR: test_nested_physical_disclosure_uses_real_field_operations (test_mp_photonic.CoherentPhotonicTests.test_nested_physical_disclosure_uses_real_field_operations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/9db0500d0a5d/neural-physical-planner/tests/test_mp_photonic.py", line 150, in test_nested_physical_disclosure_uses_real_field_operations
+    self.assertTrue(validate_graph_structure(graph,_depth=1)['valid'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/9db0500d0a5d/neural-physical-planner/npp/multiphysics/composition_validation.py", line 128, in validate_graph_structure
+    raise ValueError('nested validation requires its actual enclosing composite')
+ValueError: nested validation requires its actual enclosing composite
+
+----------------------------------------------------------------------
+Ran 181 tests in 7.887s
+
+FAILED (errors=2)

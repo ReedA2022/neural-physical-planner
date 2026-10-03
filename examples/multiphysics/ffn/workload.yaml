@@ -1,0 +1,9 @@
+# Each row is one input vector. E preserves the ideal function.
+inputs: [[0.25, -0.5], [-0.2, 0.4]]
+semantic_track: E
+numeric_policy: {format: float64, accumulation: float64, rounding: nearest_even, overflow: reject, underflow: gradual}
+reuse_count: 1
+seed: 7
+weight_residency: sram
+quality: {max_rms_error: 0.1}
+evidence_policy: [hypothetical]

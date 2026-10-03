@@ -1,0 +1,808 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Analog matrix tile</title><style>body{font:16px system-ui;margin:3rem auto;max-width:1100px;padding:0 1rem;color:#182535}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f4f8;padding:1.5rem;font-size:13px}.scope{border-left:4px solid #c98821;padding:1rem;background:#fff4df}</style><h1>Analog matrix tile</h1><p class="scope">Declared-model research output. Hypothetical coefficients are not measured hardware. Missing costs remain incomplete. Replay checks reproducibility, not independent physics.</p><pre>{
+  &quot;backend_id&quot;: &quot;analog.differential_conductance&quot;,
+  &quot;backend_version&quot;: &quot;1.0&quot;,
+  &quot;status&quot;: &quot;model_feasible&quot;,
+  &quot;ideal_output&quot;: [
+    [
+      0.21000000000000002,
+      -0.34500000000000003
+    ],
+    [
+      -0.15000000000000002,
+      0.24000000000000002
+    ]
+  ],
+  &quot;actual_output&quot;: [
+    [
+      0.19496066349089206,
+      -0.3282677724848201
+    ],
+    [
+      -0.17496066349089204,
+      0.22661421798785605
+    ]
+  ],
+  &quot;error&quot;: {
+    &quot;rms&quot;: 0.01808565012818256,
+    &quot;max_abs&quot;: 0.024960663490892016,
+    &quot;approximation&quot;: &quot;none&quot;,
+    &quot;finite_precision&quot;: &quot;explicit arithmetic or converter/program quantization&quot;,
+    &quot;stochastic&quot;: &quot;fixed declared physical seed; realized sample, not a confidence bound&quot;,
+    &quot;epistemic&quot;: &quot;reference coefficients are hypothetical; modeled error is not task accuracy&quot;
+  },
+  &quot;ledger&quot;: {
+    &quot;contract&quot;: {
+      &quot;boundary&quot;: &quot;local_component&quot;,
+      &quot;owners&quot;: [
+        {
+          &quot;id&quot;: &quot;analog_tile&quot;,
+          &quot;mode&quot;: &quot;leaf&quot;,
+          &quot;children&quot;: [],
+          &quot;resource_summary_complete&quot;: false,
+          &quot;reservations&quot;: []
+        }
+      ],
+      &quot;entries&quot;: [
+        {
+          &quot;contribution_id&quot;: &quot;weight_programming&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;programming&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 40.0,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;input_dac&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;conversion&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 0.4,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;output_adc&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;conversion&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 4.0,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;current_readout&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;compute&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 0.8,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;bias_addition&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;compute&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 0.12,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;read_control&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;control&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 0.4,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;reference_supply&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;support&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 1.0,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;static_energy&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;support&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 0.42,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;conductance_dissipation&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;compute&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 0.0019808373999247444,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;series_line_dissipation&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;movement&quot;,
+          &quot;metric&quot;: &quot;energy_pj&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;pJ&quot;,
+            &quot;value&quot;: 7.654978080998509e-08,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;coefficient times explicit event count or elapsed ns&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;area.cells&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;support&quot;,
+          &quot;metric&quot;: &quot;area_um2&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;um^2&quot;,
+            &quot;value&quot;: 0.8,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;declared physical capacity, not invocation count&quot;
+        },
+        {
+          &quot;contribution_id&quot;: &quot;area.converters&quot;,
+          &quot;owner&quot;: &quot;analog_tile&quot;,
+          &quot;boundary&quot;: &quot;local_component&quot;,
+          &quot;category&quot;: &quot;support&quot;,
+          &quot;metric&quot;: &quot;area_um2&quot;,
+          &quot;quantity&quot;: {
+            &quot;state&quot;: &quot;known&quot;,
+            &quot;unit&quot;: &quot;um^2&quot;,
+            &quot;value&quot;: 40.0,
+            &quot;lower&quot;: null,
+            &quot;upper&quot;: null,
+            &quot;symbol&quot;: null,
+            &quot;reason&quot;: null
+          },
+          &quot;basis&quot;: &quot;declared physical capacity, not invocation count&quot;
+        }
+      ],
+      &quot;expected_contributions&quot;: [
+        &quot;weight_programming&quot;,
+        &quot;input_dac&quot;,
+        &quot;output_adc&quot;,
+        &quot;current_readout&quot;,
+        &quot;bias_addition&quot;,
+        &quot;read_control&quot;,
+        &quot;reference_supply&quot;,
+        &quot;static_energy&quot;,
+        &quot;conductance_dissipation&quot;,
+        &quot;series_line_dissipation&quot;,
+        &quot;area.cells&quot;,
+        &quot;area.converters&quot;
+      ]
+    },
+    &quot;boundary&quot;: &quot;inclusive_local_component&quot;,
+    &quot;entries&quot;: [
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;weight_programming&quot;,
+        &quot;category&quot;: &quot;programming&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/cell&quot;,
+          &quot;value&quot;: 5.0,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 8,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 40.0
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;input_dac&quot;,
+        &quot;category&quot;: &quot;conversion&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/sample&quot;,
+          &quot;value&quot;: 0.1,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 4,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 0.4
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;output_adc&quot;,
+        &quot;category&quot;: &quot;conversion&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/sample&quot;,
+          &quot;value&quot;: 1.0,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 4,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 4.0
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;current_readout&quot;,
+        &quot;category&quot;: &quot;compute&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/output&quot;,
+          &quot;value&quot;: 0.2,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 4,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 0.8
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;bias_addition&quot;,
+        &quot;category&quot;: &quot;compute&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/output&quot;,
+          &quot;value&quot;: 0.03,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 4,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 0.12
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;read_control&quot;,
+        &quot;category&quot;: &quot;control&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/read&quot;,
+          &quot;value&quot;: 0.2,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 2,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 0.4
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;reference_supply&quot;,
+        &quot;category&quot;: &quot;support&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/read&quot;,
+          &quot;value&quot;: 0.5,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 2,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 1.0
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;static_energy&quot;,
+        &quot;category&quot;: &quot;support&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;mW&quot;,
+          &quot;value&quot;: 0.01,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;multiplier&quot;: 42.0,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 0.42
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;conductance_dissipation&quot;,
+        &quot;category&quot;: &quot;compute&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;value&quot;: 0.0019808373999247444,
+          &quot;unit&quot;: &quot;pJ&quot;
+        },
+        &quot;multiplier&quot;: 1,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 0.0019808373999247444
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;series_line_dissipation&quot;,
+        &quot;category&quot;: &quot;movement&quot;,
+        &quot;coefficient&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;value&quot;: 7.654978080998509e-08,
+          &quot;unit&quot;: &quot;pJ&quot;
+        },
+        &quot;multiplier&quot;: 1,
+        &quot;energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ&quot;,
+          &quot;value&quot;: 7.654978080998509e-08
+        }
+      }
+    ],
+    &quot;area_entries&quot;: [
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;cells&quot;,
+        &quot;area_um2&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;um^2&quot;,
+          &quot;value&quot;: 0.8
+        }
+      },
+      {
+        &quot;owner_id&quot;: &quot;analog_tile&quot;,
+        &quot;effect_id&quot;: &quot;converters&quot;,
+        &quot;area_um2&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;um^2&quot;,
+          &quot;value&quot;: 40.0
+        }
+      }
+    ],
+    &quot;category_coverage&quot;: {
+      &quot;compute&quot;: {
+        &quot;status&quot;: &quot;charged&quot;,
+        &quot;contribution_ids&quot;: [
+          &quot;current_readout&quot;,
+          &quot;bias_addition&quot;,
+          &quot;conductance_dissipation&quot;
+        ],
+        &quot;reason&quot;: &quot;enumerated exactly once in the typed ledger&quot;
+      },
+      &quot;movement&quot;: {
+        &quot;status&quot;: &quot;charged&quot;,
+        &quot;contribution_ids&quot;: [
+          &quot;series_line_dissipation&quot;
+        ],
+        &quot;reason&quot;: &quot;enumerated exactly once in the typed ledger&quot;
+      },
+      &quot;conversion&quot;: {
+        &quot;status&quot;: &quot;charged&quot;,
+        &quot;contribution_ids&quot;: [
+          &quot;input_dac&quot;,
+          &quot;output_adc&quot;
+        ],
+        &quot;reason&quot;: &quot;enumerated exactly once in the typed ledger&quot;
+      },
+      &quot;storage&quot;: {
+        &quot;status&quot;: &quot;covered_by_other_contributions&quot;,
+        &quot;contribution_ids&quot;: [
+          &quot;weight_programming&quot;,
+          &quot;static_energy&quot;,
+          &quot;area.cells&quot;
+        ],
+        &quot;reason&quot;: &quot;weight/intermediate storage is represented by the existing programming, memory traffic, installed capacity and active static-energy owners; no duplicate charge&quot;
+      },
+      &quot;programming&quot;: {
+        &quot;status&quot;: &quot;charged&quot;,
+        &quot;contribution_ids&quot;: [
+          &quot;weight_programming&quot;
+        ],
+        &quot;reason&quot;: &quot;enumerated exactly once in the typed ledger&quot;
+      },
+      &quot;calibration&quot;: {
+        &quot;status&quot;: &quot;excluded&quot;,
+        &quot;contribution_ids&quot;: [],
+        &quot;reason&quot;: &quot;active configured-component boundary excludes a calibration procedure; no end-to-end chip calibration cost or free physical calibration is claimed&quot;
+      },
+      &quot;control&quot;: {
+        &quot;status&quot;: &quot;charged&quot;,
+        &quot;contribution_ids&quot;: [
+          &quot;read_control&quot;
+        ],
+        &quot;reason&quot;: &quot;enumerated exactly once in the typed ledger&quot;
+      },
+      &quot;support&quot;: {
+        &quot;status&quot;: &quot;charged&quot;,
+        &quot;contribution_ids&quot;: [
+          &quot;reference_supply&quot;,
+          &quot;static_energy&quot;,
+          &quot;area.cells&quot;,
+          &quot;area.converters&quot;
+        ],
+        &quot;reason&quot;: &quot;enumerated exactly once in the typed ledger&quot;
+      }
+    },
+    &quot;energy_pj&quot;: {
+      &quot;state&quot;: &quot;known&quot;,
+      &quot;unit&quot;: &quot;pJ&quot;,
+      &quot;value&quot;: 47.14198091394971
+    },
+    &quot;area_um2&quot;: {
+      &quot;state&quot;: &quot;known&quot;,
+      &quot;unit&quot;: &quot;um^2&quot;,
+      &quot;value&quot;: 40.8
+    },
+    &quot;complete&quot;: true,
+    &quot;duration_ns&quot;: {
+      &quot;state&quot;: &quot;known&quot;,
+      &quot;value&quot;: 42.0,
+      &quot;unit&quot;: &quot;ns&quot;
+    },
+    &quot;obligations&quot;: []
+  },
+  &quot;local_duration_ns&quot;: 42.0,
+  &quot;schedule_status&quot;: &quot;local_serial_model_not_system_schedule&quot;,
+  &quot;resources&quot;: {
+    &quot;tile&quot;: 1,
+    &quot;dac_lanes&quot;: 2,
+    &quot;adc_lanes&quot;: 2,
+    &quot;programmed_cells&quot;: 8
+  },
+  &quot;physical&quot;: {
+    &quot;voltage_v&quot;: [
+      [
+        0.025011246430973886,
+        -0.05002249286194777
+      ],
+      [
+        -0.020028537181053307,
+        0.03995937418073563
+      ]
+    ],
+    &quot;conductance_positive_s&quot;: [
+      [
+        2.0838709677419355e-05,
+        1e-06
+      ],
+      [
+        1e-06,
+        2.57741935483871e-05
+      ]
+    ],
+    &quot;conductance_negative_s&quot;: [
+      [
+        1e-06,
+        1.0870967741935484e-05
+      ],
+      [
+        1.5806451612903226e-05,
+        1e-06
+      ]
+    ],
+    &quot;current_positive_a&quot;: [
+      [
+        4.71179610183508e-07,
+        -1.2642781663656801e-06
+      ],
+      [
+        -3.774094973986333e-07,
+        1.009892107025649e-06
+      ]
+    ],
+    &quot;current_negative_a&quot;: [
+      [
+        -5.187816598424583e-07,
+        3.4531656362763945e-07
+      ],
+      [
+        4.1436853052565333e-07,
+        -2.766207296488167e-07
+      ]
+    ],
+    &quot;differential_current_a&quot;: [
+      [
+        9.899612700259664e-07,
+        -1.6095947299933196e-06
+      ],
+      [
+        -7.917780279242866e-07,
+        1.2865128366744655e-06
+      ]
+    ]
+  },
+  &quot;state&quot;: {
+    &quot;owner_id&quot;: &quot;analog_tile&quot;,
+    &quot;version&quot;: 0,
+    &quot;weight_identity&quot;: &quot;d5d95831ec605b5528c2f52f3f1ba899dd0e6a0d1b36b44d29fa8c61a75acd3a&quot;,
+    &quot;age_ns&quot;: 0.0,
+    &quot;read_count&quot;: 0,
+    &quot;reads_evaluated&quot;: 2,
+    &quot;programmed_once&quot;: true,
+    &quot;reuse_count&quot;: 1
+  },
+  &quot;dependencies&quot;: {
+    &quot;cache_key&quot;: &quot;25878f58bee11a7e0fb74c7e53870329261c9601fbd0701515f09c97551e4e40&quot;,
+    &quot;snapshot&quot;: {
+      &quot;backend_id&quot;: &quot;analog.differential_conductance&quot;,
+      &quot;backend_version&quot;: &quot;1.0&quot;,
+      &quot;workload&quot;: {
+        &quot;weights&quot;: [
+          [
+            0.4,
+            -0.2
+          ],
+          [
+            -0.3,
+            0.5
+          ]
+        ],
+        &quot;inputs&quot;: [
+          [
+            0.25,
+            -0.5
+          ],
+          [
+            -0.2,
+            0.4
+          ]
+        ],
+        &quot;bias&quot;: [
+          0.01,
+          -0.02
+        ]
+      },
+      &quot;parameters&quot;: {
+        &quot;adc_bits&quot;: 16,
+        &quot;adc_energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/sample&quot;,
+          &quot;value&quot;: 1.0,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;adc_ns&quot;: 4.0,
+        &quot;bias_add_energy_pj_per_output&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/output&quot;,
+          &quot;value&quot;: 0.03,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;cell_area_um2&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;um^2/cell&quot;,
+          &quot;value&quot;: 0.1,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;control_energy_pj_per_read&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/read&quot;,
+          &quot;value&quot;: 0.2,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;control_ns&quot;: 1.0,
+        &quot;converter_area_um2&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;um^2/lane&quot;,
+          &quot;value&quot;: 10.0,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;dac_bits&quot;: 12,
+        &quot;dac_energy_pj&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/sample&quot;,
+          &quot;value&quot;: 0.1,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;dac_ns&quot;: 2.0,
+        &quot;drift_per_ns&quot;: 1e-12,
+        &quot;g_max_s&quot;: 0.0001,
+        &quot;g_min_s&quot;: 1e-06,
+        &quot;input_limit&quot;: 2.0,
+        &quot;input_scale_v&quot;: 0.1,
+        &quot;integration_ns&quot;: 10.0,
+        &quot;line_resistance_ohm&quot;: 1.0,
+        &quot;output_current_limit_a&quot;: 0.01,
+        &quot;program_bits&quot;: 10,
+        &quot;programming_energy_pj_per_cell&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/cell&quot;,
+          &quot;value&quot;: 5.0,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;programming_noise_relative&quot;: 0.0,
+        &quot;programming_ns_per_cell&quot;: 1.0,
+        &quot;read_disturbance_relative&quot;: 1e-08,
+        &quot;readout_energy_pj_per_output&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/output&quot;,
+          &quot;value&quot;: 0.2,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;reference_energy_pj_per_read&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;pJ/read&quot;,
+          &quot;value&quot;: 0.5,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;static_power_mw&quot;: {
+          &quot;state&quot;: &quot;known&quot;,
+          &quot;unit&quot;: &quot;mW&quot;,
+          &quot;value&quot;: 0.01,
+          &quot;lower&quot;: null,
+          &quot;upper&quot;: null,
+          &quot;symbol&quot;: null,
+          &quot;reason&quot;: null
+        },
+        &quot;temperature_max_c&quot;: 85.0,
+        &quot;temperature_min_c&quot;: 0.0,
+        &quot;weight_scale&quot;: 2.0,
+        &quot;mode&quot;: &quot;finite&quot;
+      },
+      &quot;context&quot;: {
+        &quot;seed&quot;: 7,
+        &quot;reuse_count&quot;: 1,
+        &quot;age_ns&quot;: 0.0,
+        &quot;read_count&quot;: 0,
+        &quot;temperature_c&quot;: 25.0,
+        &quot;stream_id&quot;: &quot;physical.analog&quot;,
+        &quot;owner_id&quot;: &quot;analog_tile&quot;
+      }
+    }
+  },
+  &quot;assumptions&quot;: [
+    &quot;hypothetical coefficients; no measured device calibration&quot;,
+    &quot;bipolar electrical voltage inputs and two nonnegative conductance rails per weight&quot;,
+    &quot;one series resistance per input column; no distributed wire/circuit solve&quot;,
+    &quot;temperature is an operating guard only; drift is the declared reduced-order exponential law&quot;,
+    &quot;bias addition is digital after differential ADC; bias is added once&quot;,
+    &quot;local serial duration; no system resource contention or inter-tile reduction modeled&quot;,
+    &quot;reuse repeats the same explicit age/read count; advance state explicitly for time-dependent trajectories&quot;,
+    &quot;finite quantizers and bounded conductance clipping are active&quot;
+  ]
+}</pre></html>

@@ -1,0 +1,684 @@
+{
+  "tasks": [
+    {
+      "id": "system.setup",
+      "owner": "system.setup",
+      "start_ns": 0.0,
+      "end_ns": 70.0
+    },
+    {
+      "id": "run0.gate.0",
+      "owner": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318
+    },
+    {
+      "id": "run0.up.0",
+      "owner": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656
+    },
+    {
+      "id": "run0.silu",
+      "owner": "run0.silu",
+      "start_ns": 147.18797345105656,
+      "end_ns": 155.88218710186771
+    },
+    {
+      "id": "run0.multiply",
+      "owner": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928
+    },
+    {
+      "id": "run0.down.0",
+      "owner": "run0.down.0",
+      "start_ns": 166.076036039928,
+      "end_ns": 180.076036039928
+    }
+  ],
+  "reservations": [
+    {
+      "resource_id": "control",
+      "owner": "system.setup",
+      "task_id": "system.setup",
+      "start_ns": 0.0,
+      "end_ns": 70.0,
+      "amount": 1
+    },
+    {
+      "resource_id": "analog",
+      "owner": "run0.gate.0",
+      "task_id": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318,
+      "amount": 1
+    },
+    {
+      "resource_id": "control",
+      "owner": "run0.gate.0",
+      "task_id": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318,
+      "amount": 1
+    },
+    {
+      "resource_id": "converter",
+      "owner": "run0.gate.0",
+      "task_id": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318,
+      "amount": 1
+    },
+    {
+      "resource_id": "link",
+      "owner": "run0.gate.0",
+      "task_id": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318,
+      "amount": 1
+    },
+    {
+      "resource_id": "memory",
+      "owner": "run0.gate.0",
+      "task_id": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318,
+      "amount": 1
+    },
+    {
+      "resource_id": "control",
+      "owner": "run0.up.0",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "amount": 1
+    },
+    {
+      "resource_id": "converter",
+      "owner": "run0.up.0",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "amount": 1
+    },
+    {
+      "resource_id": "link",
+      "owner": "run0.up.0",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "amount": 1
+    },
+    {
+      "resource_id": "memory",
+      "owner": "run0.up.0",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "amount": 1
+    },
+    {
+      "resource_id": "photonic",
+      "owner": "run0.up.0",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "amount": 1
+    },
+    {
+      "resource_id": "source",
+      "owner": "run0.up.0",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "amount": 1
+    },
+    {
+      "resource_id": "control",
+      "owner": "run0.silu",
+      "task_id": "run0.silu",
+      "start_ns": 147.18797345105656,
+      "end_ns": 155.88218710186771,
+      "amount": 1
+    },
+    {
+      "resource_id": "digital",
+      "owner": "run0.silu",
+      "task_id": "run0.silu",
+      "start_ns": 147.18797345105656,
+      "end_ns": 155.88218710186771,
+      "amount": 1
+    },
+    {
+      "resource_id": "link",
+      "owner": "run0.silu",
+      "task_id": "run0.silu",
+      "start_ns": 147.18797345105656,
+      "end_ns": 155.88218710186771,
+      "amount": 1
+    },
+    {
+      "resource_id": "memory",
+      "owner": "run0.silu",
+      "task_id": "run0.silu",
+      "start_ns": 147.18797345105656,
+      "end_ns": 155.88218710186771,
+      "amount": 1
+    },
+    {
+      "resource_id": "control",
+      "owner": "run0.multiply",
+      "task_id": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928,
+      "amount": 1
+    },
+    {
+      "resource_id": "digital",
+      "owner": "run0.multiply",
+      "task_id": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928,
+      "amount": 1
+    },
+    {
+      "resource_id": "link",
+      "owner": "run0.multiply",
+      "task_id": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928,
+      "amount": 1
+    },
+    {
+      "resource_id": "memory",
+      "owner": "run0.multiply",
+      "task_id": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928,
+      "amount": 1
+    },
+    {
+      "resource_id": "control",
+      "owner": "run0.down.0",
+      "task_id": "run0.down.0",
+      "start_ns": 166.076036039928,
+      "end_ns": 180.076036039928,
+      "amount": 1
+    },
+    {
+      "resource_id": "digital",
+      "owner": "run0.down.0",
+      "task_id": "run0.down.0",
+      "start_ns": 166.076036039928,
+      "end_ns": 180.076036039928,
+      "amount": 1
+    },
+    {
+      "resource_id": "link",
+      "owner": "run0.down.0",
+      "task_id": "run0.down.0",
+      "start_ns": 166.076036039928,
+      "end_ns": 180.076036039928,
+      "amount": 1
+    },
+    {
+      "resource_id": "memory",
+      "owner": "run0.down.0",
+      "task_id": "run0.down.0",
+      "start_ns": 166.076036039928,
+      "end_ns": 180.076036039928,
+      "amount": 1
+    }
+  ],
+  "state_locks": [
+    {
+      "state_id": "state.input",
+      "task_id": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318,
+      "exclusive": false
+    },
+    {
+      "state_id": "state.run0.gate.0",
+      "task_id": "run0.gate.0",
+      "start_ns": 70.0,
+      "end_ns": 123.23097961318,
+      "exclusive": true
+    },
+    {
+      "state_id": "state.input",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "exclusive": false
+    },
+    {
+      "state_id": "state.run0.up.0",
+      "task_id": "run0.up.0",
+      "start_ns": 123.23097961318,
+      "end_ns": 147.18797345105656,
+      "exclusive": true
+    },
+    {
+      "state_id": "state.run0.gate.0",
+      "task_id": "run0.silu",
+      "start_ns": 147.18797345105656,
+      "end_ns": 155.88218710186771,
+      "exclusive": false
+    },
+    {
+      "state_id": "state.run0.silu",
+      "task_id": "run0.silu",
+      "start_ns": 147.18797345105656,
+      "end_ns": 155.88218710186771,
+      "exclusive": true
+    },
+    {
+      "state_id": "state.run0.silu",
+      "task_id": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928,
+      "exclusive": false
+    },
+    {
+      "state_id": "state.run0.up.0",
+      "task_id": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928,
+      "exclusive": false
+    },
+    {
+      "state_id": "state.run0.multiply",
+      "task_id": "run0.multiply",
+      "start_ns": 155.88218710186771,
+      "end_ns": 166.076036039928,
+      "exclusive": true
+    },
+    {
+      "state_id": "state.run0.multiply",
+      "task_id": "run0.down.0",
+      "start_ns": 166.076036039928,
+      "end_ns": 180.076036039928,
+      "exclusive": false
+    },
+    {
+      "state_id": "state.run0.down.0",
+      "task_id": "run0.down.0",
+      "start_ns": 166.076036039928,
+      "end_ns": 180.076036039928,
+      "exclusive": true
+    }
+  ],
+  "makespan_ns": 180.076036039928,
+  "critical_path": [
+    "system.setup",
+    "run0.gate.0",
+    "run0.up.0",
+    "run0.silu",
+    "run0.multiply",
+    "run0.down.0"
+  ],
+  "events": [
+    {
+      "mode": "create",
+      "state_id": "state.input",
+      "version": 0,
+      "actor": "input",
+      "time_ns": 0.0
+    },
+    {
+      "mode": "read",
+      "state_id": "state.input",
+      "version": 0,
+      "actor": "run0.gate.0",
+      "time_ns": 70.0,
+      "destructive": false,
+      "task_id": "run0.gate.0"
+    },
+    {
+      "mode": "create",
+      "state_id": "state.run0.gate.0",
+      "version": 0,
+      "actor": "run0.gate.0",
+      "time_ns": 123.23097961318,
+      "task_id": "run0.gate.0"
+    },
+    {
+      "mode": "read",
+      "state_id": "state.input",
+      "version": 0,
+      "actor": "run0.up.0",
+      "time_ns": 123.23097961318,
+      "destructive": false,
+      "task_id": "run0.up.0"
+    },
+    {
+      "mode": "create",
+      "state_id": "state.run0.up.0",
+      "version": 0,
+      "actor": "run0.up.0",
+      "time_ns": 147.18797345105656,
+      "task_id": "run0.up.0"
+    },
+    {
+      "mode": "read",
+      "state_id": "state.run0.gate.0",
+      "version": 0,
+      "actor": "run0.silu",
+      "time_ns": 147.18797345105656,
+      "destructive": false,
+      "task_id": "run0.silu"
+    },
+    {
+      "mode": "create",
+      "state_id": "state.run0.silu",
+      "version": 0,
+      "actor": "run0.silu",
+      "time_ns": 155.88218710186771,
+      "task_id": "run0.silu"
+    },
+    {
+      "mode": "read",
+      "state_id": "state.run0.silu",
+      "version": 0,
+      "actor": "run0.multiply",
+      "time_ns": 155.88218710186771,
+      "destructive": false,
+      "task_id": "run0.multiply"
+    },
+    {
+      "mode": "read",
+      "state_id": "state.run0.up.0",
+      "version": 0,
+      "actor": "run0.multiply",
+      "time_ns": 155.88218710186771,
+      "destructive": false,
+      "task_id": "run0.multiply"
+    },
+    {
+      "mode": "create",
+      "state_id": "state.run0.multiply",
+      "version": 0,
+      "actor": "run0.multiply",
+      "time_ns": 166.076036039928,
+      "task_id": "run0.multiply"
+    },
+    {
+      "mode": "read",
+      "state_id": "state.run0.multiply",
+      "version": 0,
+      "actor": "run0.down.0",
+      "time_ns": 166.076036039928,
+      "destructive": false,
+      "task_id": "run0.down.0"
+    },
+    {
+      "mode": "create",
+      "state_id": "state.run0.down.0",
+      "version": 0,
+      "actor": "run0.down.0",
+      "time_ns": 180.076036039928,
+      "task_id": "run0.down.0"
+    }
+  ],
+  "final_states": [
+    {
+      "contract": {
+        "id": "state.input",
+        "owner": "input",
+        "version": 0,
+        "kind": "cache",
+        "created_ns": 0.0,
+        "retention_ns": {
+          "state": "known",
+          "unit": "ns",
+          "value": 1000000.0,
+          "lower": null,
+          "upper": null,
+          "symbol": null,
+          "reason": null
+        },
+        "read_mode": "repeatable",
+        "max_reads": null,
+        "reset_required": false,
+        "capacity": 4,
+        "capacity_unit": "word64"
+      },
+      "readers": [
+        "run0.gate.0",
+        "run0.up.0"
+      ],
+      "reads": 2,
+      "consumed": false,
+      "reset_pending": false,
+      "occupancy": 4,
+      "occupancy_basis": "derived_numeric_word_count",
+      "payload": [
+        [
+          0.25,
+          -0.5
+        ],
+        [
+          -0.2,
+          0.4
+        ]
+      ],
+      "quantum_payload_private": false
+    },
+    {
+      "contract": {
+        "id": "state.run0.down.0",
+        "owner": "run0.down.0",
+        "version": 0,
+        "kind": "cache",
+        "created_ns": 180.076036039928,
+        "retention_ns": {
+          "state": "known",
+          "unit": "ns",
+          "value": 1000000.0,
+          "lower": null,
+          "upper": null,
+          "symbol": null,
+          "reason": null
+        },
+        "read_mode": "repeatable",
+        "max_reads": null,
+        "reset_required": false,
+        "capacity": 4,
+        "capacity_unit": "word64"
+      },
+      "readers": [],
+      "reads": 0,
+      "consumed": false,
+      "reset_pending": false,
+      "occupancy": 4,
+      "occupancy_basis": "derived_numeric_word_count",
+      "payload": [
+        [
+          -0.0058400689576968146,
+          0.004380051718272611
+        ],
+        [
+          -0.003651962293975607,
+          0.002738971720481705
+        ]
+      ],
+      "quantum_payload_private": false
+    },
+    {
+      "contract": {
+        "id": "state.run0.gate.0",
+        "owner": "run0.gate.0",
+        "version": 0,
+        "kind": "cache",
+        "created_ns": 123.23097961318,
+        "retention_ns": {
+          "state": "known",
+          "unit": "ns",
+          "value": 1000000.0,
+          "lower": null,
+          "upper": null,
+          "symbol": null,
+          "reason": null
+        },
+        "read_mode": "repeatable",
+        "max_reads": null,
+        "reset_required": false,
+        "capacity": 4,
+        "capacity_unit": "word64"
+      },
+      "readers": [
+        "run0.silu"
+      ],
+      "reads": 1,
+      "consumed": false,
+      "reset_pending": false,
+      "occupancy": 4,
+      "occupancy_basis": "derived_numeric_word_count",
+      "payload": [
+        [
+          0.0,
+          -0.17496066349089204
+        ],
+        [
+          0.0,
+          0.13330710899392803
+        ]
+      ],
+      "quantum_payload_private": false
+    },
+    {
+      "contract": {
+        "id": "state.run0.multiply",
+        "owner": "run0.multiply",
+        "version": 0,
+        "kind": "cache",
+        "created_ns": 166.076036039928,
+        "retention_ns": {
+          "state": "known",
+          "unit": "ns",
+          "value": 1000000.0,
+          "lower": null,
+          "upper": null,
+          "symbol": null,
+          "reason": null
+        },
+        "read_mode": "repeatable",
+        "max_reads": null,
+        "reset_required": false,
+        "capacity": 4,
+        "capacity_unit": "word64"
+      },
+      "readers": [
+        "run0.down.0"
+      ],
+      "reads": 1,
+      "consumed": false,
+      "reset_pending": false,
+      "occupancy": 4,
+      "occupancy_basis": "derived_numeric_word_count",
+      "payload": [
+        [
+          0.0,
+          0.014600172394242036
+        ],
+        [
+          -0.0,
+          0.009129905734939017
+        ]
+      ],
+      "quantum_payload_private": false
+    },
+    {
+      "contract": {
+        "id": "state.run0.silu",
+        "owner": "run0.silu",
+        "version": 0,
+        "kind": "cache",
+        "created_ns": 155.88218710186771,
+        "retention_ns": {
+          "state": "known",
+          "unit": "ns",
+          "value": 1000000.0,
+          "lower": null,
+          "upper": null,
+          "symbol": null,
+          "reason": null
+        },
+        "read_mode": "repeatable",
+        "max_reads": null,
+        "reset_required": false,
+        "capacity": 4,
+        "capacity_unit": "word64"
+      },
+      "readers": [
+        "run0.multiply"
+      ],
+      "reads": 1,
+      "consumed": false,
+      "reset_pending": false,
+      "occupancy": 4,
+      "occupancy_basis": "derived_numeric_word_count",
+      "payload": [
+        [
+          0.0,
+          -0.07984698555465485
+        ],
+        [
+          0.0,
+          0.07108968331123137
+        ]
+      ],
+      "quantum_payload_private": false
+    },
+    {
+      "contract": {
+        "id": "state.run0.up.0",
+        "owner": "run0.up.0",
+        "version": 0,
+        "kind": "cache",
+        "created_ns": 147.18797345105656,
+        "retention_ns": {
+          "state": "known",
+          "unit": "ns",
+          "value": 1000000.0,
+          "lower": null,
+          "upper": null,
+          "symbol": null,
+          "reason": null
+        },
+        "read_mode": "repeatable",
+        "max_reads": null,
+        "reset_required": false,
+        "capacity": 4,
+        "capacity_unit": "word64"
+      },
+      "readers": [
+        "run0.multiply"
+      ],
+      "reads": 1,
+      "consumed": false,
+      "reset_pending": false,
+      "occupancy": 4,
+      "occupancy_basis": "derived_numeric_word_count",
+      "payload": [
+        [
+          0.1930960332794824,
+          -0.18285189218882025
+        ],
+        [
+          -0.1184279984054535,
+          0.1284279984054535
+        ]
+      ],
+      "quantum_payload_private": false
+    }
+  ],
+  "heuristic": "deterministic_topological_earliest_fit",
+  "scheduling_complete": true,
+  "state_execution_complete": true,
+  "status": "model_feasible",
+  "diagnostics": [],
+  "obligations": []
+}

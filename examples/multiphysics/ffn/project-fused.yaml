@@ -1,0 +1,13 @@
+# Two photonic engines keep the up and down matrices separately programmed.
+# Every referenced file is resolved beside this project.
+schema_version: npp-multiphysics-1
+name: Signed coherent FFN example
+model: model.yaml
+workload: workload.yaml
+technology: technology.yaml
+environment: environment.yaml
+constraints:
+  resources: {digital: 1, analog: 1, photonic: 2, converter: 1, memory: 1, link: 1, control: 1, source: 1, buffer: 1}
+  max_energy_pj: 10 uJ
+  max_latency_ns: 1 ms
+  max_memory_bytes: 1 MiB

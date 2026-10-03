@@ -1,0 +1,6 @@
+test_missing_solver_returns_actionable_diagnostic (tests.test_optical_cli.OpticalCliTests.test_missing_solver_returns_actionable_diagnostic) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.245s
+
+OK

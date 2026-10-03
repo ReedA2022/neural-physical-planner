@@ -284,6 +284,10 @@ npp normalize --project my-project/project.yaml --out-dir normalized-inputs
 
 Normalization produces self-contained JSON inputs with concrete matrices, resolved defaults and canonical units. This is the best place to verify matrix orientation, tensor selection, inferred widths and physical units before a long search. Planning also saves normalized snapshots under the run's `inputs/` directory for subsequent checking and simulation.
 
+Equivalent decimal unit strings normalize identically, including small quantities such as `9 fJ` and `0.009 pJ`. Explicit quantity strings whose nonzero values would underflow to zero are rejected; true zero and representable subnormal values remain valid parser inputs. Plain JSON/YAML numeric literals and Python floats use ordinary binary64 decoding, which can round a sufficiently small literal to zero before validation. Use quantity strings when this distinction matters. Evaluation may reject accepted small values if later arithmetic cannot preserve their range.
+
+Small YAML aliases are supported, but recursive aliases and repeated aliases introducing more than 1,000,000 expanded values and containers are rejected explicitly. This alias limit does not restrict plain JSON/YAML trees or portable records without aliases. Put large parameter arrays in a supported weight file instead of repeating them through YAML aliases.
+
 The original three-file interface continues to work, including YAML specifications:
 
 ```bash

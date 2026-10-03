@@ -1,0 +1,1724 @@
+{
+  "boundary": "complete lumped FFN implementation",
+  "entries": [
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "matrix_mac",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/MAC",
+        "value": 0.2,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 8,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "bias_add",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.03,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.12
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "scalar_add",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.03,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "silu",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.5,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "elementwise_multiply",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.08,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "sram_reads",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 80,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 3.2
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "sram_writes",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.05,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "dram_weight_loads",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 2.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 96.0
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "local_interconnect",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.02,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 160,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 3.2
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "weight_programming",
+      "category": "programming",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.06,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 2.88
+      }
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "launch",
+      "category": "control",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/invocation",
+        "value": 3.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 3.0
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "matrix_mac",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/MAC",
+        "value": 0.2,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "bias_add",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.03,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "scalar_add",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.03,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "silu",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.5,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 2.0
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "elementwise_multiply",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/op",
+        "value": 0.08,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "sram_reads",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.28
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "sram_writes",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.05,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "dram_weight_loads",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 2.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "local_interconnect",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.02,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 64,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.28
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "weight_programming",
+      "category": "programming",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.06,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "launch",
+      "category": "control",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/invocation",
+        "value": 3.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 3.0
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "external_weight_dram",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 96.0
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 2.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "external_weight_sram",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.92
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "external_weight_link",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.96
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.02,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "input.input_dac",
+      "category": "conversion",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/sample",
+        "value": 0.1
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.4
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "input.electro_optic_driver",
+      "category": "conversion",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/sample",
+        "value": 0.05
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.2
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "input.injected_carrier",
+      "category": "source",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0.6406335848588346,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.6406335848588346
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "input.control",
+      "category": "control",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/invocation",
+        "value": 0.01
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.01
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.passive_field_transfer",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      },
+      "multiplier": 2,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.0
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.matrix_programming",
+      "category": "programming",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/element",
+        "value": 0.2
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.8
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.phase_calibration",
+      "category": "calibration",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/calibration",
+        "value": 2.0
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 2.0
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.read_control",
+      "category": "control",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/read",
+        "value": 0.1
+      },
+      "multiplier": 2,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.2
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.coherent_bias_source",
+      "category": "source",
+      "coefficient": {
+        "state": "known",
+        "value": 1.9570610076125097e-05,
+        "unit": "pJ"
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.9570610076125097e-05
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.coherent_bias_driver",
+      "category": "conversion",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/output",
+        "value": 0.05
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.2
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.digital_bias_addition",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/output",
+        "value": 0.03
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.up.0",
+      "effect_id": "matrix.passive_optical_transport",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      },
+      "multiplier": 2,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.0
+      }
+    },
+    {
+      "owner_id": "run0.signed_gate",
+      "effect_id": "gate_dac",
+      "category": "conversion",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/sample",
+        "value": 0.1
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.4
+      }
+    },
+    {
+      "owner_id": "run0.signed_gate",
+      "effect_id": "signed_electro_optic_gate",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/sample",
+        "value": 0.05
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.2
+      }
+    },
+    {
+      "owner_id": "run0.signed_gate",
+      "effect_id": "control",
+      "category": "control",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/invocation",
+        "value": 0.01
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.01
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "external_weight_dram",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 96.0
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 2.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "external_weight_sram",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.92
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "external_weight_link",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.96
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.02,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 48
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.passive_field_transfer",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      },
+      "multiplier": 2,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.0
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.matrix_programming",
+      "category": "programming",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/element",
+        "value": 0.2
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.8
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.phase_calibration",
+      "category": "calibration",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/calibration",
+        "value": 2.0
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 2.0
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.read_control",
+      "category": "control",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/read",
+        "value": 0.1
+      },
+      "multiplier": 2,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.2
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.coherent_bias_source",
+      "category": "source",
+      "coefficient": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.0
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.coherent_bias_driver",
+      "category": "conversion",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/output",
+        "value": 0.05
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.digital_bias_addition",
+      "category": "compute",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/output",
+        "value": 0.03
+      },
+      "multiplier": 0,
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      }
+    },
+    {
+      "owner_id": "run0.down.0",
+      "effect_id": "matrix.passive_optical_transport",
+      "category": "movement",
+      "coefficient": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      },
+      "multiplier": 2,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.0
+      }
+    },
+    {
+      "owner_id": "run0.output.readout",
+      "effect_id": "balanced_detector",
+      "category": "conversion",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/sample",
+        "value": 0.05
+      },
+      "multiplier": 8,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.4
+      }
+    },
+    {
+      "owner_id": "run0.output.readout",
+      "effect_id": "output_adc",
+      "category": "conversion",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/sample",
+        "value": 0.2
+      },
+      "multiplier": 4,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.8
+      }
+    },
+    {
+      "owner_id": "run0.output.readout",
+      "effect_id": "local_oscillator",
+      "category": "source",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 20.0,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 20.0
+      }
+    },
+    {
+      "owner_id": "run0.output.readout",
+      "effect_id": "control",
+      "category": "control",
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/invocation",
+        "value": 0.01
+      },
+      "multiplier": 1,
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.01
+      }
+    },
+    {
+      "owner_id": "system",
+      "effect_id": "package_startup",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 50.0
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 50.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 1
+    },
+    {
+      "owner_id": "system",
+      "effect_id": "clock_startup",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 10.0
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 10.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 1
+    },
+    {
+      "owner_id": "system",
+      "effect_id": "calibration",
+      "category": "calibration",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 16.0
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/component",
+        "value": 2.0,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 8
+    },
+    {
+      "owner_id": "route.0",
+      "effect_id": "electrical_transport",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.688544134827285
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/(byte*um)",
+        "value": 0.0001,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 16885.44134827285
+    },
+    {
+      "owner_id": "route.2",
+      "effect_id": "electrical_transport",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 3.2950608517769377
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/(byte*um)",
+        "value": 0.0001,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32950.608517769375
+    },
+    {
+      "owner_id": "route.4",
+      "effect_id": "electrical_transport",
+      "category": "movement",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6705167169496524
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/(byte*um)",
+        "value": 0.0001,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 16705.167169496523
+    },
+    {
+      "owner_id": "input",
+      "effect_id": "system_fifo_write",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.05,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32
+    },
+    {
+      "owner_id": "input",
+      "effect_id": "system_fifo_reads",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 2.56
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 64
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "system_fifo_write",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.05,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32
+    },
+    {
+      "owner_id": "run0.gate.0",
+      "effect_id": "system_fifo_reads",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.28
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "system_fifo_write",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.05,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32
+    },
+    {
+      "owner_id": "run0.silu",
+      "effect_id": "system_fifo_reads",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.28
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32
+    },
+    {
+      "owner_id": "run0.output.readout",
+      "effect_id": "system_fifo_write",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.6
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.05,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 32
+    },
+    {
+      "owner_id": "run0.output.readout",
+      "effect_id": "system_fifo_reads",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "value": 0.0,
+        "unit": "pJ"
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "pJ/byte",
+        "value": 0.04,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 0
+    },
+    {
+      "owner_id": "installed.digital.digital_reference",
+      "effect_id": "static_over_elapsed",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 13.469706516180294
+      },
+      "coefficient": {
+        "state": "known",
+        "value": 0.1,
+        "unit": "mW"
+      },
+      "multiplier": 134.69706516180293
+    },
+    {
+      "owner_id": "installed.photonic_up.photonic_reference",
+      "effect_id": "static_over_elapsed",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.885758912265241
+      },
+      "coefficient": {
+        "state": "known",
+        "value": 0.014,
+        "unit": "mW"
+      },
+      "multiplier": 134.69706516180293
+    },
+    {
+      "owner_id": "installed.converter.interface.signed_gate",
+      "effect_id": "static_over_elapsed",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.3469706516180293
+      },
+      "coefficient": {
+        "state": "known",
+        "value": 0.01,
+        "unit": "mW"
+      },
+      "multiplier": 134.69706516180293
+    },
+    {
+      "owner_id": "installed.photonic_down.photonic_reference",
+      "effect_id": "static_over_elapsed",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.5387882606472117
+      },
+      "coefficient": {
+        "state": "known",
+        "value": 0.004,
+        "unit": "mW"
+      },
+      "multiplier": 134.69706516180293
+    },
+    {
+      "owner_id": "installed.converter.interface.readout",
+      "effect_id": "static_over_elapsed",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.3469706516180293
+      },
+      "coefficient": {
+        "state": "known",
+        "value": 0.01,
+        "unit": "mW"
+      },
+      "multiplier": 134.69706516180293
+    },
+    {
+      "owner_id": "system",
+      "effect_id": "clock_static",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 1.3469706516180293
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "mW",
+        "value": 0.01,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 134.69706516180293
+    },
+    {
+      "owner_id": "system",
+      "effect_id": "package_static",
+      "category": "support",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 6.734853258090147
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "mW",
+        "value": 0.05,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 134.69706516180293
+    },
+    {
+      "owner_id": "system",
+      "effect_id": "fifo_static",
+      "category": "storage",
+      "energy_pj": {
+        "state": "known",
+        "unit": "pJ",
+        "value": 0.030172142596243855
+      },
+      "coefficient": {
+        "state": "known",
+        "unit": "mW/byte",
+        "value": 1e-06,
+        "lower": null,
+        "upper": null,
+        "symbol": null,
+        "reason": null
+      },
+      "multiplier": 30172.142596243855
+    }
+  ],
+  "area_entries": [
+    {
+      "owner_id": "installed.digital.digital_reference",
+      "resource": "digital",
+      "capacity": 1,
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 105857.6
+      }
+    },
+    {
+      "owner_id": "installed.photonic_up.photonic_reference",
+      "resource": "photonic_up",
+      "capacity": 1,
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 80.0
+      }
+    },
+    {
+      "owner_id": "installed.converter.interface.signed_gate",
+      "resource": "converter",
+      "capacity": 1,
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 60.0
+      }
+    },
+    {
+      "owner_id": "installed.photonic_down.photonic_reference",
+      "resource": "photonic_down",
+      "capacity": 1,
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 16.0
+      }
+    },
+    {
+      "owner_id": "installed.converter.interface.readout",
+      "resource": "converter",
+      "capacity": 1,
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 100.0
+      }
+    },
+    {
+      "owner_id": "system.fifos",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 22.400000000000002
+      }
+    },
+    {
+      "owner_id": "system.support",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 100.0
+      }
+    },
+    {
+      "owner_id": "junction.bus_junction_0",
+      "area_um2": {
+        "state": "known",
+        "value": 1.0,
+        "unit": "um^2"
+      }
+    },
+    {
+      "owner_id": "junction.bus_junction_1",
+      "area_um2": {
+        "state": "known",
+        "value": 1.0,
+        "unit": "um^2"
+      }
+    },
+    {
+      "owner_id": "junction.bus_junction_2",
+      "area_um2": {
+        "state": "known",
+        "value": 1.0,
+        "unit": "um^2"
+      }
+    },
+    {
+      "owner_id": "junction.bus_junction_3",
+      "area_um2": {
+        "state": "known",
+        "value": 1.0,
+        "unit": "um^2"
+      }
+    },
+    {
+      "owner_id": "junction.bus_junction_4",
+      "area_um2": {
+        "state": "known",
+        "value": 1.0,
+        "unit": "um^2"
+      }
+    },
+    {
+      "owner_id": "junction.bus_junction_5",
+      "area_um2": {
+        "state": "known",
+        "value": 1.0,
+        "unit": "um^2"
+      }
+    },
+    {
+      "owner_id": "route.bus_tap_0",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 31.885764936451093
+      }
+    },
+    {
+      "owner_id": "route.bus_tap_1",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 33.285764936451095
+      }
+    },
+    {
+      "owner_id": "route.bus_tap_2",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 0.9500000000000001
+      }
+    },
+    {
+      "owner_id": "route.bus_tap_3",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 33.285764936451095
+      }
+    },
+    {
+      "owner_id": "route.bus_tap_4",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 33.01247855380313
+      }
+    },
+    {
+      "owner_id": "route.bus_tap_5",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 32.48576493645109
+      }
+    },
+    {
+      "owner_id": "route.bus_spine_0",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 1.8
+      }
+    },
+    {
+      "owner_id": "route.bus_spine_1",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 17.267882468225547
+      }
+    },
+    {
+      "owner_id": "route.bus_spine_2",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 17.267882468225547
+      }
+    },
+    {
+      "owner_id": "route.bus_spine_3",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 1.2366431913239866
+      }
+    },
+    {
+      "owner_id": "route.bus_spine_4",
+      "area_um2": {
+        "state": "known",
+        "unit": "um^2",
+        "value": 1.636643191323981
+      }
+    }
+  ],
+  "energy_pj": {
+    "state": "known",
+    "value": 468.664965903656,
+    "unit": "pJ"
+  },
+  "area_um2": {
+    "state": "known",
+    "value": 106446.11458961871,
+    "unit": "um^2"
+  },
+  "complete": true,
+  "category_coverage": {
+    "compute": {
+      "status": "charged",
+      "owners": [
+        "run0.down.0",
+        "run0.gate.0",
+        "run0.signed_gate",
+        "run0.silu",
+        "run0.up.0"
+      ]
+    },
+    "movement": {
+      "status": "charged",
+      "owners": [
+        "route.0",
+        "route.2",
+        "route.4",
+        "run0.down.0",
+        "run0.gate.0",
+        "run0.silu",
+        "run0.up.0"
+      ]
+    },
+    "conversion": {
+      "status": "charged",
+      "owners": [
+        "run0.down.0",
+        "run0.output.readout",
+        "run0.signed_gate",
+        "run0.up.0"
+      ]
+    },
+    "storage": {
+      "status": "charged",
+      "owners": [
+        "input",
+        "run0.gate.0",
+        "run0.output.readout",
+        "run0.silu",
+        "system"
+      ]
+    },
+    "programming": {
+      "status": "charged",
+      "owners": [
+        "run0.down.0",
+        "run0.gate.0",
+        "run0.silu",
+        "run0.up.0"
+      ]
+    },
+    "calibration": {
+      "status": "charged",
+      "owners": [
+        "run0.down.0",
+        "run0.up.0",
+        "system"
+      ]
+    },
+    "control": {
+      "status": "charged",
+      "owners": [
+        "run0.down.0",
+        "run0.gate.0",
+        "run0.output.readout",
+        "run0.signed_gate",
+        "run0.silu",
+        "run0.up.0"
+      ]
+    },
+    "support": {
+      "status": "charged",
+      "owners": [
+        "installed.converter.interface.readout",
+        "installed.converter.interface.signed_gate",
+        "installed.digital.digital_reference",
+        "installed.photonic_down.photonic_reference",
+        "installed.photonic_up.photonic_reference",
+        "system"
+      ]
+    }
+  },
+  "installed_area_policy": "sum distinct component/interface mechanisms, fixed matrix max-row by max-column envelope and independent I/O maxima, times capacity; separate FIFOs, junctions and support",
+  "memory_bytes": 224
+}

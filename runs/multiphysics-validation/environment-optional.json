@@ -1,0 +1,108 @@
+{
+  "created_at_utc": "2026-10-03T10:25:47.663496+00:00",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "executable": "/tmp/npp-mp-env/bin/python",
+  "environment": {
+    "MPLCONFIGDIR": "/tmp/npp-mp-mpl",
+    "PIP_CACHE_DIR": "/tmp/npp-mp-pip-cache"
+  },
+  "packages": {
+    "torch": {
+      "imported": true,
+      "version": "2.14.1+cpu",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/torch/__init__.py"
+    },
+    "safetensors": {
+      "imported": true,
+      "version": "0.8.0",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/safetensors/__init__.py"
+    },
+    "h5py": {
+      "imported": true,
+      "version": "3.16.0",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/h5py/__init__.py"
+    },
+    "onnx": {
+      "imported": true,
+      "version": "1.23.1",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/onnx/__init__.py"
+    },
+    "sax": {
+      "imported": true,
+      "version": "0.18.2",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/sax/__init__.py"
+    },
+    "jax": {
+      "imported": true,
+      "version": "0.9.2",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/jax/__init__.py"
+    },
+    "jaxlib": {
+      "imported": true,
+      "version": "0.9.2",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/jaxlib/__init__.py"
+    },
+    "klujax": {
+      "imported": true,
+      "version": "0.5.2",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/klujax.py"
+    },
+    "numpy": {
+      "imported": true,
+      "version": "2.3.5",
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/__init__.py"
+    },
+    "scipy": {
+      "imported": true,
+      "version": "1.17.0",
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/__init__.py"
+    },
+    "pydantic": {
+      "imported": true,
+      "version": "2.13.5",
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pydantic/__init__.py"
+    },
+    "yaml": {
+      "imported": true,
+      "version": "6.0.3",
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/yaml/__init__.py"
+    },
+    "keras": {
+      "imported": true,
+      "version": "3.15.1",
+      "path": "/tmp/npp-mp-env/lib/python3.12/site-packages/keras/__init__.py",
+      "backend": "torch"
+    }
+  },
+  "pip_check": {
+    "exit_code": 0,
+    "stdout": "No broken requirements found.\n",
+    "stderr": ""
+  },
+  "cpu_torch": true,
+  "status": "passed",
+  "tests": [
+    {
+      "command": "MPLCONFIGDIR=/tmp/npp-mp-mpl /tmp/npp-mp-env/bin/python -m unittest tests.test_weights tests.test_import_integration tests.test_onnx_import tests.test_optical_simulation -q",
+      "tests_run": 61,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "elapsed_seconds": 11.15,
+      "exit_code": 0,
+      "scope": "Existing saved-weight imports, ONNX semantics and actual SAX circuit comparisons; no M2 implementation."
+    },
+    {
+      "command": "MPLCONFIGDIR=/tmp/npp-mp-mpl /tmp/npp-mp-env/bin/python -m unittest tests.test_keras_export -v",
+      "tests_run": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "elapsed_seconds": 5.888,
+      "exit_code": 0,
+      "scope": "Real Keras .keras and .weights.h5 exports; imports and predictions checked with Keras/TensorFlow blocked during weight loading."
+    }
+  ],
+  "updated_at_utc": "2026-10-03T11:09:43.583130+00:00"
+}

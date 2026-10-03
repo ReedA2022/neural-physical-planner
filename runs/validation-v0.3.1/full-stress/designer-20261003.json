@@ -1,0 +1,24 @@
+{
+  "campaign": "designer",
+  "candidate_status_counts": {
+    "constraint_failed": 43,
+    "excluded": 425,
+    "feasible": 326,
+    "infeasible": 145,
+    "not_evaluated": 107
+  },
+  "elapsed_seconds": 5.967,
+  "failures": [],
+  "family_counts": {
+    "analytic_grid": 67,
+    "baseline_lock": 67,
+    "equivalent_units": 67,
+    "malformed_input": 67,
+    "replay_tamper": 66,
+    "supported_limits": 66
+  },
+  "passed": true,
+  "scenario_count": 400,
+  "scope": "Independent algebraic and search-oracle stress of illustrative optical subcircuits; no hardware calibration or whole-network correctness claim.",
+  "seed": 20261003
+}

@@ -1,0 +1,13 @@
+[
+  "all reference coefficients are explicitly hypothetical; no fabricated-device calibration or speedup claim",
+  "bounded feed-forward batch; complete intermediate materialization in separately charged inter-component FIFOs",
+  "inclusive local tasks reserve their complete converter/memory/control/source resources until completion",
+  "each matrix composite owns its private I/O converters and sources; converter/source pools are shared service-capacity constraints, not an extra hardware area charge",
+  "coherent fused up/gate/down and selected alignment devices form one local assembly with paid intrinsic propagation/loss; external optical routing is unsupported",
+  "separate weight versions are programmed on each matrix invocation; no unproved free resident-weight reuse",
+  "shared analog/photonic matrix pools execute full fixed rectangular arrays with zero padding; unused analog rows retain their modeled common-mode loading, and all lanes/cells remain charged",
+  "digital zero-input concatenation and output selection are explicit paid materializations; inactive physical isolation is never assumed",
+  "installed-resource static energy accrues over the complete system makespan, including waiting and setup",
+  "optical fields cannot wait or fan out implicitly; each wire consumes an owned zero-retention excitation",
+  "quantity bounds and missing coefficients remain conditional; point totals never silently substitute zero"
+]

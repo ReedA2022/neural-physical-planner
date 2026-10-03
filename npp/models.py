@@ -311,7 +311,7 @@ def load_json(path: str | Path) -> dict:
         if not isinstance(value, dict):
             raise ValueError("top-level JSON value must be an object")
         return value
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, RecursionError) as exc:
         raise InputValidationError([{"code": "json_load_error", "path": str(path), "message": str(exc)}]) from exc
 
 

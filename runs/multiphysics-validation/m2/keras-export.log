@@ -1,0 +1,6 @@
+test_real_keras_and_hdf5_exports_preserve_weights_and_predictions (tests.test_keras_export.KerasExportTests.test_real_keras_and_hdf5_exports_preserve_weights_and_predictions) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 5.888s
+
+OK

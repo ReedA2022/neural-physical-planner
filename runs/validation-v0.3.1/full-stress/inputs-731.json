@@ -1,0 +1,47 @@
+{
+  "campaign": "input_import_stress_v1",
+  "counts_by_family": {
+    "invalid_project": {
+      "attempted": 50,
+      "passed": 50
+    },
+    "invalid_weights": {
+      "attempted": 50,
+      "passed": 50
+    },
+    "malformed_spec": {
+      "attempted": 50,
+      "passed": 50
+    },
+    "numpy_roundtrip": {
+      "attempted": 50,
+      "passed": 50
+    },
+    "onnx_semantics": {
+      "attempted": 50,
+      "passed": 50
+    },
+    "optional_weights": {
+      "attempted": 50,
+      "passed": 50
+    },
+    "project_equivalence": {
+      "attempted": 50,
+      "passed": 50
+    },
+    "unit_equivalence": {
+      "attempted": 50,
+      "passed": 50
+    }
+  },
+  "elapsed_seconds": 0.575045162004244,
+  "failed_count": 0,
+  "failures": [],
+  "passed_count": 400,
+  "scenario_count": 400,
+  "scope": "Software input and tensor/ONNX semantics only; no device physics validation.",
+  "seed": 731,
+  "skipped": [],
+  "skipped_count": 0,
+  "status": "passed"
+}

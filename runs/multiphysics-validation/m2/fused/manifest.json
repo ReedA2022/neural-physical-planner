@@ -1,0 +1,20 @@
+{
+  "software_version": "0.4.0",
+  "input_hash": "a6c8db5087bafe6ac83f8d8ebb202c3d8cc7e0ef9ed744381cc61734b84fad8b",
+  "record_hash": "5cdba9303fbee89dca3bea36b94e44c66fca4eeba4f836dc6dc75230dd4a0526",
+  "files": [
+    "implementation.json",
+    "check.json",
+    "report.html",
+    "normalized_inputs.json",
+    "semantic_plan.json",
+    "physical_graph.json",
+    "interfaces.json",
+    "geometry.json",
+    "schedule.json",
+    "resources.json",
+    "ledger.json",
+    "quality.json",
+    "assumptions.json"
+  ]
+}

@@ -14,12 +14,18 @@ independently; it never samples the analytically computed output covariance.
 from __future__ import annotations
 
 import math
+import sys
 from typing import Any
 
 import numpy as np
 
 
 _HC = 6.62607015e-34 * 299792458.0
+MAX_SIMULATION_SAMPLES = 1_000_000
+# Conservative aggregate array-element budget, including retained node/edge
+# samples, output arrays, and transient work buffers (about 128 MiB float64).
+MAX_SIMULATION_ARRAY_ELEMENTS = 16_000_000
+MAX_SIMULATION_MACS = 100_000_000
 _KINDS = {"digital_copy", "passive_split", "source_boost", "amplify", "regenerate", "serial_reencode"}
 _ASSUMPTIONS = [
     "All component and rule parameters are declared model inputs; no measured-device accuracy is implied.",
@@ -97,6 +103,16 @@ def _node_gain(node: dict) -> float:
     return float(np.linalg.norm(np.asarray(node["weights"], dtype=float), 2)) if node["op"] == "linear" else 1.0
 
 
+def _nonnegative_product(left: float, right: float, context: str) -> float:
+    """Reject scalar underflow that NumPy's floating-point context cannot see."""
+    value = left * right
+    if left > 0 and right > 0 and value < sys.float_info.min:
+        raise FloatingPointError(f"{context} underflows float64; rescale normalized units")
+    if not math.isfinite(value):
+        raise FloatingPointError(f"{context} exceeds finite floating-point range")
+    return value
+
+
 def _sensitivities(network: dict, uses: dict) -> dict[str, list[float]]:
     nodes = {node["id"]: node for node in network["nodes"]}
     downstream: dict[str, float] = {}
@@ -111,7 +127,40 @@ def _sensitivities(network: dict, uses: dict) -> dict[str, list[float]]:
 def _photon_energy(component: dict, dimension: int) -> float:
     if component["domain"] != "optical":
         return 0.0
-    return (_float(component, "photons") * dimension * _HC / (_float(component, "wavelength_nm") * 1e-9) / _float(component, "wall_plug_efficiency") * 1e12)
+    try:
+        count = _float(component, "photons") * dimension
+        numerator = count * _HC
+        wavelength_m = _float(component, "wavelength_nm") * 1e-9
+        energy_j = numerator / wavelength_m
+        electrical_j = energy_j / _float(component, "wall_plug_efficiency")
+        energy = electrical_j * 1e12
+        # A nonzero subnormal intermediate may already have lost most of its
+        # relative precision; checking only zero would permit false budgets.
+        unstable = any(not math.isfinite(v) or v < sys.float_info.min
+                       for v in (count, numerator, wavelength_m, energy_j, electrical_j, energy))
+    except (ZeroDivisionError, OverflowError):
+        energy, unstable = 0.0, True
+    if unstable:
+        # Recover representable final values when the original intermediate
+        # SI-energy product under/overflows before conversion to pJ. Track the
+        # binary exponent separately; intermediate mantissas stay bounded.
+        mantissa, exponent = 1.0, 0
+        for value, sign in [(_float(component, "photons"), 1), (float(dimension), 1),
+                            (_HC, 1), (1e21, 1),
+                            (_float(component, "wavelength_nm"), -1),
+                            (_float(component, "wall_plug_efficiency"), -1)]:
+            fraction, power = math.frexp(value)
+            mantissa = mantissa * fraction if sign == 1 else mantissa / fraction
+            exponent += sign * power
+            mantissa, adjustment = math.frexp(mantissa)
+            exponent += adjustment
+        try:
+            energy = math.ldexp(mantissa, exponent)
+        except OverflowError as exc:
+            raise FloatingPointError("Optical launch energy exceeds float64 range") from exc
+    if energy < sys.float_info.min or not math.isfinite(energy):
+        raise FloatingPointError("Positive optical launch energy is outside float64 range; rescale model parameters")
+    return energy
 
 
 def _prepare(network: dict, library: dict, request: dict, decision: dict) -> dict:
@@ -184,6 +233,8 @@ def _prepare(network: dict, library: dict, request: dict, decision: dict) -> dic
     def source(source_id: str, dimension: int, std: float, role: str, node_id: str) -> dict:
         if not math.isfinite(std) or not math.isfinite(std * std):
             raise ValueError(f"Noise source {source_id} exceeds finite floating-point range")
+        if std > 0 and std * std < sys.float_info.min:
+            raise FloatingPointError(f"Noise source {source_id} variance underflows float64; rescale normalized units")
         record = {"id": source_id, "dimension": dimension, "std": std, "variance": std * std, "role": role, "node_id": node_id}
         if std > 0:
             noise_sources.append(record)
@@ -269,7 +320,8 @@ def _analytic(prepared: dict) -> dict:
         elif op == "linear":
             weight = np.asarray(node["weights"], dtype=float)
             loadings = {key: weight @ matrix for key, matrix in delivered[operands[0]].items()} if exact else {}
-            rms_bound = _node_gain(node) * incoming_bounds[0]
+            rms_bound = _nonnegative_product(_node_gain(node), incoming_bounds[0],
+                                            f"RMS propagation at {node_id}")
         elif op == "add":
             loadings = _add_loadings([delivered[edge_id] for edge_id in operands]) if exact else {}
             rms_bound = sum(incoming_bounds)
@@ -306,7 +358,9 @@ def _analytic(prepared: dict) -> dict:
         result["error_rms_bound"] = math.sqrt(max(0.0, float(np.trace(covariance))))
         result["error_bound_method"] = "Exact covariance from independent source loadings, preserving all shared-source paths and repeated operands."
     else:
-        result["error_rms_bound"] = math.sqrt(sum(delivered_bounds[edge_id] ** 2 for edge_id in output_ids))
+        # Squaring a representable positive bound can underflow to zero, or
+        # overflow even when its Euclidean norm is representable.
+        result["error_rms_bound"] = math.hypot(*(delivered_bounds[edge_id] for edge_id in output_ids))
         result["error_bound_method"] = "Spectral-norm propagation for linear nodes; ReLU is 1-Lipschitz; Minkowski at add nodes; quadrature only for newly independent zero-mean sources; Euclidean aggregation across output blocks."
         result["per_output_rms_bounds"] = [delivered_bounds[edge_id] for edge_id in output_ids]
     return result
@@ -414,10 +468,14 @@ def evaluate(network: dict, library: dict, request: dict, decision: dict) -> dic
     if not isinstance(decision, dict):
         return _failure([_diag("invalid_physical_decision", "decision", "Decision must be a JSON object with component and fanout-rule mappings.")])
     try:
-        prepared = _prepare(network, library, request, decision)
-        if prepared["diagnostics"]:
-            return _failure(prepared["diagnostics"], prepared["bounds"], decision)
-        analysis = _analytic(prepared)
+        # An underflowed positive variance must never become a zero-error
+        # feasibility certificate. This also catches underflow introduced by
+        # downstream attenuation, rather than only primitive source variance.
+        with np.errstate(under="raise", over="raise", invalid="raise", divide="raise"):
+            prepared = _prepare(network, library, request, decision)
+            if prepared["diagnostics"]:
+                return _failure(prepared["diagnostics"], prepared["bounds"], decision)
+            analysis = _analytic(prepared)
         hardware, metrics, trace = _hardware(prepared)
         metrics["error_rms_bound"] = analysis.pop("error_rms_bound")
         if any(not math.isfinite(value) or value < 0 for value in metrics.values()):
@@ -430,6 +488,8 @@ def evaluate(network: dict, library: dict, request: dict, decision: dict) -> dic
         if not _finite_tree(result):
             return _failure([_diag("nonfinite_physics", "evaluation", "An intermediate physical quantity exceeded finite floating-point range; rescale model inputs.")], prepared["bounds"], decision)
         return result
+    except FloatingPointError as exc:
+        return _failure([_diag("numerical_range_exceeded", "evaluation", str(exc))], decision=decision)
     except (KeyError, ValueError, TypeError, IndexError, ZeroDivisionError, OverflowError, np.linalg.LinAlgError) as exc:
         return _failure([_diag("invalid_physical_decision", "decision", str(exc))], decision=decision if isinstance(decision, dict) else None)
 
@@ -456,9 +516,35 @@ def simulate(network: dict, library: dict, request: dict, decision: dict, sample
     """
     if isinstance(samples, bool) or not isinstance(samples, (int, np.integer)) or samples < 2:
         raise ValueError("samples must be an integer >= 2 to estimate sampling uncertainty")
+    if isinstance(seed, (bool, np.bool_)) or not isinstance(seed, (int, np.integer)) or seed < 0:
+        raise ValueError("seed must be a nonnegative integer")
+    samples = int(samples)
+    if samples > MAX_SIMULATION_SAMPLES:
+        raise ValueError(f"samples exceeds the simulation limit of {MAX_SIMULATION_SAMPLES}")
+    try:
+        widths = {node["id"]: node["size"] for node in network["nodes"]}
+        node_elements = sum(widths.values())
+        edge_elements = sum(widths[source] for node in network["nodes"] for source in node.get("inputs", []))
+        output_elements = sum(widths[source] for source in network["outputs"])
+        # Each output use is also a retained delivered edge.
+        elements_per_sample = node_elements + edge_elements + 6 * output_elements + 9 * max(widths.values())
+        macs_per_sample = sum(sum(len(row) for row in node["weights"])
+                              for node in network["nodes"] if node["op"] == "linear")
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError(f"Invalid network for simulation preflight: {exc}") from exc
+    if samples * elements_per_sample > MAX_SIMULATION_ARRAY_ELEMENTS:
+        raise ValueError(f"Simulation array work exceeds {MAX_SIMULATION_ARRAY_ELEMENTS} aggregate elements; reduce samples or graph size")
+    # Ideal and noisy forward passes each execute the matrix operations.
+    if 2 * samples * macs_per_sample > MAX_SIMULATION_MACS:
+        raise ValueError(f"Simulation arithmetic exceeds {MAX_SIMULATION_MACS} multiply-accumulates; reduce samples or graph size")
     evaluation = evaluate(network, library, request, decision)
     if not evaluation["metrics"]:
         return {"feasible": False, "samples": 0, "seed": seed, "diagnostics": evaluation["diagnostics"]}
+    expected_bound = evaluation["metrics"]["error_rms_bound"]
+    if expected_bound > 0 and expected_bound * expected_bound < sys.float_info.min:
+        raise ValueError("Modeled MSE underflows float64; rescale normalized units before simulation")
+    if not math.isfinite(expected_bound * expected_bound):
+        raise ValueError("Modeled MSE exceeds float64 range; rescale normalized units before simulation")
     prepared = _prepare(network, library, request, decision)
     rng = np.random.default_rng(seed)
     input_node = next(node for node in network["nodes"] if node["op"] == "input")
@@ -489,8 +575,17 @@ def simulate(network: dict, library: dict, request: dict, decision: dict, sample
     actual_output = np.concatenate([delivered[prepared["output_links"][index]] for index in range(len(network["outputs"]))], axis=1)
     error = actual_output - ideal_output
     squared_error = np.sum(error * error, axis=1)
-    mse = float(np.mean(squared_error))
-    mse_se = float(np.std(squared_error, ddof=1) / math.sqrt(samples))
+    # Scaling avoids overflow in the fourth moment used by std(q), even when
+    # q itself and its standard error are both representable.
+    squared_scale = float(np.max(squared_error))
+    if not math.isfinite(squared_scale):
+        raise ValueError("Simulation squared error exceeded float64 range; rescale normalized units")
+    if squared_scale == 0:
+        mse, mse_se = 0.0, 0.0
+    else:
+        normalized_squared_error = squared_error / squared_scale
+        mse = squared_scale * float(np.mean(normalized_squared_error))
+        mse_se = squared_scale * (float(np.std(normalized_squared_error, ddof=1)) / math.sqrt(samples))
     rms = math.sqrt(max(0.0, mse))
     rms_se = mse_se / (2 * rms) if rms > 0 else 0.0
     bound = evaluation["metrics"]["error_rms_bound"]
@@ -509,4 +604,6 @@ def simulate(network: dict, library: dict, request: dict, decision: dict, sample
     result = {"feasible": evaluation["feasible"], "samples": int(samples), "seed": int(seed), "error_rms_empirical": rms, "error_rms_bound": bound, "mse_empirical": mse, "mse_standard_error": mse_se, "rms_standard_error": rms_se, "affine_expected_mse": expected_mse if exact else None, "consistent_with_bound": consistent, "sampling_diagnostic": "Affine predictions use a two-sided MSE comparison; nonlinear bounds use an upper-bound comparison. Four estimated standard errors and relative-only roundoff tolerance are allowed. This is a heuristic consistency check, not a formal confidence guarantee.", "numerical_limitations": "Finite-precision forward sampling can erase small noise added to very large signals; subtraction of nearly equal outputs can lose error information. An affine empirical MSE below its prediction is checked as a discrepancy, including zero estimated standard error.", "input_sampling": "independent uniform samples from the declared input box", "execution": "independent forward sampling of primitive noise sources; no output-covariance sampler", "outputs": {"dimension": int(error.shape[1]), "ideal_mean": np.mean(ideal_output, axis=0).tolist(), "physical_mean": np.mean(actual_output, axis=0).tolist(), "error_mean": np.mean(error, axis=0).tolist(), "error_std": np.std(error, axis=0, ddof=1).tolist()}, "diagnostics": diagnostics}
     if exact:
         result["mse_difference_standard_errors"] = difference / mse_se if mse_se > 0 else (0.0 if within_roundoff else None)
+    if not _finite_tree(result):
+        raise ValueError("Simulation statistics exceeded finite floating-point range; rescale normalized units")
     return result

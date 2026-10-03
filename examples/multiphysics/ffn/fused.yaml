@@ -1,0 +1,13 @@
+# Photonic amplitudes stay physical through the signed controlled gate.
+schema_version: npp-implementation-1
+name: Signed fused coherent FFN
+operators:
+  up: {family: photonic}
+  gate: {family: digital}
+  down: {family: photonic}
+fusion: signed_photonic
+alignment:
+  method: delayed_launch
+  delay_ns: 0 ns
+  gate_release_ns: 0 ns
+system: {preset: hypothetical_system}

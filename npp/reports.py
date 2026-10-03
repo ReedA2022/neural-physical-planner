@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+from decimal import Decimal
 import html
 import io
 import json
@@ -45,9 +46,15 @@ def _scatter(plans: list) -> str:
         return '<p class="empty">No feasible designs were found. Inspect search completeness and rejection reasons.</p>'
     points = [(p["evaluation"]["metrics"]["energy_pj"],
                p["evaluation"]["metrics"]["latency_ns"]) for p in plans]
-    xs, ys = zip(*points)
+    # Plot in normalized coordinates before multiplying by pixel dimensions.
+    # Valid finite costs can otherwise overflow during padding or `522 * x`,
+    # and small costs should not disappear behind an absolute axis floor.
+    scale_x = max(x for x, _ in points) or 1.0
+    scale_y = max(y for _, y in points) or 1.0
+    normalized = [(x / scale_x, y / scale_y) for x, y in points]
+    xs, ys = zip(*normalized)
     xlo, xhi, ylo, yhi = min(xs), max(xs), min(ys), max(ys)
-    dx, dy = max(xhi - xlo, abs(xhi) * .05, 1e-6), max(yhi - ylo, abs(yhi) * .05, 1e-6)
+    dx, dy = max(xhi - xlo, .05), max(yhi - ylo, .05)
     xlo -= dx * .08
     xhi += dx * .08
     ylo -= dy * .08
@@ -59,12 +66,16 @@ def _scatter(plans: list) -> str:
         y = ylo + (yhi - ylo) * i / 4
         sx = 72 + 522 * i / 4
         sy = 246 - 226 * i / 4
-        items += [f'<text x="{sx}" y="266" text-anchor="middle">{x:.3g}</text>',
-                  f'<text x="64" y="{sy+4}" text-anchor="end">{y:.3g}</text>',
+        # Decimal labels also cover padded ticks just beyond the float range;
+        # the actual recorded metrics remain untouched.
+        label_x = Decimal(str(x)) * Decimal(str(scale_x))
+        label_y = Decimal(str(y)) * Decimal(str(scale_y))
+        items += [f'<text x="{sx}" y="266" text-anchor="middle">{label_x:.3g}</text>',
+                  f'<text x="64" y="{sy+4}" text-anchor="end">{label_y:.3g}</text>',
                   f'<path d="M72 {sy} H594" stroke="#e6ebf3"/>']
-    for i, (p, (x, y)) in enumerate(zip(plans, points)):
-        sx = 72 + 522 * (x - xlo) / (xhi - xlo)
-        sy = 246 - 226 * (y - ylo) / (yhi - ylo)
+    for i, ((x, y), (nx, ny)) in enumerate(zip(points, normalized)):
+        sx = 72 + 522 * ((nx - xlo) / (xhi - xlo))
+        sy = 246 - 226 * ((ny - ylo) / (yhi - ylo))
         items += [f'<a href="#p{i}"><circle cx="{sx}" cy="{sy}" r="6" fill="#176c93" stroke="white">',
                   f'<title>Design {i+1}: {x:.6g} pJ; {y:.6g} ns</title></circle></a>']
     items += ['<text x="335" y="293" text-anchor="middle">Energy per inference (pJ) →</text>',

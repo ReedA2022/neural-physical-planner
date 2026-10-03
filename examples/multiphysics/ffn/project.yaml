@@ -1,0 +1,8 @@
+# Opt-in multiphysics project. All device coefficients are hypothetical.
+schema_version: npp-multiphysics-1
+name: Small SwiGLU study
+model: model.yaml
+workload: workload.yaml
+technology: technology.yaml
+constraints: constraints.yaml
+environment: environment.yaml

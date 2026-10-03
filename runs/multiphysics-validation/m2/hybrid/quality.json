@@ -1,0 +1,8 @@
+{
+  "rms": 0.0003687180278638282,
+  "max_abs": 0.0005399904997056412,
+  "max_rms_error": 0.1,
+  "model_max_absolute_error": null,
+  "passed": true,
+  "scope": "provided workload inputs versus original FFN; modeled realization, not held-out task quality"
+}

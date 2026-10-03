@@ -1,6 +1,27 @@
 # Changes
 
-## Unreleased — multiphysics specification and M0 reconciliation
+## 0.3.1 — stress-tested research-prototype maintenance
+
+- Corrected legacy frontier selection near its relative comparison tolerance;
+  tiny worsening in one objective can no longer be forgiven by dominance.
+- Guarded positive noise, covariance and physical contributions against silent
+  floating-point range loss. Stabilized nonlinear error aggregation, optical
+  launch energy and Monte Carlo uncertainty; unsupported ranges fail explicitly.
+- Added simulation allocation/work preflight and strict seed validation.
+- Made equivalent decimal unit strings normalize identically, rejected nonzero
+  quantity strings rounding to zero and mixed boolean/numeric inline tensors,
+  and bounded repeated YAML alias expansion.
+- Kept report coordinates finite for extreme finite metrics and hardened the
+  JSON decoder depth-error path.
+- Added five seeded stress campaigns, a source-hashed aggregate release gate,
+  adversarial regressions and independent critique. See
+  [STRESS_VALIDATION.md](STRESS_VALIDATION.md) for executed evidence and limits.
+
+Schemas and the supported v0.3 scope are unchanged. Extreme numeric records and
+near-tied legacy frontiers affected by these correctness fixes can intentionally
+change. Frozen ordinary v0.3 artifacts remain the compatibility gate.
+
+## M0 — multiphysics specification reconciliation (on 0.3.0)
 
 - Preserved the supplied specification, including equations and its original
   DOCX, with a full REQ-01–37 inventory against the actual v0.3 implementation.
@@ -11,7 +32,7 @@
 - Recorded M0 tests and independent critique in
   [the gate record](multiphysics/M0_GATE.md).
 
-Runtime version remains 0.3.0. M1–M6 are planned work; the proposed multiphysics
+At the M0 gate the runtime remained 0.3.0. M1–M6 are planned work; the proposed multiphysics
 configuration and experiment registry are not current CLI inputs. This integration
 does not add mixed neural operators, acoustic/quantum models or decoder execution.
 

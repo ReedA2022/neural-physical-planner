@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neural-physical-planner"
-version = "0.3.0"
+version = "0.4.0"
 description = "Inspectable neural hardware planning with guarded physical transformations and multi-objective search"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24,<3", "pydantic>=2.6,<3", "PyYAML>=6,<7"]

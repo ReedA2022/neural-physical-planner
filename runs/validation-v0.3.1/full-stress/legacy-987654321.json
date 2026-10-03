@@ -1,0 +1,13 @@
+{
+  "campaign": "legacy",
+  "failures": [
+    {
+      "exception": "KeyError",
+      "kind": "campaign_execution_error",
+      "message": "'scenario_count'"
+    }
+  ],
+  "scenario_count": 1,
+  "seed": 987654321,
+  "skipped_count": 0
+}

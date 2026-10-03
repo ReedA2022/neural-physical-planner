@@ -1,0 +1,22 @@
+{
+  "campaign": "physical_contracts",
+  "elapsed_seconds": 9.88599,
+  "external_validation": {
+    "executed": false,
+    "reason": "separate optional run_sax_checks required"
+  },
+  "failures": [],
+  "family_counts": {
+    "component_conservation": 33,
+    "extreme_finite": 33,
+    "infeasible_envelope": 33,
+    "malformed_graph_and_replay": 33,
+    "positive_underflow": 33,
+    "scalar_oracle": 202,
+    "size_and_envelope_boundaries": 33
+  },
+  "passed_count": 400,
+  "scenario_count": 400,
+  "scope": "software consistency against independent scalar/covariance oracles; illustrative device parameters, no calibration or whole-NN inference validation",
+  "seed": 20261003
+}

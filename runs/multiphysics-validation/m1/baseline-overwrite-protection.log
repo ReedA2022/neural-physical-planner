@@ -1,0 +1,2 @@
+usage: check_multiphysics_baseline.py [-h] [--report REPORT]
+check_multiphysics_baseline.py: error: --report must name a new file; existing files and baselines are never overwritten

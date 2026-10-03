@@ -1,0 +1,11 @@
+# The architecture is explicit; weights alone cannot define it.
+name: small_ffn
+semantic_track: E
+weights: weights.npz
+layout: out_in
+W_up: up
+W_gate: gate
+W_down: down
+b_up: up_bias
+b_gate: gate_bias
+b_down: down_bias

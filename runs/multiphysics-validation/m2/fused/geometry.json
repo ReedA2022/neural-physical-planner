@@ -1,0 +1,1051 @@
+{
+  "status": "model_feasible",
+  "diagnostics": [],
+  "geometry": {
+    "schema_version": "npp-geometry-1",
+    "routing_model": "shared_electrical_bus_v1",
+    "regions": [
+      {
+        "id": "room_temperature",
+        "x_um": 0.0,
+        "y_um": 0.0,
+        "width_um": 430.0905131909906,
+        "height_um": 355.3576493645109,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": 25.0,
+        "services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ]
+      }
+    ],
+    "placements": [
+      {
+        "id": "coherent_module",
+        "component_id": "coherent_module",
+        "kind": "compute",
+        "region": "room_temperature",
+        "x_um": 10.0,
+        "y_um": 10.0,
+        "width_um": 16.0,
+        "height_um": 16.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "bus",
+            "side": "north",
+            "offset_um": 8.0,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "bus_junction_0",
+        "component_id": "bus_junction_0",
+        "kind": "interface",
+        "region": "room_temperature",
+        "x_um": 17.5,
+        "y_um": 344.8576493645109,
+        "width_um": 1.0,
+        "height_um": 1.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "south",
+            "side": "south",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "west",
+            "side": "west",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "east",
+            "side": "east",
+            "offset_um": 0.5,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "control",
+        "component_id": "control",
+        "kind": "control",
+        "region": "room_temperature",
+        "x_um": 36.0,
+        "y_um": 10.0,
+        "width_um": 2.0,
+        "height_um": 2.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "bus",
+            "side": "north",
+            "offset_um": 1.0,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "bus_junction_1",
+        "component_id": "bus_junction_1",
+        "kind": "interface",
+        "region": "room_temperature",
+        "x_um": 36.5,
+        "y_um": 344.8576493645109,
+        "width_um": 1.0,
+        "height_um": 1.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "south",
+            "side": "south",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "west",
+            "side": "west",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "east",
+            "side": "east",
+            "offset_um": 0.5,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "digital",
+        "component_id": "digital",
+        "kind": "compute",
+        "region": "room_temperature",
+        "x_um": 48.0,
+        "y_um": 10.0,
+        "width_um": 325.3576493645109,
+        "height_um": 325.3576493645109,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "bus",
+            "side": "north",
+            "offset_um": 162.67882468225545,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "bus_junction_2",
+        "component_id": "bus_junction_2",
+        "kind": "interface",
+        "region": "room_temperature",
+        "x_um": 210.17882468225545,
+        "y_um": 344.8576493645109,
+        "width_um": 1.0,
+        "height_um": 1.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "south",
+            "side": "south",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "west",
+            "side": "west",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "east",
+            "side": "east",
+            "offset_um": 0.5,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "link",
+        "component_id": "link",
+        "kind": "interface",
+        "region": "room_temperature",
+        "x_um": 383.3576493645109,
+        "y_um": 10.0,
+        "width_um": 2.0,
+        "height_um": 2.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "bus",
+            "side": "north",
+            "offset_um": 1.0,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "bus_junction_3",
+        "component_id": "bus_junction_3",
+        "kind": "interface",
+        "region": "room_temperature",
+        "x_um": 383.8576493645109,
+        "y_um": 344.8576493645109,
+        "width_um": 1.0,
+        "height_um": 1.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "south",
+            "side": "south",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "west",
+            "side": "west",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "east",
+            "side": "east",
+            "offset_um": 0.5,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "memory",
+        "component_id": "memory",
+        "kind": "storage",
+        "region": "room_temperature",
+        "x_um": 395.3576493645109,
+        "y_um": 10.0,
+        "width_um": 4.732863826479693,
+        "height_um": 4.732863826479693,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "bus",
+            "side": "north",
+            "offset_um": 2.3664319132398464,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "bus_junction_4",
+        "component_id": "bus_junction_4",
+        "kind": "interface",
+        "region": "room_temperature",
+        "x_um": 397.22408127775077,
+        "y_um": 344.8576493645109,
+        "width_um": 1.0,
+        "height_um": 1.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "south",
+            "side": "south",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "west",
+            "side": "west",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "east",
+            "side": "east",
+            "offset_um": 0.5,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "system_support",
+        "component_id": "system_support",
+        "kind": "control",
+        "region": "room_temperature",
+        "x_um": 410.0905131909906,
+        "y_um": 10.0,
+        "width_um": 10.0,
+        "height_um": 10.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "bus",
+            "side": "north",
+            "offset_um": 5.0,
+            "capacity": 1
+          }
+        ]
+      },
+      {
+        "id": "bus_junction_5",
+        "component_id": "bus_junction_5",
+        "kind": "interface",
+        "region": "room_temperature",
+        "x_um": 414.5905131909906,
+        "y_um": 344.8576493645109,
+        "width_um": 1.0,
+        "height_um": 1.0,
+        "orientation": 0,
+        "substrate": "hypothetical_chiplet",
+        "package": "illustrative_shared_package",
+        "temperature_c": {
+          "minimum": 25.0,
+          "maximum": 25.0
+        },
+        "required_services": [
+          "power_supply",
+          "clock",
+          "reference",
+          "cooling",
+          "laser",
+          "phase_reference",
+          "control"
+        ],
+        "ports": [
+          {
+            "id": "south",
+            "side": "south",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "west",
+            "side": "west",
+            "offset_um": 0.5,
+            "capacity": 1
+          },
+          {
+            "id": "east",
+            "side": "east",
+            "offset_um": 0.5,
+            "capacity": 1
+          }
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "id": "bus_tap_0",
+        "source": {
+          "placement": "coherent_module",
+          "port": "bus"
+        },
+        "target": {
+          "placement": "bus_junction_0",
+          "port": "south"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 18.0,
+            "y_um": 26.0
+          },
+          {
+            "x_um": 18.0,
+            "y_um": 344.8576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_tap_1",
+        "source": {
+          "placement": "control",
+          "port": "bus"
+        },
+        "target": {
+          "placement": "bus_junction_1",
+          "port": "south"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 37.0,
+            "y_um": 12.0
+          },
+          {
+            "x_um": 37.0,
+            "y_um": 344.8576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_tap_2",
+        "source": {
+          "placement": "digital",
+          "port": "bus"
+        },
+        "target": {
+          "placement": "bus_junction_2",
+          "port": "south"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 210.67882468225545,
+            "y_um": 335.3576493645109
+          },
+          {
+            "x_um": 210.67882468225545,
+            "y_um": 344.8576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_tap_3",
+        "source": {
+          "placement": "link",
+          "port": "bus"
+        },
+        "target": {
+          "placement": "bus_junction_3",
+          "port": "south"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 384.3576493645109,
+            "y_um": 12.0
+          },
+          {
+            "x_um": 384.3576493645109,
+            "y_um": 344.8576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_tap_4",
+        "source": {
+          "placement": "memory",
+          "port": "bus"
+        },
+        "target": {
+          "placement": "bus_junction_4",
+          "port": "south"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 397.72408127775077,
+            "y_um": 14.732863826479694
+          },
+          {
+            "x_um": 397.72408127775077,
+            "y_um": 344.8576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_tap_5",
+        "source": {
+          "placement": "system_support",
+          "port": "bus"
+        },
+        "target": {
+          "placement": "bus_junction_5",
+          "port": "south"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 415.0905131909906,
+            "y_um": 20.0
+          },
+          {
+            "x_um": 415.0905131909906,
+            "y_um": 344.8576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_spine_0",
+        "source": {
+          "placement": "bus_junction_0",
+          "port": "east"
+        },
+        "target": {
+          "placement": "bus_junction_1",
+          "port": "west"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 18.5,
+            "y_um": 345.3576493645109
+          },
+          {
+            "x_um": 36.5,
+            "y_um": 345.3576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_spine_1",
+        "source": {
+          "placement": "bus_junction_1",
+          "port": "east"
+        },
+        "target": {
+          "placement": "bus_junction_2",
+          "port": "west"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 37.5,
+            "y_um": 345.3576493645109
+          },
+          {
+            "x_um": 210.17882468225545,
+            "y_um": 345.3576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_spine_2",
+        "source": {
+          "placement": "bus_junction_2",
+          "port": "east"
+        },
+        "target": {
+          "placement": "bus_junction_3",
+          "port": "west"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 211.17882468225545,
+            "y_um": 345.3576493645109
+          },
+          {
+            "x_um": 383.8576493645109,
+            "y_um": 345.3576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_spine_3",
+        "source": {
+          "placement": "bus_junction_3",
+          "port": "east"
+        },
+        "target": {
+          "placement": "bus_junction_4",
+          "port": "west"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 384.8576493645109,
+            "y_um": 345.3576493645109
+          },
+          {
+            "x_um": 397.22408127775077,
+            "y_um": 345.3576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      },
+      {
+        "id": "bus_spine_4",
+        "source": {
+          "placement": "bus_junction_4",
+          "port": "east"
+        },
+        "target": {
+          "placement": "bus_junction_5",
+          "port": "west"
+        },
+        "carrier": "electrical",
+        "points": [
+          {
+            "x_um": 398.22408127775077,
+            "y_um": 345.3576493645109
+          },
+          {
+            "x_um": 414.5905131909906,
+            "y_um": 345.3576493645109
+          }
+        ],
+        "capacity": 1,
+        "usage": 1,
+        "direction": "bidirectional",
+        "interface_id": null,
+        "crossing_policy": "forbidden",
+        "crossing_component_ids": []
+      }
+    ],
+    "assumptions": [
+      "Hypothetical electrical shared-bus placement; no photonic cross-domain routing is implied",
+      "Every transfer must reserve the same shared link capacity",
+      "Ordinary wire junctions have 1 um footprints; internal path lengths are included by bus_distances",
+      "Technology-specific per-length loss, energy and delay must be evaluated separately"
+    ]
+  },
+  "routes": [
+    {
+      "id": "bus_tap_0",
+      "length_um": 318.8576493645109,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "coherent_module",
+        "port": "bus"
+      },
+      "target": {
+        "placement": "bus_junction_0",
+        "port": "south"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_tap_1",
+      "length_um": 332.8576493645109,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "control",
+        "port": "bus"
+      },
+      "target": {
+        "placement": "bus_junction_1",
+        "port": "south"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_tap_2",
+      "length_um": 9.5,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "digital",
+        "port": "bus"
+      },
+      "target": {
+        "placement": "bus_junction_2",
+        "port": "south"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_tap_3",
+      "length_um": 332.8576493645109,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "link",
+        "port": "bus"
+      },
+      "target": {
+        "placement": "bus_junction_3",
+        "port": "south"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_tap_4",
+      "length_um": 330.12478553803123,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "memory",
+        "port": "bus"
+      },
+      "target": {
+        "placement": "bus_junction_4",
+        "port": "south"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_tap_5",
+      "length_um": 324.8576493645109,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "system_support",
+        "port": "bus"
+      },
+      "target": {
+        "placement": "bus_junction_5",
+        "port": "south"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_spine_0",
+      "length_um": 18.0,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "bus_junction_0",
+        "port": "east"
+      },
+      "target": {
+        "placement": "bus_junction_1",
+        "port": "west"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_spine_1",
+      "length_um": 172.67882468225545,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "bus_junction_1",
+        "port": "east"
+      },
+      "target": {
+        "placement": "bus_junction_2",
+        "port": "west"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_spine_2",
+      "length_um": 172.67882468225545,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "bus_junction_2",
+        "port": "east"
+      },
+      "target": {
+        "placement": "bus_junction_3",
+        "port": "west"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_spine_3",
+      "length_um": 12.366431913239865,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "bus_junction_3",
+        "port": "east"
+      },
+      "target": {
+        "placement": "bus_junction_4",
+        "port": "west"
+      },
+      "interface_id": null
+    },
+    {
+      "id": "bus_spine_4",
+      "length_um": 16.366431913239808,
+      "bends": 0,
+      "crossings": 0,
+      "capacity": 1,
+      "usage": 1,
+      "carrier": "electrical",
+      "direction": "bidirectional",
+      "source": {
+        "placement": "bus_junction_4",
+        "port": "east"
+      },
+      "target": {
+        "placement": "bus_junction_5",
+        "port": "west"
+      },
+      "interface_id": null
+    }
+  ],
+  "crossings": [],
+  "scope": "Planar rectilinear geometry only; route loss/delay and crossing-device physics require registered backends",
+  "resource_placements": {
+    "control": "control",
+    "converter": "coherent_module",
+    "digital": "digital",
+    "link": "link",
+    "memory": "memory",
+    "photonic_down": "coherent_module",
+    "photonic_up": "coherent_module",
+    "source": "coherent_module"
+  },
+  "coherent_boundary": "internal coherent routes belong to local registered matrix/gate transfer model; unsupported external optical routing is rejected"
+}

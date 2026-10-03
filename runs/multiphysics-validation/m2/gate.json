@@ -1,0 +1,78 @@
+{
+  "schema_version": "npp-milestone-gate-1",
+  "milestone": "M2",
+  "status": "PASS",
+  "software_version": "0.4.0",
+  "base_commit": "012b4e5232cea012151ba6b388bc0bf4723dc3f8",
+  "review": "docs/reviews/multiphysics_m2.md",
+  "scope": "Bounded typed mixed FFN composition, digital/analog/coherent photonic mechanisms, paid interfaces/alignment/partitioning, state/capacity/geometry and portable replay; hypothetical coefficients.",
+  "checks": [
+    {
+      "kind": "independent_milestone",
+      "tests_run": 187,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "independent_review_methods": 16
+    },
+    {
+      "kind": "full_optional_regression",
+      "command": "MPLCONFIGDIR=/tmp/npp-mp-mpl /tmp/npp-mp-env/bin/python -m unittest discover -s tests -v",
+      "tests_run": 527,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "log": "full-release-gate-tests.log",
+      "skip_reason": "Missing-SAX branch intentionally skipped where SAX is installed; executed separately under the base interpreter."
+    },
+    {
+      "kind": "missing_optional_solver",
+      "tests_run": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log": "missing-solver.log"
+    },
+    {
+      "kind": "frozen_compatibility",
+      "checks": 30,
+      "artifacts": 57,
+      "status": "passed",
+      "report": "baseline-final.json"
+    }
+  ],
+  "examples": {
+    "hybrid": "hybrid/implementation.json",
+    "fused": "fused/implementation.json"
+  },
+  "source_hashes": {
+    "npp/cli.py": "2192955925652ac1bb4ae45fe1443facc9cfb8091f0a0fe23dc0281982e32544",
+    "npp/multiphysics/__init__.py": "04ac0ff41862eb4d60c900875a98799ff01a33f9dd188322a8eafc8f6257589f",
+    "npp/multiphysics/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "npp/multiphysics/array_padding.py": "db27e4fb9f53f2e438db5815dfece7aaba6afe84b13a6e173a6138c3ace04fe8",
+    "npp/multiphysics/backends/__init__.py": "654eb9309b51e351825b0dc42c8be240cd6f96430521f41d5ac8e9fe155df733",
+    "npp/multiphysics/backends/analog.py": "85e88b429f29044464a2967beaa92ca9457a393a9682a2979ba918f6504a72c9",
+    "npp/multiphysics/backends/digital.py": "dfedfe04320f7b0c61e249d4af40b9911a3399729d7bbe8d3774a3c3533ef332",
+    "npp/multiphysics/backends/photonic.py": "fa1bef5ee864e039efa0b8d07e062e34363a29d708c3b1f72a0950e258f9bdb1",
+    "npp/multiphysics/catalog.py": "c990ea021bd20cc5e53cd66adffad1aac835ddbce99d4d01c94bffa82b0d3818",
+    "npp/multiphysics/cli.py": "2c7bcf95247f2cf516dae61ce09f1a9a32d23ddb86ce1fdf4a4bcf5cea11b586",
+    "npp/multiphysics/composition_graphs.py": "62f58593d5c10231901084923b513f85de41a945b92e9728ecc201db741012e6",
+    "npp/multiphysics/composition_validation.py": "db7b7e4e9c45b5da1231002e38d5ba33bb9f61cb3d7f35437ce40c5e91cafad4",
+    "npp/multiphysics/contracts.py": "2bfb365cdbb13109130b2582c6e68bb59f59af8325b56d36d82ec85b08d23a08",
+    "npp/multiphysics/geometry.py": "5bc708a13c1559e5c4b60973d0b74317dfa230a517aa7e6378f1e54a93ad858a",
+    "npp/multiphysics/graph.py": "dbdd63769a9c9af86c42e1c931cc9b691fc3795dcdf800a33427d7a7748b79e0",
+    "npp/multiphysics/infrastructure.py": "775d41e2274760f31c876c1220f52435edd2b605753c3e193fc588c0170e23f8",
+    "npp/multiphysics/interfaces.py": "f51b8dea565c43220fb38ade79919d4045d99239d8986cb2c993565856b63e32",
+    "npp/multiphysics/io.py": "9ed8628d85dbbd0e9f09f9bd72f9cc22d73ffeaf1392c5dc96ca38bfbfcbeb9a",
+    "npp/multiphysics/rewrites.py": "18a3df9c9caaf5a59f789c1e10e0a50bb934e170dc9e91e39b93d4f044019844",
+    "npp/multiphysics/scheduling.py": "ccc02ad8b9faeb940220b3c2deae81ab622dddc7a22627fbf3cc394c58b135a2",
+    "npp/multiphysics/semantic.py": "b3c3dd5101ba56ff5d22b97d8b3cb9047d1abaa049b192a7574c7bc86ea7e5cc",
+    "pyproject.toml": "42a15d9ce19a177dc56dfe1b22f04f5d623f39182db46892d8c7330843f97587"
+  },
+  "limitations": [
+    "No fabricated-device calibration or measured speedup",
+    "Conservative non-preemptive task reservations; no optimal scheduling guarantee",
+    "One supported common integration region, explicit shared electrical bus and inclusive coherent assembly; external optical routing unsupported",
+    "Track R adaptation unsupported; M3-M6 are later gates"
+  ]
+}

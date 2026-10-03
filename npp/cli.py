@@ -110,6 +110,8 @@ def parser() -> argparse.ArgumentParser:
     cli = argparse.ArgumentParser(prog="npp", description="Neural hardware planning and inspectable optical fanout subcircuits.")
     cli.add_argument("--version", action="version", version=__version__)
     commands = cli.add_subparsers(dest="command", required=True)
+    commands.add_parser("mp", help="Opt-in multiphysics projects, models and research studies.",
+                        add_help=False).add_argument("args", nargs=argparse.REMAINDER)
     for command, help_text in (("validate", "Validate a project or three input specs and print normalized hashes."),
                                ("plan", "Search, check and export a complete run bundle."),
                                ("normalize", "Resolve YAML, units and external weights to portable canonical JSON."),
@@ -197,6 +199,10 @@ def parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    effective = list(sys.argv[1:] if argv is None else argv)
+    if effective and effective[0] == "mp":
+        from .multiphysics.cli import main as multiphysics_main
+        return multiphysics_main(effective[1:])
     args = parser().parse_args(argv)
     try:
         if args.command == "check-physical-design":

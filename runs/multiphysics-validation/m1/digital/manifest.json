@@ -1,0 +1,9 @@
+{
+  "software_version": "0.4.0",
+  "input_hash": "929aaa280dfe5e7beeb7068413dd24d31e2130b269b94e7311c67d1b8fcbeefb",
+  "files": [
+    "evaluation.json",
+    "check.json",
+    "report.html"
+  ]
+}

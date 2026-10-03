@@ -1,0 +1,239 @@
+{
+  "operator": "complete_swiglu",
+  "transform": {
+    "rule": "swiglu_hidden_signed_permutation.v1",
+    "semantic_track": "E",
+    "source_model_identity": "sha256:9ad06caed3061a2bbeb2aa058bcd72e915c2e37ca3edffc1fb73f01fafde8138",
+    "destination_model_identity": "sha256:9ad06caed3061a2bbeb2aa058bcd72e915c2e37ca3edffc1fb73f01fafde8138",
+    "permutation": [
+      0,
+      1
+    ],
+    "signs": [
+      1,
+      1
+    ],
+    "source": "W_d @ (SiLU(W_g @ x + b_g) * (W_u @ x + b_u)) + b_d",
+    "destination": "W_g'=P W_g; b_g'=P b_g; W_u'=D P W_u; b_u'=D P b_u; W_d'=W_d P.T D^-1; b_d'=b_d",
+    "preconditions": [
+      "P is a complete permutation",
+      "D is diagonal with entries +/-1",
+      "signs are applied only to the up branch and inverse down columns",
+      "gate/output biases follow their declared transformations"
+    ],
+    "rationale": "SiLU commutes with permutation; pointwise multiplication transports the up-branch diagonal sign, canceled by D^-1 in down projection",
+    "numerical_oracle": "independent Decimal SwiGLU oracle in tests/test_mp_rewrites.py",
+    "runtime_transformation": "none when absorbed into offline weights; original and transformed weights must each pay their own programming/configuration cost",
+    "runtime_obligations": [
+      "physical encoding must support every transformed sign/range",
+      "placement and lane routing must follow the permutation",
+      "finite precision and physical error must be reevaluated"
+    ],
+    "claim_boundary": "ideal equivalent function, not task adaptation or unchanged physical error"
+  },
+  "partitions": {
+    "up": {
+      "schema": "mp.rewrite.partition.v1",
+      "semantic_track": "E",
+      "quality_budget": null,
+      "shape": [
+        2,
+        2
+      ],
+      "tiles": [
+        {
+          "id": "up.r0c0",
+          "rows": [
+            0,
+            1
+          ],
+          "columns": [
+            0,
+            1
+          ],
+          "family": "photonic",
+          "component": "auto",
+          "region": "auto"
+        }
+      ],
+      "output_reductions": [
+        {
+          "row": 0,
+          "tiles": [
+            "up.r0c0"
+          ]
+        },
+        {
+          "row": 1,
+          "tiles": [
+            "up.r0c0"
+          ]
+        }
+      ],
+      "merge": {
+        "row_order": [
+          0,
+          1
+        ],
+        "bias_owner": "merge",
+        "bias_application": "once_after_reduction"
+      },
+      "proof": {
+        "rule": "complete_disjoint_matrix_partition.v1",
+        "source": "y = W @ x + b",
+        "destination": "y[r] = sum(tile_W[r, columns] @ x[columns] for contributing tiles) + b[r]",
+        "preconditions": [
+          "every original matrix coefficient occurs exactly once",
+          "input gather preserves selected index order",
+          "partial sums are reduced for their original output row",
+          "bias is added exactly once after reduction"
+        ],
+        "rationale": "distributivity of finite real sums over a disjoint complete partition",
+        "numerical_oracle": "independent scalar sums in tests/test_mp_rewrites.py",
+        "runtime_obligations": [
+          "pay each input gather/distribution",
+          "pay partial-sum reads and reductions",
+          "pay ordered output materialization and bias addition",
+          "evaluate changed finite-precision and physical error"
+        ],
+        "claim_boundary": "real-arithmetic equivalence; neither bitwise equality nor free movement is implied"
+      }
+    },
+    "gate": {
+      "schema": "mp.rewrite.partition.v1",
+      "semantic_track": "E",
+      "quality_budget": null,
+      "shape": [
+        2,
+        2
+      ],
+      "tiles": [
+        {
+          "id": "gate.r0c0",
+          "rows": [
+            0,
+            1
+          ],
+          "columns": [
+            0,
+            1
+          ],
+          "family": "digital",
+          "component": "auto",
+          "region": "auto"
+        }
+      ],
+      "output_reductions": [
+        {
+          "row": 0,
+          "tiles": [
+            "gate.r0c0"
+          ]
+        },
+        {
+          "row": 1,
+          "tiles": [
+            "gate.r0c0"
+          ]
+        }
+      ],
+      "merge": {
+        "row_order": [
+          0,
+          1
+        ],
+        "bias_owner": "merge",
+        "bias_application": "once_after_reduction"
+      },
+      "proof": {
+        "rule": "complete_disjoint_matrix_partition.v1",
+        "source": "y = W @ x + b",
+        "destination": "y[r] = sum(tile_W[r, columns] @ x[columns] for contributing tiles) + b[r]",
+        "preconditions": [
+          "every original matrix coefficient occurs exactly once",
+          "input gather preserves selected index order",
+          "partial sums are reduced for their original output row",
+          "bias is added exactly once after reduction"
+        ],
+        "rationale": "distributivity of finite real sums over a disjoint complete partition",
+        "numerical_oracle": "independent scalar sums in tests/test_mp_rewrites.py",
+        "runtime_obligations": [
+          "pay each input gather/distribution",
+          "pay partial-sum reads and reductions",
+          "pay ordered output materialization and bias addition",
+          "evaluate changed finite-precision and physical error"
+        ],
+        "claim_boundary": "real-arithmetic equivalence; neither bitwise equality nor free movement is implied"
+      }
+    },
+    "down": {
+      "schema": "mp.rewrite.partition.v1",
+      "semantic_track": "E",
+      "quality_budget": null,
+      "shape": [
+        2,
+        2
+      ],
+      "tiles": [
+        {
+          "id": "down.r0c0",
+          "rows": [
+            0,
+            1
+          ],
+          "columns": [
+            0,
+            1
+          ],
+          "family": "photonic",
+          "component": "auto",
+          "region": "auto"
+        }
+      ],
+      "output_reductions": [
+        {
+          "row": 0,
+          "tiles": [
+            "down.r0c0"
+          ]
+        },
+        {
+          "row": 1,
+          "tiles": [
+            "down.r0c0"
+          ]
+        }
+      ],
+      "merge": {
+        "row_order": [
+          0,
+          1
+        ],
+        "bias_owner": "merge",
+        "bias_application": "once_after_reduction"
+      },
+      "proof": {
+        "rule": "complete_disjoint_matrix_partition.v1",
+        "source": "y = W @ x + b",
+        "destination": "y[r] = sum(tile_W[r, columns] @ x[columns] for contributing tiles) + b[r]",
+        "preconditions": [
+          "every original matrix coefficient occurs exactly once",
+          "input gather preserves selected index order",
+          "partial sums are reduced for their original output row",
+          "bias is added exactly once after reduction"
+        ],
+        "rationale": "distributivity of finite real sums over a disjoint complete partition",
+        "numerical_oracle": "independent scalar sums in tests/test_mp_rewrites.py",
+        "runtime_obligations": [
+          "pay each input gather/distribution",
+          "pay partial-sum reads and reductions",
+          "pay ordered output materialization and bias addition",
+          "evaluate changed finite-precision and physical error"
+        ],
+        "claim_boundary": "real-arithmetic equivalence; neither bitwise equality nor free movement is implied"
+      }
+    }
+  },
+  "fusion": "signed_photonic",
+  "bias_rule": "every matrix bias applied once after partition reduction or paid coherent field injection"
+}
